@@ -46,6 +46,8 @@ halleyfy image "a red ceramic mug on white marble, studio light" --json --out ./
 
 ## Common mistakes
 
-- Passing `--aspect` with a video `--image`: the video takes the image's shape. For a vertical clip, start from a vertical image.
+- Leaving out `--aspect` with a video `--image`: the image is cropped to 16:9. For a vertical image pass `--aspect 9:16`.
+- Expecting small print to survive in a video. Logos and big text hold; labels and fine print can blur or change.
+- Asking for sound separately. Every video has sound; describe any speech or sound in the prompt.
 - Asking the user before a cheap single image. Under $1 with no budget given, just run it.
 - Re-running a lost start without the printed `--idempotency-key`, which pays twice.
