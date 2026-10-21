@@ -6,11 +6,11 @@ For product heroes, packshots in motion, turntables, food and drink, and app or 
 
 Make the start frame with `halleyfy image` and the user's product photo as a reference, so the shape, colors and label are right before anything moves. Big logos survive motion; small label text drifts, so keep the label large and front-facing, or accept that it will soften.
 
-## Let light and the camera move, not the product
+## Direct how the product moves
 
-The product staying still while light, liquid, steam or the camera move is what reads as a premium ad, and it is what the model does best. A product that spins, flips or falls tends to change shape.
+A product can stay still while light, liquid, steam or the camera move, or it can spin, flip, drop or burst open. Both work; a moving product needs more direction, because its shape has to survive the motion. Say how it moves (axis, speed, how far, where it stops), what it is made of and how it catches the light, and pin the final view with an end frame when it matters.
 
-- Camera: a slow orbit at product height (up to about 90 degrees), a slow push-in, or a pull-back reveal. One move, with a speed word and an end point.
+- Camera: an orbit at product height, a push-in, a pull-back reveal, a crane up. Give each move a speed, a start and an end point.
 - Light: a highlight gliding across glass, a rim light rising, a shadow passing.
 - Environment: condensation beads sliding, steam rising, dust in a light beam, water rippling around the base.
 - Sound: one soft effect tied to a visible event ("a crisp click as the cap seats at 5 seconds"), room tone, "No music" unless the user wants music.
@@ -18,7 +18,12 @@ The product staying still while light, liquid, steam or the camera move is what 
 ## Example: product hero (8 s, from a frame)
 
 ```text
-Slow, steady orbit 60 degrees to the right at bottle height, ending on a three-quarter view by 7 seconds. The bottle stays perfectly still; a soft highlight glides across the glass and two beads of condensation slide down. The label, cap, colors, the key light from frame left and the black background stay exactly as in the first frame. In a single continuous shot, no scene cuts. Audio: faint cool room tone, one soft glass ting at 6 seconds. No music. No dialogue. No on-screen text.
+Shot plan: one continuous shot, 8 seconds, no cuts.
+0-7 s: slow, steady orbit 60 degrees to the right at bottle height, from the front view to a three-quarter view, arriving at 7 seconds. The bottle stays perfectly still; a soft highlight glides across the glass, and at 3 seconds two beads of condensation start sliding down its side.
+7-8 s: the camera holds on the three-quarter view.
+Continuity: the label, cap and colors, the key light from frame left and the black background stay exactly as in the first frame.
+Audio: faint cool room tone, one soft glass ting at 6 seconds. No music. No dialogue.
+No on-screen text, no captions, no subtitles.
 ```
 
 ## Food and drink
@@ -26,7 +31,12 @@ Slow, steady orbit 60 degrees to the right at bottle height, ending on a three-q
 Macro lens, very shallow depth of field, a slow pour or a slow drizzle, backlight through the liquid, steam or condensation, sizzling or pouring sound. Hands from above if someone is cooking; keep them simple (one slow motion, no fiddly knife work).
 
 ```text
-Macro close-up, 100mm lens, very shallow depth of field. Iced coffee is poured slowly over clear ice in a tall glass on a walnut counter; cream blooms in soft swirls, condensation beads on the glass. Early-morning backlight through the glass from frame right, amber and cream palette, subtle film grain. A slow push-in settles on the swirl by 6 seconds, then holds. In a single continuous shot, no scene cuts. Audio: ice crackling, a gentle pour, distant cafe murmur. No music. No dialogue. No on-screen text.
+Shot plan: one continuous shot, 8 seconds, no cuts. Macro close-up, 100mm lens, very shallow depth of field.
+0-6 s: iced coffee is poured slowly over clear ice in a tall glass on a walnut counter; cream blooms in soft swirls; condensation beads on the glass. The camera pushes in slowly toward the swirl.
+6-8 s: the pour ends; the camera settles on the swirl and holds while the cream keeps turning.
+Look: early-morning backlight through the glass from frame right, amber and cream palette, subtle film grain; the light stays steady throughout.
+Audio: ice crackling, a gentle pour until 6 seconds, distant cafe murmur. No music. No dialogue.
+No on-screen text, no captions, no subtitles.
 ```
 
 ## App and tech promos
@@ -35,7 +45,7 @@ Screens are text, and text warps. Start from a frame that already shows the real
 
 ## Turntable or 360
 
-A full 360-degree turn reinvents the back of the product. Pin the turn instead: the front view as `--image` and a three-quarter or side view as `--end-image` (both made with `halleyfy image` from the product photos, same backdrop and light), with "slow orbit from the front to the side view". For a full turn, chain clips: front to side, side to back, each ending where the next starts.
+The model has to invent any side of the product it hasn't seen. Show it the sides: the front view as `--image` and the side view as `--end-image` (both made with `halleyfy image` from the product photos, same backdrop and light), with "slow orbit from the front to the side view". For a full 360, chain clips (front to side, side to back, back to front), each ending where the next starts, or give the product's back as a reference image when it is plain.
 
 ## Product in someone's hands without a start frame
 

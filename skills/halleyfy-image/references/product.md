@@ -38,7 +38,7 @@ Show the moment of use: a real place, time of day, the hand or person using it, 
 
 ## Effects that sell (one per image)
 
-A frozen splash, the product rising out of its main ingredient, a cross-section, a levitating exploded view. One effect, described physically: what it is made of, where it moves, how the light hits it. Stacking three effects reads as a cheap render.
+A frozen splash, the product rising out of its main ingredient, a cross-section, a levitating exploded view. Describe each effect physically: what it is made of, its shape and direction, where it sits relative to the product, how the light hits it. Effects named in a word ("with a splash") come out generic; effects directed in detail look shot.
 
 ## Check before handing over
 

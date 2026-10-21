@@ -26,7 +26,13 @@ Count the hands. In an arm's-length selfie one hand holds the phone and the othe
 ## Example (7 s, from a frame, 9:16)
 
 ```text
-Vertical selfie video, phone at arm's length, handheld with the small drift of a real arm. She tilts the serum bottle toward the lens, smiles, and says in a warm, casual voice: Day three, and my skin is literally glowing. At 5 seconds she brings the bottle back beside her cheek and holds the smile. Her face, the bottle and its label, the bathroom and the window light stay the same throughout. In a single continuous shot, no cuts. Audio: only her voice in a small tiled bathroom, faint room tone. No music. No captions, no subtitles, no on-screen text.
+Shot plan: one continuous shot, 7 seconds, vertical selfie, phone at arm's length, handheld with the small drift of a real arm.
+0-1 s: she looks into the lens with the serum bottle beside her cheek.
+1-4 s: she tilts the bottle toward the lens, smiles, and says in a warm, casual voice, late twenties, close phone-mic sound: Day three, and my skin is literally glowing.
+4-7 s: she brings the bottle back beside her cheek and holds the smile.
+Continuity: her face, the bottle and its label, the bathroom and the soft window light stay the same throughout.
+Audio: only her voice in a small tiled bathroom, faint room tone. No music.
+No captions, no subtitles, no on-screen text.
 ```
 
 ## A longer ad

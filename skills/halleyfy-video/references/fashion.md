@@ -4,25 +4,28 @@
 
 Fashion lives on exact styling, so make the start frame with `halleyfy image` first: the model, every garment (fabric, fit, color), hair, makeup, set and light. Leave room for the move: full body with feet for walking, headroom for a push-in, the face on a third when it will turn toward the camera.
 
-## Motion that works
+## Motion
 
-- A slow walk toward the camera while the camera dollies back.
-- A half-turn over the shoulder to the lens. Never a full spin: limbs and fabric melt.
-- Fabric and hair moving in wind, a coat billowing, a skirt swaying.
-- A head turn into the light, a slow blink, a small smile.
-- A slow push-in on a beauty close-up while light shifts across the skin.
-- Waist-up grooving instead of full dance.
+Anything a real model does on set works when it is choreographed: a walk toward the camera while it dollies back, a half-turn or a full spin, dancing, a hair flip, a head turn into the light, a slow push-in on a beauty close-up. Direct each one fully:
 
-Describe the fabric's motion physically: "the silk ripples and flows behind her in the wind".
+- **The body:** speed, number of turns or steps, which foot, where the arms and hands are, where she looks, when she stops and how she holds the final pose.
+- **Fabric and hair:** "the silk ripples and flows behind her in the wind", "the hem flares out on the turn and settles half a second after she stops".
+- **The camera:** locked off, or its move with a start, an end and a speed. Full-body framing with room around her for spins and dance.
 
 ## Changing the outfit
 
-Don't morph clothes on a moving body. Make the change with a wipe and an end frame, see `effects-and-transitions.md`: the end frame is the start frame edited into the second outfit, and a sheet of fabric sweeps across so she is in it when it clears. Or make two clips and cut on a beat.
+Outfit changes work as a transformation on the body, as a wipe, or as a cut. Whichever the user wants, time it and direct it: when it happens (during a turn while she faces away, as a sheet of fabric crosses her, on a beat), how it spreads, how long it takes, and what stays the same. Pin the new outfit with an end frame: the start frame edited into the second outfit, same pose. The full recipe and an example are in `effects-and-transitions.md`.
 
 ## Example: fashion film (8 s, from a frame)
 
 ```text
-Slow cinematic push-in from a wide shot toward her, ending on a medium shot by 7 seconds. The wind lifts her crimson silk gown so it ripples and flows across the black sand; her hair moves with it. At 4 seconds she turns her head over her shoulder and looks calmly into the lens. The sky, the waves behind her, the light and her gown stay exactly the same throughout. In a single continuous shot, no scene cuts. Audio: deep rolling surf and wind. No music. No dialogue. No on-screen text.
+Shot plan: one continuous shot, 8 seconds, no cuts.
+0-4 s: slow cinematic push-in from the wide shot. The wind lifts her crimson silk gown so it ripples and flows across the black sand to the left; her hair moves with it. She stands still, looking out to sea.
+4-5 s: she turns her head over her right shoulder and looks calmly into the lens.
+5-8 s: the push-in settles on a medium shot by 7 seconds and holds. The gown keeps moving in the wind.
+Continuity: the overcast sky, the waves behind her, the cold blue light and the gown's color stay exactly as in the first frame throughout.
+Audio: deep rolling surf and steady wind. No music. No dialogue.
+No on-screen text, no captions, no subtitles.
 ```
 
 ## Beauty

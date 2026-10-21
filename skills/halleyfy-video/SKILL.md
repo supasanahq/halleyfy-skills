@@ -5,7 +5,7 @@ description: Use when the user asks to make a video or clip (product videos, UGC
 
 # halleyfy video
 
-`halleyfy video` turns a prompt, optionally with a start image (and an end image) or up to 10 reference images, into a 3-10 second clip with sound. halleyfy picks the model. Video models fail in predictable ways: unasked scene cuts, melting bodies, stuttered lines. A prompt written the way this skill describes avoids most of them.
+`halleyfy video` turns a prompt, optionally with a start image (and an end image) or up to 10 reference images, into a 3-10 second clip with sound. halleyfy picks the model. You write the direction: the more of the clip you decide in the prompt, the less the model guesses, and guessing is where clips go wrong.
 
 ## Before the first run
 
@@ -25,10 +25,10 @@ halleyfy video "<prompt>" --image ./frames/start.png --seconds 8 --aspect 9:16 -
 - `--end-image`: one end image (needs `--image`), the clip's last frame. The model fills in the motion between the two.
 - `--ref`, repeatable up to 10: reference images for people, products or a style, without fixing the first frame. Not with `--image`.
 - `--seconds 3-10`, `--aspect 16:9|9:16`, `--resolution 360p|720p|1080p|4K`. 360p costs a fifth of 1080p: enough to judge motion, timing and dialogue, not detail. 1080p and 4K are upscales of 720p: they add sharpness, not better motion.
-- No aspect or length from the user: pick from where the clip will be used (9:16 for reels, stories and TikTok; 16:9 for web, YouTube and decks), else 16:9. Length: 6 s for one spoken line or one beat, 8 s for setup, action and payoff. Resolution: 1080p for finals, 4K only when asked. Say what you picked.
+- No aspect or length from the user: pick from where the clip will be used (9:16 for reels, stories and TikTok; 16:9 for web, YouTube and decks), else 16:9. Length: 6 s for one spoken line or one beat, 8 s for setup, action and payoff. No placement known: 9:16 for tall subjects (full body, a standing product), 16:9 for wide scenes. Resolution: 1080p for finals, 720p when it is only for social feeds (same motion, less cost), 4K only when asked. Say what you picked.
 - Every clip has a sound track. For silent uses (a website background, a muted loop), still direct quiet audio, then strip it if needed: `ffmpeg -i clip.mp4 -an -c:v copy silent.mp4`.
-- Every clip has sound. You direct it in the prompt.
-- The saved path is in `files` of the JSON.
+- Files are saved in `--out` as `<job id>-<n>.<ext>`; the paths are in `files` of the JSON. Use those paths (or rename the files) in the next command.
+- A video's price depends only on seconds and resolution, so you can quote it with `--dry-run` before the frames exist: leave the image flags out of the dry run.
 - Not available yet: editing an existing video, extending a clip, reference videos. If the user needs one of these, say so.
 
 ## Pick how to pin the clip
@@ -38,39 +38,81 @@ halleyfy video "<prompt>" --image ./frames/start.png --seconds 8 --aspect 9:16 -
 | The opening shot must look exactly right (most ads) | `--image` start frame |
 | Where the clip ends matters too: a reveal, a turn to a set angle, an effect's "after", a loop | `--image` + `--end-image` |
 | The same person or product across clips, framing left to the model | `--ref` (up to 10) |
+| Several shots where each must look exact | One clip per shot, each from its own start frame, joined in editing. One multi-shot clip keeps in-camera transitions (whip pans, match cuts) but only its first shot is pinned. Offer the user the choice. |
 | A plain scene that words describe well | Prompt only |
 
-Make the end frame by editing the start frame with `halleyfy image` (same shape, "keep everything, change only X"). For a camera move, X is the viewpoint: "keep the product, floor, light and framing; change only the viewing angle to its side profile", with a photo of that side as a second reference. Orbit toward the side the end frame shows. Two frames made separately differ in small ways, and the model has to morph between them. The same image as start and end gives a loop.
+**The end frame is the timeline's last moment.** It must show the camera position, the pose and the state the timeline ends on. Either end the timeline where the start frame's camera and pose are (lock the camera, return to the opening pose), or put every difference into the end frame.
 
-## The workflow
+Make the end frame by editing the start frame with `halleyfy image` (same shape): "keep everything; change only" followed by every difference at the end, such as the after-state of the effect, the closer framing, or the new pose. For a camera move, X is the viewpoint: "keep the product, floor, light and framing; change only the viewing angle to its side profile", with a photo of that side as a second reference. Orbit toward the side the end frame shows. Two frames made separately differ in small ways, and the model has to morph between them. The same image as start and end gives a loop.
 
-1. **Make the frames or references first** with `halleyfy image` at the video's aspect and 2K, and check them. Images fix the subject, the look, the light and the composition far better than words.
-2. **Write a motion-only prompt** for that frame (below). Don't describe the image again; call things "she", "the bottle".
-3. **Run, then review** (see "Check the clip"). Fix the frame or the prompt and run again. Change one thing per retake.
+## Direct the clip
 
-There are no seeds: every run is a new take, even with the same prompt, so a good test take can't be re-rendered sharper. For a risky prompt (an effect, dialogue, a new idea), offer a 360p test take first and include it in the price you quote; then run the final at the resolution the user wants and review that take too. If a test take is already good and its size is enough, deliver it.
+The model fills every gap in the prompt with its own guess: a sky that brightens mid-clip, a cut nobody planned, a camera move from nowhere, a spin that loses the body. **You are the director.** Do the thinking before you write: decide every shot, move, beat and sound, then write all of it down, so the model has nothing left to guess.
 
-## Write the prompt
+### 1. Make the frames or references first
 
-In this order, as plain sentences:
+Use `halleyfy image` at the video's aspect and 2K, and check them. Images fix the subject, the look, the light and the composition better than words.
 
-1. **Shot and camera:** framing, lens, one move with a speed word, where it starts and where it ends. "Slow push-in from a medium shot, ending on a close-up of her face by 6 seconds."
-2. **Subject:** only what the frame doesn't show (with no frame: 2-3 details that pin it down). With `--ref`, name each reference by its tag and what it gives: "the woman from <IMAGE_REF_0> holds the bottle from <IMAGE_REF_1>"; tags count from 0 in the order of the `--ref` flags.
-3. **One main action**, in beats with times: "She lifts the bottle, then at 4 seconds turns it toward the lens." Spoken lines go here too: "she says: ...".
-4. **Setting, light and look:** for prompt-only and `--ref` clips; with a start frame they are already there.
-5. **Audio:** sound effects tied to visible events, ambience, the voice's character, and music or "No music". Always write this line: the model makes sound either way, and sound you don't direct comes out generic.
-6. **Keep:** what must not change. "Her face, the dress, the sky, the light and the framing stay exactly the same throughout."
-7. **Constraints:** "In a single continuous shot. No scene cuts. No on-screen text, no captions, no subtitles."
+### 2. Decide everything
 
-Aim for 40-120 words. Write concrete, physical things ("wet asphalt, neon reflections in puddles"), not praise words ("beautiful, epic, cinematic").
+- **Shot plan.** One continuous shot, or several shots with their times and the transition between each: hard cut, match cut, whip pan, dissolve, object wipe, morph. Never leave it open: the model cuts on its own when the prompt doesn't say.
+- **Per shot:**
+  - framing and lens
+  - the camera move with its start, end and speed (or "locked off")
+  - the subject's action as timed beats, with the body mechanics for anything complex
+- **Everything else that moves:** fabric, hair, water, smoke, particles, background people, light.
+- **Continuity:** what the sky, the light (direction, color, brightness), the location, the wardrobe and the product do across the clip. Say "stays exactly the same" when that is the plan. Anything you leave out, the model may change.
+- **Effects:** a physical process with a start time, a duration, a direction and a material, and what the light does on it.
+- **Audio timeline:** dialogue, sound effects tied to visible events, ambience, and music or "No music".
 
-## Hard rules
+### 3. Write it as a timeline
 
-- **Always ask for a single continuous shot.** Left alone, the model edits several shots together. That is where sudden sky, light or location changes come from.
-- **One main action per clip.** About one beat per 3-4 seconds. "Turns, walks to the window and sits down" fails; "turns her head toward the lens" works. An effect (a freeze, a wipe, a reveal) is the clip's main action: the people around it only make small motions.
-- **Avoid motion models can't do:** full-body spins, fast dancing, acrobatics, fights, hands doing fiddly things, crossing limbs, crowds in focus, bodies or clothes morphing. Use what does work: a half-turn over the shoulder, a slow walk, a head turn, fabric and hair moving, a slow push-in, a cut on the moment. The patterns are in `references/effects-and-transitions.md`.
-- **Dialogue:** one speaker per clip. Write the line after a colon, without quotation marks (quotes can turn into on-screen captions): `She looks into the lens and says: Day three, and my skin is glowing.` Complete, clean sentences: no "...", no dashes, no "um", which come out as stutters. About 2.5 words per second, so at most 10 words for 6 seconds and 15 for 10. Finish the line a second or more before the end, and by the 7-second mark at the latest. Keep the user's words; punctuation is fine to adjust. Describe the voice outside the line: "warm, late-20s, casual".
-- **Text and logos:** big shapes hold, small text warps. Keep headlines out of the video; add them in editing.
+```text
+Shot plan: one continuous shot, 8 seconds, no cuts.
+0-3 s: <camera>. <subject beat>. <environment>.
+3-5 s: <the effect or main beat: what changes, how, how fast, in which direction>.
+5-8 s: <camera arrives where>. <subject settles>. <the after-state>.
+Continuity: <sky, light, location, wardrobe, product: what stays, what changes and when>.
+Audio: <timed sound events>, <ambience>, <music or No music>. <Dialogue, if any>.
+No on-screen text, no captions, no subtitles.
+```
+
+With a start frame, refer to what it shows ("she", "the bottle", "the wave") instead of describing it again. Use `<IMAGE_REF_n>` tags for `--ref` images: "the woman from <IMAGE_REF_0> holds the bottle from <IMAGE_REF_1>", counted from 0 in the order of the `--ref` flags.
+
+The length follows the plan. A simple clip takes a few lines; an effect, a transition or choreography takes a line per beat. Every sentence must be a decision: concrete and physical ("wet asphalt, neon reflections in puddles"), never praise ("beautiful, epic, cinematic"), and never in conflict with another line.
+
+### 4. Run, check, and fix the gap
+
+Run, then check the clip (below). When something goes wrong, find the gap the model filled: what did the prompt not decide? Add that decision and run again. Don't just re-roll the same prompt; each run is a new take anyway, since there are no seeds.
+
+For a complex prompt (an effect, a transition, choreography, dialogue), offer a 360p test take first and include it in the price you quote. The final is a new take at the resolution the user wants, so review it too. If a test take is already good and its size is enough, deliver it.
+
+## Ambitious motion and effects
+
+Spins, dancing, transformations, outfit changes, freezes and transitions between shots are all fair game. They are where missing direction shows first, so they need the most:
+
+- **Choreograph the body.** For a spin: how many turns and over how long ("one slow full turn on the spot over 2 seconds, weight on her left foot"), arms ("close to her body, right hand trailing"), head ("she keeps her eyes on the lens as long as she can, then whips back to it"), hair and fabric ("the hem flares out and settles half a second after she stops").
+- **Time the change.** "At 3 seconds, as she faces away, the denim dissolves into silver sequins from the hem upward over half a second, a ripple of light running up with it."
+- **Hold the rest still.** Say what stays fixed while the effect runs: background, light, framing, her face and hair.
+- **Pin the after-state with an end frame** when it must look exact (see "Pick how to pin the clip").
+- **Give it room.** The motion around a change (a spin, a walk, a camera move) needs about 2 seconds; the change itself can be quick. In a multi-shot clip give each shot at least 2-3 seconds.
+- **Slow motion** works in the prompt: "shot 3 in half-speed slow motion". Time its beats in seconds of the finished clip.
+- **Tell the user** that complex motion can take a retake or two, and offer the 360p test.
+
+Recipes for common effects and transitions are in `references/effects-and-transitions.md`.
+
+## Dialogue
+
+- One speaker per clip.
+- Write the line after a colon, without quotation marks: `She looks into the lens and says: Day three, and my skin is glowing.` Quotes can turn into on-screen captions.
+- Use complete, clean sentences. No "...", no dashes, no "um": they come out as stutters. Put the delivery in the description instead ("with a small laugh").
+- About 2.5 words per second: at most 10 words for 6 seconds, 15 for 10. Finish the line a second or more before the end, and by the 7-second mark at the latest.
+- Keep the user's words; punctuation is fine to adjust.
+- Describe the voice outside the line: "warm, late-20s, casual, close phone-mic sound".
+
+## Text and logos
+
+Big shapes hold; small text warps. Keep headlines out of the video and add them in editing.
 
 ## Use-case guides
 
@@ -89,11 +131,11 @@ Read every guide that matches the job before you write the prompt (a vertical UG
 Watch it, or if you can't, sample frames and look at them:
 
 ```bash
-ffmpeg -loglevel error -i clip.mp4 -vf fps=1,scale=480:-1,tile=4x2 -frames:v 1 sheet.png
+ffmpeg -loglevel error -i clip.mp4 -vf fps=1,scale=480:-1,tile=5x2 -frames:v 1 sheet.png
 ffmpeg -i clip.mp4 -vf "select='gt(scene,0.1)',showinfo" -f null - 2>&1 | grep -o 'pts_time:[0-9.]*'
 ```
 
-The first makes a contact sheet of 8 frames. The second prints the moments where the picture jumps: cuts, or a sky or light that suddenly changes. A calm single shot prints nothing; a fast camera move can print too, so look at the frames around each time before you judge. Also look for drifting faces, melting hands, a product that changed shape, and captions nobody asked for. Tell the user what you checked.
+The first makes a contact sheet of one frame per second (up to 10 seconds). The second prints the moments where the picture jumps: cuts, or a sky or light that suddenly changes. Compare them with your shot plan: a planned cut should print, nothing else should. A fast camera move can print too, so look at the frames around each time before you judge. Also look for drifting faces, melting hands, a product that changed shape, and captions nobody asked for. Tell the user what you checked.
 
 ## Spending
 
@@ -118,11 +160,13 @@ Videos are priced per second, so most cost more than $1.
 
 ## Common mistakes
 
-- No "single continuous shot": the model cuts, and the sky or room changes mid-clip.
-- A spin or a morphing outfit to show a change: limbs and fabric melt. Use a wipe or a cut instead.
+- Leaving the shot plan open: the model adds cuts of its own.
+- Directing the effect but not the world around it: nothing said what the sky does while the wave freezes, so the sky changed too.
+- Complex motion in one sentence ("she spins and her outfit transforms"): give each beat its time, its mechanics and its speed.
+- Re-rolling a failed prompt unchanged instead of adding the decision that was missing.
 - Dialogue in quotes, with "...", or longer than the clip can hold.
 - No audio line: random music or sound effects.
-- Describing the start image again instead of the motion.
+- Describing the start image again instead of directing what happens.
 - Starting a vertical video from a 16:9 image, or the reverse: it gets cropped.
 - An end frame generated separately instead of edited from the start frame: the clip morphs to bridge the differences.
 - `--ref` images without tags in the prompt: the model guesses which image is what.

@@ -14,7 +14,7 @@ Start with the brand feeling and audience, then the model, styling, set, light a
 
 ## One striking element
 
-What makes a campaign image stop the scroll is usually one surprising, physical element: liquid gold running down a cheek like jewelry, clothes floating in zero gravity, a wave curling behind a gown. Describe it as a real thing with material and light. One element, not three.
+What makes a campaign image stop the scroll is usually a surprising, physical element: liquid gold running down a cheek like jewelry, clothes floating in zero gravity, a wave curling behind a gown. Describe each element as a real thing: its material, where it is, its shape, how the light hits it. Several elements work when each is directed that fully and they serve one idea.
 
 ```text
 High-end beauty campaign photograph: extreme close-up of a woman in her mid-twenties with dewy "glass skin" and sleek wet-look black hair, looking straight into the lens.

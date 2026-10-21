@@ -22,7 +22,12 @@ Leave text out of the clip ("No on-screen text, no captions, no subtitles") and 
 ## Example: product hook (5 s, from a 9:16 frame)
 
 ```text
-Handheld vertical shot, close and low. At 0 seconds a frosted soda can slams down onto a wet marble counter right in front of the lens, droplets jumping off it; the camera jolts slightly with the impact, then slowly pushes in on the can as condensation slides down. The can, its colors and the counter stay the same throughout. In a single continuous shot, no scene cuts. Audio: a hard metallic thud at 0 seconds, a fizzing hiss, quiet kitchen room tone. No music. No on-screen text, no captions.
+Shot plan: one continuous shot, 5 seconds, vertical, handheld, close and low.
+0 s: a frosted soda can slams down onto a wet marble counter right in front of the lens; droplets jump off it; the camera jolts slightly with the impact.
+1-5 s: the camera slowly pushes in on the can as condensation slides down its side.
+Continuity: the can, its colors, the counter and the light stay the same throughout.
+Audio: a hard metallic thud at 0 seconds, a fizzing hiss from 1 second, quiet kitchen room tone. No music. No dialogue.
+No on-screen text, no captions, no subtitles.
 ```
 
 ## Series
