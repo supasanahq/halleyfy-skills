@@ -1,49 +1,50 @@
 # Effects, transformations and transitions
 
-Every effect is possible to ask for: freezes, morphs, outfit changes on a moving body, spins, reveals, transitions between shots. What decides whether it works is how much of it you direct. A clip falls apart where the prompt left a gap: an effect described in one clause leaves the model to guess the timing, the mechanics and everything around it.
+Every effect can be asked for: freezes, morphs, material changes, outfit changes on a moving body, reveals, things forming out of particles, transitions between shots. What makes one work is telling it as a visible process. The model builds what you name; what you don't name, it invents, and an effect named in one word ("turns into glass", "transforms") usually comes out as something added next to the subject instead of the subject changing.
 
-## Direct an effect
+## Tell a change
 
-1. **Set it up in the start frame.** If a wave will freeze, the frame shows the wave rising. If a bottle will be revealed, the frame shows what hides it.
-2. **Pin the after-state with an end frame** when it must look exact: edit the start frame with `halleyfy image` into the "after" (same shape). The end frame is the clip's last moment, so it must also show where the camera and the person are when the timeline ends. Then the model only invents the change itself.
-3. **Describe it as a physical process:** when it starts, how long it takes, which direction it travels, what it is made of, and what light does on it. "At 3 seconds the crest stops mid-air and turns to clear glass, starting at the top and spreading down over one second; the low light refracts through it."
-4. **Direct the world around it, beat by beat.** What does the sky do? The light? The background? The person? "The overcast sky and the cold blue light stay exactly as in the first frame for the whole clip." Unspoken, these change with the effect.
-5. **Give it time.** A complex change needs about 2 seconds of its own. More effects in one clip are fine when each gets its own time slot.
-6. **Plan the retake.** Tell the user complex effects can take a retake or two, and offer a 360p test first. For a freeze or speed ramp that must be perfect, editing software is another route.
+1. **Name the one thing that changes, and say it stays itself.** "The wave itself", "her jacket itself", "the same bottle, same shape, same place". Only that thing changes.
+2. **Say where the change starts and how it travels.** "Starting at the crest and spreading down through the whole wave", "rippling up from the hem to the collar", "from the toe cap back to the heel".
+3. **Say what it becomes, in physical terms.** Material, finish and how light behaves on it: "clear, solid glass catching the pale light", "mirror-polished chrome", "silver sequins that flash as they turn".
+4. **Say what carries on around it.** "The sea at its base keeps moving", "her hair keeps streaming in the wind". The world going on around the change keeps the clip alive and shows that only one thing changed.
+5. **Give it a trigger and an energy** when that matters: "at its peak", "mid-spin", "as she steps through the doorway"; "suddenly", "in one smooth wave", "slowly spreading".
+6. **Give the next step something that moves.** After a freeze or a finished change, name the camera drift, the light, the hair or a small action. A finished state with nothing named holds a still picture.
+7. **Tie a sound to it.** "The instant it turns to glass the roar cuts out, leaving one high glass ring." The model also adds the ambience of what it shows, so a hard silence may keep a faint room tone; cut the track in editing when the silence must be total.
+8. **An end frame for an exact after-state.** When the result must look a precise way (a real product, a set design) and takes keep missing it, start from `--image` and end on `--end-image` made by editing that start frame. It calms the motion and makes the change morph toward the picture.
 
 ## Bodies and outfits
 
-A body that spins, dances or transforms needs choreography, not a verb:
+Name the move and how it feels, then tell the change as a process on the body: "she spins once in place; mid-spin her jacket itself ripples into black velvet from the shoulders down, the hem flaring out as she completes the turn". The model knows how a spin goes; it needs the moment.
 
-- **Movement:** how many turns, how fast, on which foot, where the arms are, where the head looks, when she stops.
-- **Fabric and hair:** how they lag behind the motion and when they settle.
-- **The change:** at which moment it happens (best when she faces away or the fabric hides the body), how it spreads (from the hem upward, from the shoulders down), how long it takes, and what light does during it.
-- **What stays:** face, hair, body shape, the set, the light, the framing.
-- **The result:** pin it with an end frame showing her in the new outfit, same pose.
+- Fabric and hair are where these clips come alive: say what they do (flares out, whips around, ripples, settles).
+- Say the result completely: "and from then on she wears only the gown; the jacket is gone". A layer that was only "transformed" can come back.
+- Say where she ends and what she does next: "lands facing the camera, then runs a hand down the fabric and glances over her shoulder".
+- When the new outfit is a real product that must look exact, pin it with an end frame (the start frame edited into the new outfit, same pose) and accept a calmer landing.
+
+## Other effects
+
+| You want | Tell it as |
+|---|---|
+| A freeze | What stops, and what keeps moving: "the spray stops in mid-air, every droplet hanging still, while the camera keeps drifting right and her hair keeps moving". |
+| A reveal | A pull-back from a detail to the whole, a rack focus, light rising on a subject in shadow, fabric or smoke clearing. Say where the camera ends. |
+| Something forming | Where it comes from and how it builds: "particles of light swirl together into the shape of the bottle, which settles softly onto the table". |
+| Day to night, weather | Make it the plot: "the light shifts from golden hour to blue hour as the city lights come on, window by window". |
+| A loop | The same image as `--image` and `--end-image`, a gentle steady motion (steam, hair, water). If the last second jumps, crossfade half a second in editing. |
 
 ## Transitions between shots
 
-When the user wants several shots, write the shot plan with times and say how each shot hands over to the next:
+For several shots in one clip, make each a numbered step that starts with "Shot N", and say how it hands over. Times are optional; add them (`Shot 2 3-6 sec`) when each shot must last a set time, back to back and inside the clip's length.
 
-| Transition | Direct it as |
+| Transition | Tell it as |
 |---|---|
-| Hard cut | "At 3 seconds, hard cut to a close-up of ..." |
-| Match cut | Both shots share a shape or motion: "the spinning wheel ... cut to a spinning record at the same speed and position" |
-| Whip pan | "At 3 seconds the camera whips right into a motion blur, and the blur resolves into ..." |
-| Object wipe | "A sheet of silk blows across the frame left to right; as it clears, we are in ..." |
-| Dissolve or morph | "Over one second the city skyline dissolves into the same shape of mountain ridge" |
+| Hard cut | "Shot 2: a hard cut to a close-up of ..." |
+| Match cut | Both shots share a shape or motion: "the spinning wheel, then a cut to a spinning record at the same speed and position" |
+| Whip pan | "the camera whips right into a motion blur that resolves into ..." |
+| Object wipe | "a sheet of silk blows across the frame, and as it clears we are in ..." |
+| Dissolve | "the skyline slowly dissolves into a mountain ridge of the same shape" |
 
-Then direct every shot as fully as a single-shot clip: framing, camera, beats, continuity, sound. Keep the location, light and wardrobe rules per shot explicit, since a cut invites the model to change them.
-
-## Other recipes
-
-| You want | Direct it as |
-|---|---|
-| A reveal | Pull-back from a close detail to the whole; a rack focus from foreground to the subject; light rising on a subject that starts in shadow; fabric or smoke clearing. Say where the camera ends. |
-| Freeze or bullet time | Name what freezes and what keeps moving: "the spray stops in mid-air while the camera keeps drifting right and her hair keeps moving". |
-| Something forming | Particles, liquid or light converging into the object over a set time, then "the object stays perfectly still once formed". |
-| A loop | The same image as `--image` and `--end-image`, a still camera and a steady motion (steam, hair, water). Watch the last second run into the first; if it jumps, crossfade half a second in editing. |
-| Day to night, weather | Make it the point and time it: "over the 8 seconds the light shifts from golden hour to blue hour". |
+Say what carries across the cut once: "the same man, the same grey suit, now at night". Only the first shot can be pinned by a start frame.
 
 ## Joining clips
 
@@ -53,31 +54,22 @@ halleyfy has no join command. With ffmpeg available, join two clips of the same 
 ffmpeg -i a.mp4 -i b.mp4 -filter_complex "[0:v][0:a][1:v][1:a]concat=n=2:v=1:a=1[v][a]" -map "[v]" -map "[a]" joined.mp4
 ```
 
-## Example: a wave freezing into glass (8 s, start and end frame)
-
-Start frame: she stands on the black sand looking into the lens, the wave rising behind her. End frame: the same image edited so the wave is clear glass, a little taller and curled forward, with hanging glass beads. The camera is locked off and she keeps her pose, so the end frame matches the last moment.
+## Example: a suit becoming a tuxedo through a doorway (8 s, prompt only)
 
 ```text
-Shot plan: one continuous shot, 8 seconds, locked-off camera, wide framing, no cuts.
-0-3 s: the wave behind her keeps rising and its crest curls forward, spray lifting off the top. The wind from frame right moves her crimson gown and her hair to the left. She stands still and looks calmly into the lens.
-3-4 s: the crest stops mid-air and turns to clear sculpted glass, starting at the top and spreading down to the sea at its foot over one second; the spray hangs as glass beads; the pale light at the horizon refracts through the glass.
-4-8 s: the glass wave and the hanging beads stay perfectly still. Her gown and hair keep moving in the wind. She keeps her pose and her gaze on the lens, blinking once at 6 seconds.
-Continuity: the dark overcast sky, the thin band of pale light at the horizon, the cold blue light on her, the black sand and her gown stay exactly as in the first frame for all 8 seconds. The sky never brightens or darkens. Only the water changes.
-Audio: rolling surf and wind building to 3 seconds; at the freeze, sudden silence, then a single high glass chime; soft wind to the end. No music. No dialogue.
-No on-screen text, no captions, no subtitles.
+[Core Task]
+Generate a menswear film of a tall man in his thirties with short dark hair and a trimmed beard, in a light grey wool suit and white shirt, walking down a narrow marble hallway toward the camera and through an open doorway, his suit turning into a black tuxedo as he passes through. The whole film adopts warm tungsten wall lights, deep shadows, a brown and black palette, shot on a 35mm lens with fine film grain.
+
+[Plot Summary]
+1. He walks toward the camera with an easy, unhurried stride, his jacket moving with each step.
+2. As he passes through the doorway, his suit itself changes: the same jacket and trousers, same cut and fit, the grey wool darkening into black barathea from the shoulders down in one smooth sweep, the lapels turning to black satin that catches the light, a black bow tie forming at his collar. From then on he wears only the tuxedo.
+3. He keeps walking toward the camera, buttons his jacket with one hand and looks straight into the lens as the camera eases back ahead of him.
+
+[Audio Style]
+A slow, low jazz double bass under his leather soles echoing on marble; a soft rush of fabric as the suit changes, then one deep bass note. He stays silent.
+
+[Camera & Core Constraints]
+One continuous shot, the camera dollying back ahead of him at chest height. The hallway and the lights stay as they are.
 ```
 
-## Example: denim to evening gown in a spin (8 s, start and end frame)
-
-Start frame: her in denim in the spotlight, right hand on her hip, facing the lens. End frame: the same image edited so she wears the silver gown, in the same pose. The timeline returns her to that pose.
-
-```text
-Shot plan: one continuous shot, 8 seconds, locked-off camera, full-body framing, no cuts.
-0-2 s: she stands with her right hand on her hip and smiles; at 1.5 seconds she lowers the hand and shifts her weight onto her left foot.
-2-4 s: she makes one slow full turn on the spot to her right over 2 seconds, pivoting on her left foot, arms close to her body, her ponytail swinging out behind her; she keeps her eyes on the lens as long as she can, then whips her head back to it. At 3 seconds, while her back is to the camera, the denim dissolves into silver sequins from the ankles upward over half a second, a ripple of light running up the fabric with it; the skirt of the new gown flares out with the turn.
-4-5 s: she faces the lens again and stops; the hem swings once and settles half a second later.
-5-8 s: she places her right hand back on her hip, as at the start, and holds the pose, the sequins glinting in the spotlight.
-Continuity: her face, her ponytail, the spotlight, the haze, the black floor and the framing stay exactly the same throughout; only her outfit changes, once, at 3 seconds.
-Audio: a soft sneaker squeak at 2 seconds, a whoosh with the turn, a shimmering sparkle at 3 seconds, a low bass hit at 4 seconds as she stops, then quiet studio room tone. No music. No dialogue.
-No on-screen text, no captions, no subtitles.
-```
+It describes the man and the place completely, says the suit itself changes and keeps its cut, where the change starts and how it spreads, what he wears from then on, gives the last step its own action, and ties sounds to the steps and the change. No times: the order is enough.

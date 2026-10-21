@@ -29,7 +29,7 @@ halleyfy image "<brief>" --aspect 4:5 --resolution 2K --json --out ./assets
 
 ## Write the brief
 
-The model fills every gap in the brief with a default: a generic backdrop, flat light, a centered stock composition, a made-up label. **You are the art director.** Decide every element before you write: what is in the frame and where, what it is made of, where the light comes from, the lens, the mood, the exact text. Then write all of it down. A detailed brief with no gaps beats a short one, as long as every line is a concrete decision and no two lines conflict.
+The model fills what the brief leaves open with a default: a generic backdrop, flat light, a centered stock composition, a made-up label. Spend your words on what makes this image this one: the subject and what it is made of, where it sits, the light, the one striking element, the exact text. Concrete, visible words beat adjectives, and no two lines may conflict. OpenAI's guide for GPT Image asks for visible details (materials, light, color, framing, texture), so images take more detail than video prompts do.
 
 Write it in this order, as plain sentences or labeled lines:
 
@@ -41,7 +41,7 @@ Write it in this order, as plain sentences or labeled lines:
 6. **Text:** the exact words in quotes, where they go, the type style, "exactly once", then "no other text".
 7. **Exclude:** "no logos, no watermark, no extra props", whatever must not appear.
 
-For people, give framing ("full body, feet included"), gaze, and how hands touch objects. Say "real skin texture" for faces that should not look airbrushed. Leave out keyword piles like "8k, masterpiece, hyper-detailed": they decide nothing and push toward glossy stock pictures. When a result misses, find what the brief left open, decide it, and run again.
+For people, give framing ("full body, feet included"), gaze, and how hands touch objects. Say "real skin texture" for faces that should not look airbrushed. Leave out keyword piles like "8k, masterpiece, hyper-detailed": they decide nothing and push toward glossy stock pictures. When a result misses, change the one thing that went wrong and run again.
 
 ## Edit with reference images
 

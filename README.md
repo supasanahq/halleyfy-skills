@@ -20,7 +20,7 @@ Works with Claude Code, Codex, Cursor, OpenCode, Gemini CLI and the other agents
 | Skill | Use it for | Use-case guides |
 |---|---|---|
 | [`halleyfy-image`](skills/halleyfy-image/SKILL.md) | Images: text to image, editing with up to 16 reference images | product, UGC, fashion and beauty, ads and text, video start frames, consistency across a set |
-| [`halleyfy-video`](skills/halleyfy-video/SKILL.md) | 3-10 s videos with sound, from a prompt, a start and end image, or up to 10 reference images | product, UGC ads, fashion, effects and transitions, social vertical |
+| [`halleyfy-video`](skills/halleyfy-video/SKILL.md) | 3-10 s videos with sound, from a prompt, a start and end image, up to 10 reference images and 5 reference videos, or an edit of a 2-10 s video | product, UGC ads, fashion, effects and transitions, social vertical, references and edits |
 
 Install one with `npx skills add xsirix/halleyfy-skills --skill halleyfy-video`.
 

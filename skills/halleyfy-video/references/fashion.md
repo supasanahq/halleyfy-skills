@@ -1,37 +1,41 @@
 # Fashion films, lookbooks and beauty
 
-## Start from a frame
+## Start from a frame, or describe everything
 
-Fashion lives on exact styling, so make the start frame with `halleyfy image` first: the model, every garment (fabric, fit, color), hair, makeup, set and light. Leave room for the move: full body with feet for walking, headroom for a push-in, the face on a third when it will turn toward the camera.
+Fashion lives on exact styling, so for client work make the start frame with `halleyfy image` first: the model, every garment (fabric, fit, color), hair, makeup, set and light. Leave room for the move: full body with feet for walking, headroom for a push-in, the face on a third when it will turn toward the camera.
+
+Without a frame, the prompt has to carry all of that: who the model is (age, ethnicity, hair), each garment with its fabric, cut and color, the set, the light and the palette. Anything left out is the model's choice.
 
 ## Motion
 
-Anything a real model does on set works when it is choreographed: a walk toward the camera while it dollies back, a half-turn or a full spin, dancing, a hair flip, a head turn into the light, a slow push-in on a beauty close-up. Direct each one fully:
-
-- **The body:** speed, number of turns or steps, which foot, where the arms and hands are, where she looks, when she stops and how she holds the final pose.
-- **Fabric and hair:** "the silk ripples and flows behind her in the wind", "the hem flares out on the turn and settles half a second after she stops".
-- **The camera:** locked off, or its move with a start, an end and a speed. Full-body framing with room around her for spins and dance.
+Anything a real model does on set works: a walk toward the camera while it dollies back, a half-turn or a full spin, dancing, a hair flip, a head turn into the light, a slow push-in on a beauty close-up. Name the move and its attitude ("a confident, unhurried walk", "a playful spin"), and say what the fabric and hair do: that is where fashion clips come alive ("the silk ripples and flows behind her in the wind", "the hem flares out on the turn"). Frame full body with room around her for spins and dance. The garment is the product: guard it once in the constraints by its defining features ("the camel coat keeps its wide lapels and belt").
 
 ## Changing the outfit
 
-Outfit changes work as a transformation on the body, as a wipe, or as a cut. Whichever the user wants, time it and direct it: when it happens (during a turn while she faces away, as a sheet of fabric crosses her, on a beat), how it spreads, how long it takes, and what stays the same. Pin the new outfit with an end frame: the start frame edited into the second outfit, same pose. The full recipe and an example are in `effects-and-transitions.md`.
+Outfit changes work as a change on the body, as a wipe, or as a cut. Tell it as a process: what triggers it (mid-spin, a sheet of fabric crossing her, a doorway), that the garment itself changes, where it starts and how it spreads, what it becomes and how it moves, and that she wears only the new outfit from then on. When the new outfit is a real product that must look exact, pin it with an end frame (the start frame edited into it, same pose). More in `effects-and-transitions.md`.
 
-## Example: fashion film (8 s, from a frame)
+## Example: fashion film (8 s, prompt only)
 
 ```text
-Shot plan: one continuous shot, 8 seconds, no cuts.
-0-4 s: slow cinematic push-in from the wide shot. The wind lifts her crimson silk gown so it ripples and flows across the black sand to the left; her hair moves with it. She stands still, looking out to sea.
-4-5 s: she turns her head over her right shoulder and looks calmly into the lens.
-5-8 s: the push-in settles on a medium shot by 7 seconds and holds. The gown keeps moving in the wind.
-Continuity: the overcast sky, the waves behind her, the cold blue light and the gown's color stay exactly as in the first frame throughout.
-Audio: deep rolling surf and steady wind. No music. No dialogue.
-No on-screen text, no captions, no subtitles.
+[Core Task]
+Generate a fashion film of a Black man in his late twenties with close-cropped hair, in a long camel wool overcoat with wide lapels over a cream roll-neck and charcoal trousers, standing on a windy concrete rooftop at dusk with the city behind him. The whole film adopts soft dusk light from behind, warm sodium city glow, a muted camel, cream and slate palette, shot on an 85mm lens with fine grain.
+
+[Plot Summary]
+1. The wind catches the coat and lifts its hem; he turns his head from the skyline toward the camera.
+2. He walks slowly toward the lens with his hands in his pockets, the coat swinging with each step.
+3. He stops in a medium close-up, the wind still moving the lapels and the city lights flickering on behind him.
+
+[Audio Style]
+A slow, minimal electronic beat under steady rooftop wind, distant city traffic and his footsteps on concrete. He stays silent.
+
+[Camera & Core Constraints]
+One continuous shot, the camera dollying back ahead of him from a full-length view to a medium close-up. The coat keeps its wide lapels and camel color.
 ```
 
 ## Beauty
 
-Close-ups hold up best: skin, lips and eyes with the light moving across them. Ask for "real skin texture" in the start frame. Keep the motion small: a blink, a slight turn, a drop of serum sliding.
+Close-ups hold up best: skin, lips and eyes with the light moving across them. Ask for "real skin texture" in the start frame or the description. Keep the motion small: a blink, a slight turn, a drop of serum sliding.
 
 ## Series
 
-For a lookbook of several looks, use one look spec (same model, same set, same light) for every start frame, change only the outfit, and give every clip the same camera move and timing so they cut together. Without start frames, `--ref` with the model's canonical reference and one garment reference per clip keeps her the same across the set ("the woman from <IMAGE_REF_0> wearing the coat from <IMAGE_REF_1>").
+For a lookbook of several looks, use one look spec (same model, same set, same light) for every start frame, change only the outfit, and give every clip the same camera move so they cut together. Without start frames, give `--ref` the model's photo and one garment photo per clip, and bind them: "The woman corresponds to Image 1, adopting her face and hair. The coat corresponds to Image 2, adopting its cut, fabric and color."

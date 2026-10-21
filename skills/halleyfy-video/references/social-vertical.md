@@ -12,22 +12,28 @@
 The scroll decides in the first second, and AI clips often waste it on a slow start.
 
 - Frame one is already mid-action or already striking: the product big in frame, a face close to the lens, something in motion.
-- Put a sound hit at 0 seconds: "At 0 seconds the can slams onto the counter."
+- Make the first step the hook, with a sound hit: "Right at the start the can slams onto the counter."
 - One idea per clip; keep it 4-8 seconds and cut the clips together for longer posts.
 
 ## Captions and text
 
-Leave text out of the clip ("No on-screen text, no captions, no subtitles") and add captions in the editor or the app. Generated captions come out misspelled and at the wrong time.
+Leave text out of the clip ("No subtitles, no on-screen text" in the constraints) and add captions in the editor or the app. Generated captions come out misspelled and at the wrong time.
 
 ## Example: product hook (5 s, from a 9:16 frame)
 
 ```text
-Shot plan: one continuous shot, 5 seconds, vertical, handheld, close and low.
-0 s: a frosted soda can slams down onto a wet marble counter right in front of the lens; droplets jump off it; the camera jolts slightly with the impact.
-1-5 s: the camera slowly pushes in on the can as condensation slides down its side.
-Continuity: the can, its colors, the counter and the light stay the same throughout.
-Audio: a hard metallic thud at 0 seconds, a fizzing hiss from 1 second, quiet kitchen room tone. No music. No dialogue.
-No on-screen text, no captions, no subtitles.
+[Core Task]
+Animate the image as a vertical hook: the soda can slams onto the counter, then the camera closes in.
+
+[Plot Summary]
+1. Right at the start the frosted can slams down onto the wet marble counter right in front of the lens, droplets jumping off it and the camera jolting with the impact.
+2. The camera slowly pushes in as condensation slides down the can.
+
+[Audio Style]
+A hard metallic thud on the first frame, a fizzing hiss, quiet kitchen room tone. No music.
+
+[Camera & Core Constraints]
+One continuous vertical shot, handheld, close and low. No on-screen text.
 ```
 
 ## Series

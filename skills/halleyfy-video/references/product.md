@@ -2,41 +2,57 @@
 
 For product heroes, packshots in motion, turntables, food and drink, and app or tech promos.
 
-## Start from a frame
+## Start from a frame, or bind a reference
 
 Make the start frame with `halleyfy image` and the user's product photo as a reference, so the shape, colors and label are right before anything moves. Big logos survive motion; small label text drifts, so keep the label large and front-facing, or accept that it will soften.
 
-## Direct how the product moves
+Without a start frame, give the product photo as `--ref` and bind it: "The bottle corresponds to Image 1, adopting its shape, label and colors." References steer the look but don't fix the composition; when the opening frame matters, make a start frame instead.
 
-A product can stay still while light, liquid, steam or the camera move, or it can spin, flip, drop or burst open. Both work; a moving product needs more direction, because its shape has to survive the motion. Say how it moves (axis, speed, how far, where it stops), what it is made of and how it catches the light, and pin the final view with an end frame when it matters.
+## Say how it moves
 
-- Camera: an orbit at product height, a push-in, a pull-back reveal, a crane up. Give each move a speed, a start and an end point.
+A product can stay still while light, liquid, steam or the camera move, or it can spin, flip, drop or burst open. Both work. Name the move and how it feels ("drops onto the counter and bounces once", "turns slowly to show its side"), what catches the light, and where the camera ends. Guard the label or shape in the constraints if it matters.
+
+- Camera: an orbit at product height, a push-in, a pull-back reveal, a crane up. Name where it ends.
 - Light: a highlight gliding across glass, a rim light rising, a shadow passing.
 - Environment: condensation beads sliding, steam rising, dust in a light beam, water rippling around the base.
-- Sound: one soft effect tied to a visible event ("a crisp click as the cap seats at 5 seconds"), room tone, "No music" unless the user wants music.
+- Sound: one effect tied to a visible event ("a crisp click as the cap seats"), room tone, "no music" unless the user wants music.
 
 ## Example: product hero (8 s, from a frame)
 
 ```text
-Shot plan: one continuous shot, 8 seconds, no cuts.
-0-7 s: slow, steady orbit 60 degrees to the right at bottle height, from the front view to a three-quarter view, arriving at 7 seconds. The bottle stays perfectly still; a soft highlight glides across the glass, and at 3 seconds two beads of condensation start sliding down its side.
-7-8 s: the camera holds on the three-quarter view.
-Continuity: the label, cap and colors, the key light from frame left and the black background stay exactly as in the first frame.
-Audio: faint cool room tone, one soft glass ting at 6 seconds. No music. No dialogue.
-No on-screen text, no captions, no subtitles.
+[Core Task]
+Animate the image: the camera circles the perfume bottle as light plays across the glass.
+
+[Plot Summary]
+1. The camera orbits slowly around the bottle at its height, from the front toward a three-quarter view.
+2. A soft highlight glides across the glass as it turns, and two beads of condensation slide down its side.
+3. The camera settles on the three-quarter view while the highlight keeps moving slowly over the shoulder of the bottle.
+
+[Audio Style]
+Faint cool room tone and one soft glass ting as the camera settles. No music.
+
+[Camera & Core Constraints]
+One continuous shot. The label and the black background stay as they are.
 ```
 
 ## Food and drink
 
-Macro lens, very shallow depth of field, a slow pour or a slow drizzle, backlight through the liquid, steam or condensation, sizzling or pouring sound. Hands from above if someone is cooking; keep them simple (one slow motion, no fiddly knife work).
+A macro lens, very shallow depth of field, a slow pour or drizzle, backlight through the liquid, steam or condensation, sizzling or pouring sound. Hands from above if someone is cooking; keep them simple (one slow motion, no fiddly knife work).
 
 ```text
-Shot plan: one continuous shot, 8 seconds, no cuts. Macro close-up, 100mm lens, very shallow depth of field.
-0-6 s: iced coffee is poured slowly over clear ice in a tall glass on a walnut counter; cream blooms in soft swirls; condensation beads on the glass. The camera pushes in slowly toward the swirl.
-6-8 s: the pour ends; the camera settles on the swirl and holds while the cream keeps turning.
-Look: early-morning backlight through the glass from frame right, amber and cream palette, subtle film grain; the light stays steady throughout.
-Audio: ice crackling, a gentle pour until 6 seconds, distant cafe murmur. No music. No dialogue.
-No on-screen text, no captions, no subtitles.
+[Core Task]
+Generate a macro drink commercial of iced coffee being poured into a tall clear glass of ice on a walnut counter. The whole film adopts early-morning backlight through the glass, amber and cream tones, a 100mm macro lens with very shallow depth of field and subtle film grain.
+
+[Plot Summary]
+1. Coffee pours slowly over the clear ice; the cream blooms into soft swirls.
+2. The pour ends and the swirls keep turning as condensation beads on the glass.
+3. The camera keeps pushing in toward the swirl.
+
+[Audio Style]
+Ice crackling, a gentle pour, distant cafe murmur. No music.
+
+[Camera & Core Constraints]
+One continuous macro shot, a slow push-in.
 ```
 
 ## App and tech promos
@@ -45,8 +61,8 @@ Screens are text, and text warps. Start from a frame that already shows the real
 
 ## Turntable or 360
 
-The model has to invent any side of the product it hasn't seen. Show it the sides: the front view as `--image` and the side view as `--end-image` (both made with `halleyfy image` from the product photos, same backdrop and light), with "slow orbit from the front to the side view". For a full 360, chain clips (front to side, side to back, back to front), each ending where the next starts, or give the product's back as a reference image when it is plain.
+The model has to invent any side of the product it hasn't seen. Show it the sides: the front view as `--image` and the side view as `--end-image` (both made with `halleyfy image` from the product photos, same backdrop and light), with "a slow orbit from the front to the side view". For a full 360, chain clips (front to side, side to back, back to front), each ending where the next starts. Without frames, two `--ref` photos of the product from the front and the back, bound as one: "Image 1 and Image 2 show the same bottle from the front and the back; it appears once."
 
-## Product in someone's hands without a start frame
+## Product in someone's hands
 
-`--ref` with the product photo (and a person reference if the user has one) keeps the product right while the model frames the scene: "The woman from <IMAGE_REF_0> picks up the bottle from <IMAGE_REF_1> ...". References steer the look but don't fix the composition; when the opening frame matters, make a start frame instead.
+Bind both: "The woman corresponds to Image 1, adopting her face, hair and clothing. The bottle corresponds to Image 2, adopting its shape, label and colors." Then tell the steps with their names: "The woman picks up the bottle and turns its label toward the camera."

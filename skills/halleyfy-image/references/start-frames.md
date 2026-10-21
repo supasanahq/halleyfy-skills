@@ -33,6 +33,6 @@ Look at the frame. If anything is wrong (hands, a face, a detail of the product)
 
 ## End frames
 
-When the video will also get `--end-image`, make the end frame from the approved start frame with an edit run. The end frame is the video's last moment, so change everything that differs at the end (the effect's after-state, a closer framing after a push-in, a new pose) and keep the rest: "Image 1 is the first frame: keep the person, the clothes, the set, the light, the camera angle and the framing exactly. Change only <the after state>." Check that both frames have the same shape. For a loop, use the start frame as the end frame too.
+An end frame pins the video's last moment, and the video calms down as it arrives there, so make one only when the last picture must be exact: an orbit to a set side, a zoom into a detail, a loop, a real product's after-state. Make it from the approved start frame with an edit run, changing only what differs at the end (the side view, the closer framing, the new outfit) and keeping the rest: "Image 1 is the first frame: keep the person, the clothes, the set, the light, the camera angle and the framing exactly. Change only <the after state>." Check that both frames have the same shape. For a loop, use the start frame as the end frame too.
 
 When the user asked only for the frame, hand over its path together with the `halleyfy video --image <path> --aspect <same> --seconds <n>` command that would animate it, and the price from a dry run if they want it.
