@@ -168,6 +168,12 @@ The first makes a contact sheet of one frame per second. The second prints the m
 
 The sheet is too small for garments, labels and faces: also look at full-size frames before and after the moment (`ffmpeg -ss 5 -i clip.mp4 -frames:v 1 f5.png`). Check what you asked for: the right person and look, the thing that changes changed (and nothing new appeared instead), motion in the last seconds, no drift on the product, no captions nobody asked for. Tell the user what you checked.
 
+## Finding past results
+
+- Find a job: `halleyfy jobs --search "<words>" --since 7d`.
+- Download it again: `halleyfy job <id> -o <dir>`.
+- Results are kept 30 days, then deleted.
+
 ## Spending
 
 Videos are priced per second, so many cost more than $1.

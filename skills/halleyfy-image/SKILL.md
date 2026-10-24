@@ -63,6 +63,12 @@ Read every guide that matches the job before you write the brief.
 | A frame that `halleyfy video --image` will animate | `references/start-frames.md` |
 | The same product or character across a set | `references/consistency.md` |
 
+## Finding past results
+
+- Find a job: `halleyfy jobs --search "<words>" --since 7d`.
+- Download it again: `halleyfy job <id> -o <dir>`.
+- Results are kept 30 days, then deleted.
+
 ## Spending
 
 | Situation | Do this |
