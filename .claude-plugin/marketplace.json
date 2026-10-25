@@ -1,0 +1,6 @@
+{
+  "name": "halleyfy",
+  "owner": { "name": "halleyfy" },
+  "description": "The halleyfy plugin for Claude Code.",
+  "plugins": [{ "name": "halleyfy", "source": "./" }]
+}

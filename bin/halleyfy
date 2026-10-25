@@ -1,0 +1,47 @@
+#!/bin/sh
+# Plugin launcher: runs the real halleyfy CLI, installing it first if it is missing.
+# Installer chatter goes to stderr so a command's stdout (e.g. --json) stays clean.
+set -eu
+
+self=$(cd "$(dirname "$0")" && pwd -P)
+root=$(dirname "$self")
+
+find_cli() {
+  d=${HALLEYFY_INSTALL_DIR:-${HOME:-}/.local/bin}
+  if [ -x "$d/halleyfy" ] && [ ! -d "$d/halleyfy" ]; then
+    printf '%s' "$d"
+    return 0
+  fi
+  oldifs=$IFS
+  IFS=:
+  for d in $PATH; do
+    [ -n "$d" ] || continue
+    real=$(cd "$d" 2>/dev/null && pwd -P) || continue
+    [ "$real" = "$self" ] && continue
+    if [ -x "$d/halleyfy" ] && [ ! -d "$d/halleyfy" ]; then
+      IFS=$oldifs
+      printf '%s' "$d"
+      return 0
+    fi
+  done
+  IFS=$oldifs
+  return 1
+}
+
+if dir=$(find_cli); then
+  exec "$dir/halleyfy" "$@"
+fi
+
+case "$(uname -s)" in
+  MINGW* | MSYS* | CYGWIN*)
+    if command -v npx >/dev/null 2>&1; then
+      exec npx -y halleyfy "$@"
+    fi
+    echo "On Windows, run: npx -y halleyfy" >&2
+    exit 1
+    ;;
+esac
+
+sh "$root/scripts/install.sh" --no-skills >&2
+dir=${HALLEYFY_INSTALL_DIR:-${HOME:?HOME is not set}/.local/bin}
+exec "$dir/halleyfy" "$@"
