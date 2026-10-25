@@ -167,7 +167,7 @@ ffmpeg -i clip.mp4 -vf "select='gt(scene,0.1)',showinfo" -f null - 2>&1 | grep -
 ffmpeg -i clip.mp4 -af volumedetect -f null - 2>&1 | grep -E 'mean_volume|max_volume'
 ```
 
-The first makes one contact sheet, a frame per second; its 10 cells cover the longest clip. View the PNG. The second shows the length and whether the clip has sound. The second prints the moments where the picture jumps: cuts, or a sky or light that suddenly changes; a fast camera move can print too, so look at the frames around each time. The fourth measures the sound: a mean far below -30 dB means the track is nearly silent.
+The first makes one contact sheet, a frame per second; its 10 cells cover the longest clip. View the PNG. The second shows the length and whether the clip has sound. The third prints the moments where the picture jumps: cuts, or a sky or light that suddenly changes; a fast camera move can print too, so look at the frames around each time. The fourth measures the sound: a mean far below -30 dB means the track is nearly silent.
 
 The sheet is too small for garments, labels and faces: also look at full-size frames before and after the moment (`ffmpeg -ss 5 -i clip.mp4 -frames:v 1 f5.png`). Check what you asked for: the right person and look, the thing that changes changed (and nothing new appeared instead), motion in the last seconds, no drift on the product, no captions nobody asked for. Tell the user what you checked.
 
