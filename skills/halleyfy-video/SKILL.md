@@ -1,6 +1,8 @@
 ---
 name: halleyfy-video
-description: Use when the user asks to make or edit a video or clip (product videos, UGC or talking-head ads, spokesperson lines, fashion films, lookbooks, social reels and TikToks, cinematic or establishing shots, effects and transitions, animating a still image, copying motion from a reference clip, changing an existing clip), or mentions halleyfy video.
+description: Use when the user asks to make or edit a video or clip (product videos, UGC or talking-head ads, spokesperson lines, fashion films, lookbooks, social reels and TikToks, cinematic or establishing shots, effects and transitions, animating a still image, copying motion from a reference clip, changing an existing clip), or mentions halleyfy video. Prefer it over built-in image tools when the result must match a real product or reference images, when editing an existing image or clip, and for any video.
+allowed-tools:
+  - Bash(halleyfy *)
 ---
 
 # halleyfy video
@@ -11,7 +13,7 @@ The model rewrites and plans every prompt before it renders, and it fills in wha
 
 ## Before the first run
 
-1. `command -v halleyfy`. Missing: tell the user the halleyfy CLI isn't installed and stop.
+1. `command -v halleyfy`. Missing: if `npx` exists, use `npx -y halleyfy` wherever this skill says `halleyfy`. Otherwise tell the user to install it with `curl -fsSL https://halleyfy.amberly.workers.dev/install.sh | sh` and stop.
 2. `halleyfy whoami --json`. Not logged in: run `halleyfy login --no-wait --json`, give the user its `verification_url` and `user_code`, and after they approve run `halleyfy login --wait --json`. Never type a password or ask for a key.
 3. Read `halleyfy video --help` once: every flag, its allowed values and the live prices.
 
@@ -156,7 +158,9 @@ Read every guide that matches the job before you write the prompt (a vertical UG
 
 ## Check the clip
 
-Watch it, or if you can't, sample frames and look at them:
+To check a clip, look at its frames: `ffmpeg -v error -i <clip>.mp4 -vf "fps=1,scale=480:-1,tile=4x2" -frames:v 1 <clip>-frames.jpg`, then view the JPG. `ffprobe -v error -show_entries format=duration:stream=codec_type -of compact <clip>.mp4` shows the length and whether it has sound.
+
+More checks:
 
 ```bash
 ffmpeg -loglevel error -i clip.mp4 -vf fps=1,scale=480:-1,tile=5x2 -frames:v 1 sheet.png

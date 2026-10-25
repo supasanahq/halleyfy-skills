@@ -4,15 +4,67 @@ Agent skills for halleyfy, which makes images and videos from the shell. One ski
 
 ## Install
 
+Pick the row that fits you.
+
+### Claude Code
+
+```bash
+claude plugin marketplace add xsirix/halleyfy-skills
+claude plugin install halleyfy@halleyfy
+```
+
+You get both skills and a `halleyfy` launcher. The launcher installs the CLI the first time it runs.
+
+### Any shell (macOS, Linux)
+
+For Codex, opencode, Cursor, Copilot and any other agent.
+
+```bash
+curl -fsSL https://halleyfy.amberly.workers.dev/install.sh | sh
+```
+
+You get the CLI in `~/.local/bin` and the skills in `~/.claude/skills` and `~/.agents/skills`.
+
+### Node and Windows
+
+```bash
+npx -y halleyfy skills install
+npx -y halleyfy image "a red mug on a white table"
+```
+
+The first line installs the skills. Then put `npx -y` in front of every `halleyfy` command. Add `--project` to the first line to install the skills into the current folder only.
+
+### Codex plugin
+
+```bash
+codex plugin marketplace add xsirix/halleyfy-skills
+```
+
+You get the skills. The CLI still comes from the `curl` line above.
+
+### Skills CLI
+
 ```bash
 npx skills add xsirix/halleyfy-skills
 ```
 
-Works with Claude Code, Codex, Cursor, OpenCode, Gemini CLI and the other agents the [Skills CLI](https://github.com/vercel-labs/skills) supports. Add `-g` to install it for every project.
+Works with Claude Code, Codex, Cursor, OpenCode, Gemini CLI and the other agents the [Skills CLI](https://github.com/vercel-labs/skills) supports. Add `-g` to install it for every project. You get the skills only.
+
+### Installed twice?
+
+Claude Code users who installed the plugin don't need the `curl` line. If you ran both, delete `~/.claude/skills/halleyfy-*` so each skill shows up once.
+
+### Tell your agent
+
+Add this line to `AGENTS.md` or `CLAUDE.md`:
+
+```
+To make images or videos, use the halleyfy CLI (`halleyfy image`, `halleyfy video`); run `halleyfy <command> --help` first.
+```
 
 ## Needs
 
-- The `halleyfy` CLI on your `PATH`.
+- The `halleyfy` CLI. The plugin and `install.sh` install it for you. With the Skills CLI or the Codex plugin, use the `curl` line or `npx -y halleyfy`.
 - A signed-in CLI: run `halleyfy login` once. The agent can start the login for you, but you approve it in the browser.
 
 ## Skills
@@ -22,7 +74,7 @@ Works with Claude Code, Codex, Cursor, OpenCode, Gemini CLI and the other agents
 | [`halleyfy-image`](skills/halleyfy-image/SKILL.md) | Images: text to image, editing with up to 16 reference images | product, UGC, fashion and beauty, ads and text, video start frames, consistency across a set |
 | [`halleyfy-video`](skills/halleyfy-video/SKILL.md) | 3-10 s videos with sound, from a prompt, a start and end image, up to 10 reference images and 5 reference videos, or an edit of a 2-10 s video | product, UGC ads, fashion, effects and transitions, social vertical, references and edits |
 
-Install one with `npx skills add xsirix/halleyfy-skills --skill halleyfy-video`.
+Install one with the Skills CLI: `npx skills add xsirix/halleyfy-skills --skill halleyfy-video`.
 
 ### Coming from the `halleyfy` skill
 
