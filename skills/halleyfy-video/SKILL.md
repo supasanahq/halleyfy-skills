@@ -158,17 +158,16 @@ Read every guide that matches the job before you write the prompt (a vertical UG
 
 ## Check the clip
 
-To check a clip, look at its frames: `ffmpeg -v error -i <clip>.mp4 -vf "fps=1,scale=480:-1,tile=4x2" -frames:v 1 <clip>-frames.jpg`, then view the JPG. `ffprobe -v error -show_entries format=duration:stream=codec_type -of compact <clip>.mp4` shows the length and whether it has sound.
-
-More checks:
+Watch it, or if you can't, look at its frames and measure it:
 
 ```bash
-ffmpeg -loglevel error -i clip.mp4 -vf fps=1,scale=480:-1,tile=5x2 -frames:v 1 sheet.png
+ffmpeg -y -loglevel error -i clip.mp4 -vf fps=1,scale=480:-1,tile=5x2 -frames:v 1 sheet.png
+ffprobe -v error -show_entries format=duration:stream=codec_type -of compact clip.mp4
 ffmpeg -i clip.mp4 -vf "select='gt(scene,0.1)',showinfo" -f null - 2>&1 | grep -o 'pts_time:[0-9.]*'
 ffmpeg -i clip.mp4 -af volumedetect -f null - 2>&1 | grep -E 'mean_volume|max_volume'
 ```
 
-The first makes a contact sheet of one frame per second. The second prints the moments where the picture jumps: cuts, or a sky or light that suddenly changes; a fast camera move can print too, so look at the frames around each time. The third measures the sound: a mean far below -30 dB means the track is nearly silent.
+The first makes one contact sheet, a frame per second; its 10 cells cover the longest clip. View the PNG. The second shows the length and whether the clip has sound. The second prints the moments where the picture jumps: cuts, or a sky or light that suddenly changes; a fast camera move can print too, so look at the frames around each time. The fourth measures the sound: a mean far below -30 dB means the track is nearly silent.
 
 The sheet is too small for garments, labels and faces: also look at full-size frames before and after the moment (`ffmpeg -ss 5 -i clip.mp4 -frames:v 1 f5.png`). Check what you asked for: the right person and look, the thing that changes changed (and nothing new appeared instead), motion in the last seconds, no drift on the product, no captions nobody asked for. Tell the user what you checked.
 
