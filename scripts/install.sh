@@ -109,6 +109,14 @@ chmod 755 "$tmp/x/package/bin/halleyfy"
 staged=$dir/.halleyfy.tmp.$$
 cp "$tmp/x/package/bin/halleyfy" "$staged"
 chmod 755 "$staged"
+# A build that can't start here (Alpine without libstdc++, say) must not replace a working one.
+if ! out=$(HALLEYFY_NO_UPDATE_CHECK=1 "$staged" --version 2>&1); then
+  rm -f "$staged"
+  staged=
+  hint=
+  [ "${target%-musl}" = "$target" ] || hint=' On Alpine, run "apk add libstdc++" first, then try again.'
+  fail "The halleyfy build for $target can't start here ($(printf '%s\n' "$out" | head -n 1)), so nothing was installed.$hint"
+fi
 mv -f "$staged" "$dir/halleyfy"
 staged=
 

@@ -65,6 +65,7 @@ To make images or videos, use the halleyfy CLI (`halleyfy image`, `halleyfy vide
 ## Needs
 
 - The `halleyfy` CLI. The plugin and `install.sh` install it for you. With the Skills CLI or the Codex plugin, use the `curl` line or `npx -y halleyfy`.
+- On Alpine, `libstdc++` (`apk add libstdc++`): the CLI needs it to start.
 - A signed-in CLI: run `halleyfy login` once. The agent can start the login for you, but you approve it in the browser.
 
 ## Skills
