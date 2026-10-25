@@ -18,6 +18,8 @@ find_cli() {
     [ -n "$d" ] || continue
     real=$(cd "$d" 2>/dev/null && pwd -P) || continue
     [ "$real" = "$self" ] && continue
+    # Another copy of this launcher (a plugin loaded twice) would exec us back forever.
+    [ -e "$real/../scripts/install.sh" ] && continue
     if [ -x "$d/halleyfy" ] && [ ! -d "$d/halleyfy" ]; then
       IFS=$oldifs
       printf '%s' "$d"

@@ -48,13 +48,18 @@ if [ "$os" = darwin ]; then
     target=darwin-arm64
   fi
 else
+  # Trust ldd when it names a libc (Alpine's prints to stderr); the musl loader file
+  # alone proves nothing, since glibc distros can install a musl package too.
   musl=0
   case "$(ldd --version 2>&1 || true)" in
-    *musl*) musl=1 ;;
+    *[Mm]usl*) musl=1 ;;
+    *GNU* | *[Gg][Ll][Ii][Bb][Cc]*) ;;
+    *)
+      for f in /lib/ld-musl-*; do
+        [ -e "$f" ] && musl=1
+      done
+      ;;
   esac
-  for f in /lib/ld-musl-*; do
-    [ -e "$f" ] && musl=1
-  done
   [ "$musl" = 1 ] && target=$target-musl
 fi
 
@@ -67,13 +72,14 @@ cleanup() {
 trap cleanup EXIT
 trap 'exit 1' INT TERM HUP
 
+if ! command -v curl >/dev/null 2>&1 && ! command -v wget >/dev/null 2>&1; then
+  fail "Install curl or wget and try again."
+fi
 download() { # url, output file
   if command -v curl >/dev/null 2>&1; then
     curl -fsSL "$1" -o "$2"
-  elif command -v wget >/dev/null 2>&1; then
-    wget -q -O "$2" "$1"
   else
-    fail "Install curl or wget and try again."
+    wget -q -O "$2" "$1"
   fi
 }
 
