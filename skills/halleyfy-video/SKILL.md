@@ -13,7 +13,7 @@ The model rewrites and plans every prompt before it renders, and it fills in wha
 
 ## Before the first run
 
-1. `command -v halleyfy`. Missing: if `npx` exists, use `npx -y halleyfy` wherever this skill says `halleyfy`. Otherwise tell the user to install it with `curl -fsSL https://halleyfy.amberly.workers.dev/install.sh | sh` and stop.
+1. `command -v halleyfy`. Missing: if `npx` exists, use `npx -y halleyfy` wherever this skill says `halleyfy`. Otherwise tell the user to install it with `curl -fsSL https://halleyfy.com/install.sh | sh` and stop.
 2. `halleyfy whoami --json`. Not logged in: run `halleyfy login --no-wait --json`, give the user its `verification_url` and `user_code`, and after they approve run `halleyfy login --wait --json`. Never type a password or ask for a key.
 3. Read `halleyfy video --help` once: every flag, its allowed values and the live prices.
 

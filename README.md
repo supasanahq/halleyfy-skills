@@ -20,7 +20,7 @@ You get both skills and a `halleyfy` launcher. The launcher installs the CLI the
 For Codex, opencode, Cursor, Copilot and any other agent.
 
 ```bash
-curl -fsSL https://halleyfy.amberly.workers.dev/install.sh | sh
+curl -fsSL https://halleyfy.com/install.sh | sh
 ```
 
 You get the CLI in `~/.local/bin` and the skills in `~/.claude/skills` and `~/.agents/skills`.
