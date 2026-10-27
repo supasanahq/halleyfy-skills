@@ -34,7 +34,7 @@ Show the moment of use: a real place, time of day, the hand or person using it, 
 ## Catalog and marketplace
 
 - Plain seamless white or light grey backdrop, even shadowless light, product filling about 80% of the frame, 1:1.
-- halleyfy can't make transparent PNGs yet. For a cutout, ask for a flat white backdrop and remove it afterwards, or tell the user.
+- For a cutout (the product on nothing, to place on a site or in a layout), add `--transparent` and describe the product alone: "Image 1 is the product: keep it exactly. The product alone, front-on, even soft light, a little space on every side." Leave out any surface or shadow.
 
 ## Effects that sell (one per image)
 
