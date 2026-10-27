@@ -27,7 +27,11 @@ halleyfy image "<brief>" --aspect 4:5 --resolution 2K --json --out ./assets
 - `--resolution`: 1K for drafts, 2K for finals, 4K only when the user asks (print, big screens).
 - `--image <path|file id|url>`, repeatable up to 16: reference images. With at least one, the run edits instead of drawing from scratch. Each extra reference adds to the price (2-4 cost more per image than one, 5-16 more again), so pass only the ones that matter.
 - `--count 2-4` gives small variations of one brief. For real alternatives, change the brief and run again.
-- `--transparent`: a PNG with no background, for logos, icons, stickers, cutouts and anything laid over other content. It costs the same. Describe only the subject, with a little space around it, and leave out the backdrop, floor and cast shadow: a brief that names them fights the flag.
+- `--transparent`: a PNG with no background, for logos, icons, stickers, cutouts and anything laid over other content. It costs the same. The brief decides whether the cutout is clean. A brief that sets a scene (studio light, a product render, a still life, a surface) gets that scene drawn and then cut out badly, which leaves a cloudy haze that shows on any page that isn't white. So:
+  - Describe the object alone, and light it by direction only: "soft light from the upper right".
+  - Ask for it "completely visible and generously padded on every side".
+  - End the brief with this line: `Transparency: an isolated object on actual, fully transparent alpha. No backdrop, no floor, no rectangle, no plinth and no cast shadow.` Glass or water can add "the clear water droplets keep their natural transparency".
+  - When the object needs a shadow, add it in the layout (for example CSS `filter: drop-shadow(...)`), not in the image.
 - The saved paths are in `files` of the JSON. Look at every result before you hand it over, and read any text in it letter by letter.
 
 ## Write the brief

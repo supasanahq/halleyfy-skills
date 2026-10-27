@@ -34,7 +34,7 @@ Show the moment of use: a real place, time of day, the hand or person using it, 
 ## Catalog and marketplace
 
 - Plain seamless white or light grey backdrop, even shadowless light, product filling about 80% of the frame, 1:1.
-- For a cutout (the product on nothing, to place on a site or in a layout), add `--transparent` and describe the product alone: "Image 1 is the product: keep it exactly. The product alone, front-on, even soft light, a little space on every side." Leave out any surface or shadow.
+- For a cutout (the product on nothing, to place on a site or in a layout), add `--transparent`. Describe the product alone, with no surface or studio: "Image 1 is the product: keep it exactly. Front-on, soft light from the left, completely visible and generously padded on every side." End with the transparency line from SKILL.md, and add any shadow in the layout.
 
 ## Effects that sell (one per image)
 
