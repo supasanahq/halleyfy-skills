@@ -12,7 +12,7 @@ allowed-tools:
 ## Before the first run
 
 1. `command -v halleyfy`. Missing: if `npx` exists, use `npx -y halleyfy` wherever this skill says `halleyfy`. Otherwise tell the user to install it with `curl -fsSL https://halleyfy.com/install.sh | sh` and stop.
-2. `halleyfy whoami --json`. Not logged in: run `halleyfy login --no-wait --json`, give the user its `verification_url` and `user_code`, and after they approve run `halleyfy login --wait --json`. Never type a password or ask for a key.
+2. `halleyfy whoami --json`. Not logged in: run `halleyfy login --no-wait --json`, give the user its `verification_url` and `user_code` (the same link signs a new user up), and after they approve run `halleyfy login --wait --json`. Never type a password or ask for a key.
 3. Read `halleyfy image --help` once: every flag, its allowed values and the live prices.
 
 Don't pass `--local` or `--live` unless the user asks.
@@ -93,7 +93,7 @@ Read every guide that matches the job before you write the brief.
 | 1 | Error | Read the message. If it gives a re-run command with `--idempotency-key`, run exactly that: it returns the same job without paying twice. |
 | 2 | Over a cost limit | Tell the user the price and the limit. Don't raise `--max-cost` yourself. |
 | 3 | The job failed, nothing was charged | Retry once, rewording the brief if the message points at it. Fails again: tell the user. |
-| 4 | Not enough balance | Stop. Give the user the billing link from the message. |
+| 4 | Not enough balance | Stop. Tell the user the balance is too low for this run (the message gives the price and what's available) and that a top-up is needed to go on. Only if they want one: ask how much ($10 to $500, at most $100 a day in a new account's first week), run `halleyfy topup <amount> --json` and give them its `checkout_url` to pay in their browser. Run again after they say they've paid. Never ask for card details. |
 
 ## Common mistakes
 
