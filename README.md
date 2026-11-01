@@ -9,7 +9,7 @@ Pick the row that fits you.
 ### Claude Code
 
 ```bash
-claude plugin marketplace add xsirix/halleyfy-skills
+claude plugin marketplace add supasanahq/halleyfy-skills
 claude plugin install halleyfy@halleyfy
 ```
 
@@ -37,7 +37,7 @@ The first line installs the skills. Then put `npx -y` in front of every `halleyf
 ### Codex plugin
 
 ```bash
-codex plugin marketplace add xsirix/halleyfy-skills
+codex plugin marketplace add supasanahq/halleyfy-skills
 ```
 
 You get the skills. The CLI still comes from the `curl` line above.
@@ -45,7 +45,7 @@ You get the skills. The CLI still comes from the `curl` line above.
 ### Skills CLI
 
 ```bash
-npx skills add xsirix/halleyfy-skills
+npx skills add supasanahq/halleyfy-skills
 ```
 
 Works with Claude Code, Codex, Cursor, OpenCode, Gemini CLI and the other agents the [Skills CLI](https://github.com/vercel-labs/skills) supports. Add `-g` to install it for every project. You get the skills only.
@@ -75,11 +75,11 @@ To make images or videos, use the halleyfy CLI (`halleyfy image`, `halleyfy vide
 | [`halleyfy-image`](skills/halleyfy-image/SKILL.md) | Images: text to image, editing with up to 16 reference images | product, UGC, fashion and beauty, ads and text, video start frames, consistency across a set |
 | [`halleyfy-video`](skills/halleyfy-video/SKILL.md) | 3-10 s videos with sound, from a prompt, a start and end image, up to 10 reference images and 5 reference videos, or an edit of a 2-10 s video | product, UGC ads, fashion, effects and transitions, social vertical, references and edits |
 
-Install one with the Skills CLI: `npx skills add xsirix/halleyfy-skills --skill halleyfy-video`.
+Install one with the Skills CLI: `npx skills add supasanahq/halleyfy-skills --skill halleyfy-video`.
 
 ### Coming from the `halleyfy` skill
 
-The single `halleyfy` skill is now `halleyfy-image` and `halleyfy-video`. `npx skills update` offers to remove the old one but doesn't add the new ones: run `npx skills add xsirix/halleyfy-skills` again.
+The single `halleyfy` skill is now `halleyfy-image` and `halleyfy-video`. `npx skills update` offers to remove the old one but doesn't add the new ones: run `npx skills add supasanahq/halleyfy-skills` again.
 
 ## License
 
