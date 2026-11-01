@@ -93,7 +93,7 @@ Read every guide that matches the job before you write the brief.
 | 1 | Error | Read the message. If it gives a re-run command with `--idempotency-key`, run exactly that: it returns the same job without paying twice. |
 | 2 | Over a cost limit | Tell the user the price and the limit. Don't raise `--max-cost` yourself. |
 | 3 | The job failed, nothing was charged | Retry once, rewording the brief if the message points at it. Fails again: tell the user. |
-| 4 | Not enough balance | Stop. Tell the user the balance is too low for this run (the message gives the price and what's available) and that a top-up is needed to go on. Only if they want one: ask how much ($10 to $500, at most $100 a day in a new account's first week), run `halleyfy topup <amount> --json` and give them its `checkout_url` to pay in their browser. Run again after they say they've paid. Never ask for card details. |
+| 4 | Not enough balance | Stop. Tell the user the balance is too low for this run (the message gives the price and what's available) and that a top-up is needed to go on. Only if they want one: ask how much ($10 to $500, at most $100 a day in a new account's first week), run `halleyfy topup <amount> --json` and give them its `approve_url`. They approve it in their browser: one tap with a saved card, or they pay on Stripe's page. Then run `halleyfy topup --wait --json` (run it again if it times out); `status` `paid` means the money is in, so run again. Never ask for card details. |
 
 ## Common mistakes
 
