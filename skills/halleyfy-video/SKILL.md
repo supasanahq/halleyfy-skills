@@ -155,6 +155,7 @@ Read every guide that matches the job before you write the prompt (a vertical UG
 | Transformations, reveals, freezes, transitions, loops | `references/effects-and-transitions.md` |
 | Reels, TikToks, Shorts, vertical hooks | `references/social-vertical.md` |
 | Reference images and videos, motion transfer, editing a clip | `references/edits-and-references.md` |
+| Watching a video, finding a moment, checking a clip, cutting with ffmpeg | `references/watching-and-editing.md` |
 
 ## Check the clip
 
@@ -197,6 +198,10 @@ Videos are priced per second, so many cost more than $1.
 | 2 | Over a cost limit | Tell the user the price and the limit. Don't raise `--max-cost` yourself. |
 | 3 | The job failed, nothing was charged | Retry once, rewording the prompt if the message points at it. Fails again: tell the user. |
 | 4 | Not enough balance | Stop. Tell the user the balance is too low for this run (the message gives the price and what's available) and that a top-up is needed to go on. Only if they want one: ask how much ($10 to $500, at most $100 a day in a new account's first week), run `halleyfy topup <amount> --json` and give them its `approve_url`. They approve it in their browser: one tap with a saved card, or they pay on Stripe's page. Then run `halleyfy topup --wait --json` (run it again if it times out); `status` `paid` means the money is in, so run again. Never ask for card details. |
+
+## Before you hand it over
+
+Watch every video you made before handing it over: run `halleyfy watch <file>`, look at its sheet and read its transcript. If the picture or the speech is wrong, fix it before showing it.
 
 ## Common mistakes
 
