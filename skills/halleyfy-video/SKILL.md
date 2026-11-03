@@ -159,7 +159,9 @@ Read every guide that matches the job before you write the prompt (a vertical UG
 
 ## Check the clip
 
-Watch it, or if you can't, look at its frames and measure it:
+`halleyfy watch clip.mp4` shows it to you: contact sheets with times, a transcript with word times, shots and loudness. How to read them, look closer at a moment and cut: `references/watching-and-editing.md`.
+
+If you can't run `watch`, look at its frames and measure it:
 
 ```bash
 ffmpeg -y -loglevel error -i clip.mp4 -vf fps=1,scale=480:-1,tile=5x2 -frames:v 1 sheet.png
@@ -202,6 +204,11 @@ Videos are priced per second, so many cost more than $1.
 ## Before you hand it over
 
 Watch every video you made before handing it over: run `halleyfy watch <file>`, look at its sheet and read its transcript. If the picture or the speech is wrong, fix it before showing it.
+
+If `watch` can't run, don't skip the check without a word:
+
+- Not enough balance (exit 4): look at the picture for free with `halleyfy watch <file> --at 0-<its length in seconds>`, and tell the user the speech wasn't checked and why. Offer a top-up as in the exit-code table.
+- `ffmpeg_missing`: tell the user ffmpeg is needed and ask how to get it (see ffmpeg in `references/watching-and-editing.md`). Until then, say the video wasn't watched.
 
 ## Common mistakes
 

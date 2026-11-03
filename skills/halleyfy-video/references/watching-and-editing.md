@@ -13,7 +13,7 @@ It takes a local video file or a video job id (`job_…`), up to 2 hours, and wr
 Read in this order:
 
 1. **`summary.md` first.** Length, size, sound, which sheet covers which times, every shot, the loudest moments, the quiet gaps, the motion spikes and the sound events. Its "Look closer" block has ready-to-run commands with this video's real times.
-2. **The sheets it names**, `sheets/1.jpg`, `sheets/2.jpg` …: 25 tiles each, the time in each tile's top-left corner, a loudness strip under each tile, and a yellow bar on the first tile of each shot.
+2. **The sheets it names**, `sheets/1.jpg`, `sheets/2.jpg` …: up to 25 tiles each (24 for portrait video), the time in each tile's top-left corner, a loudness strip under each tile, and a yellow bar on the first tile of each shot.
 3. **`transcript.md`**: one line per phrase, `[m:ss.s] S1: text`. S1, S2 … are the speakers in the order they first speak. Sound events like `(laughter)` or `(applause)` are on their own line.
 
 The other files:
@@ -67,10 +67,10 @@ halleyfy watch ./talk.mp4 --ask "When does the speaker first hold up the bottle?
 3. **Cut, re-encoding** so the cut lands exactly on those times:
 
    ```bash
-   ffmpeg -y -ss 14.80 -to 18.30 -i in.mp4 -c:v libx264 -c:a aac out.mp4
+   ffmpeg -y -ss 14.80 -to 18.30 -i in.mp4 -c:v libx264 -pix_fmt yuv420p -c:a aac out.mp4
    ```
 
-   `-c copy` would be faster, but it can only start on a keyframe, so the cut starts early or late.
+   `-c copy` would be faster, but it can only start on a keyframe, so the cut starts early or late. `-pix_fmt yuv420p` keeps the cut playable everywhere, phones and browsers included.
 4. **Check the cut:**
    - `ffprobe -v error -show_entries format=duration -of csv=p=0 out.mp4`: the length should be end minus start, give or take a frame.
    - `halleyfy watch out.mp4 --at 0-3.5` (free), with the cut's length as the span's end: a sheet of the whole cut, to see it starts and ends on the right picture. Its `.md` lists the cuts inside: one in the first or last few tenths of a second means a sliver of another shot got in.
