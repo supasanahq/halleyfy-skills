@@ -53,7 +53,7 @@ For people, give framing ("full body, feet included"), gaze, and how hands touch
 ## Edit with reference images
 
 - The order of `--image` flags is Image 1, Image 2 and so on. Name each one's role in the brief: "Image 1 is the product: keep its shape, cap, colors and label exactly. Image 2 is the lighting reference."
-- Say what changes, then what stays: "Change only the background to a sunlit kitchen. Keep the bottle, its label, the camera angle and the framing."
+- Say what changes, then what stays: "Change only the background to a sunlit kitchen. Keep the bottle, its label, the camera angle and the framing." New camera angles of the same product or scene turn this around: the camera changes and the rest stays (`references/angles.md`).
 - One change per run. For a series, start every image from the same clean references, not from the last output: each pass adds a little sharpening and color drift. An approved image may join as a style reference ("Image 2 shows the look to match"); the product or person still comes from the original reference.
 - A real person from a photo (usually the user themselves): "Image 1 is the person: keep their face, identity, skin tone and hair exactly." Only with the person's own photo or their clear permission; never public figures or strangers.
 
@@ -69,6 +69,7 @@ Read every guide that matches the job before you write the brief.
 | Ads, posters, social posts or thumbnails with a headline | `references/ads-and-text.md` |
 | A frame that `halleyfy video --image` will animate | `references/start-frames.md` |
 | The same product or character across a set | `references/consistency.md` |
+| Other angles of one product or scene: product page views, storyboard shots | `references/angles.md` |
 
 ## Finding past results
 
@@ -80,10 +81,10 @@ Read every guide that matches the job before you write the brief.
 
 | Situation | Do this |
 |---|---|
-| User gave a budget | Pass `--max-cost <budget>` and run. |
+| User gave a budget | Pass `--max-cost <budget>` and run. It caps each run, so for a batch pass the budget divided by the number of runs. |
 | No budget, the run costs $1 or less | Run it. |
 | No budget, the run or the whole batch may cost more than $1 (`--count`, 4K, several images) | `--dry-run --json` one run, multiply by the number of runs, tell the user the total, run only after a yes. |
-| Several runs | Start each with `--no-wait --json`, collect with `halleyfy job <id> --wait --json --out <dir>`. |
+| Several runs | Start each with `--no-wait --json`, collect with `halleyfy job <id> --wait --json --out <dir>`. Pass a reference used by every run as the `file_…` id its first upload printed (a result's `outputs[].id` works too), so it uploads once. A key can have 10 jobs queued or running; one more exits 1 with `rate_limited`: wait `retry_after` seconds and start it again. |
 
 ## Exit codes
 
