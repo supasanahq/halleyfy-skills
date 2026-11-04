@@ -129,7 +129,7 @@ After a voice swap with `revoice --clean`, run `sound --video` on the new clip. 
 
 - **A bed under a video:** `halleyfy music "<style>"` is an instrumental. `--seconds <n>` cuts it to a short one.
 - **A song with words, for a reel:** `--lyrics-file song.txt` sings the user's words. The prompt sets the style, and `--vocals female` or `male` picks the voice.
-- **A song when the user has no words:** `--vocals any`. The model writes the words. It costs more than a song from lyrics, so quote it with `--dry-run` first and tell the user the price.
+- **A song when the user has no words:** `--vocals any`. The model writes the words. It costs more than a song from lyrics: run `--dry-run`, tell the user the price, then run it. It needs a yes only when the run or the batch is over $1 (see "Spending").
 - **A score fitted to a clip:** `halleyfy music --video clip.mp4 "<style>"`. It saves the music (.mp3) and the clip with the music mixed 12 dB under its own sound. `--replace` makes the music the clip's only sound: use it only when the clip has no speech worth keeping.
 
 Describe the music the way a producer would: genre, mood, tempo in bpm, instruments, era and how it builds. `sound --video` is the other way to a soundtrack: it makes room sound and effects that match the picture, and `music --video` makes music. `references/music.md` has the prompts, the lyrics format and the prices.
@@ -157,7 +157,7 @@ Check every result before handing it over, and read what it says.
 ffmpeg -f lavfi -i color=black:s=320x240:r=1 -i line.mp3 -t "$(ffprobe -v error -show_entries format=duration -of csv=p=0 line.mp3)" -c:v libx264 -tune stillimage -pix_fmt yuv420p -c:a aac check.mp4 && halleyfy watch check.mp4
 ```
 
-Ignore the black sheets. Read `transcript.md` against the script (for a song, the lyrics): every word there, in order; a name said the way you meant; a tag showing as a laugh or a sigh (a line like `(laughter)` or `([chuckles])`) and not as spoken text; the end not cut off. Add `--language <code>` to `watch` for a line that is not English. The summary also shows the length, the loudest moments and the quiet gaps: a voice with long gaps where the text has none, or one that is nearly silent, needs another take. Tell the user what you checked.
+Ignore the black sheets. Read `transcript.md` against the script (for a song, the lyrics): every word there, in order; a name said the way you meant; a tag showing as a laugh or a sigh (a line like `(laughter)` or `([chuckles])`) and not as spoken text; the end not cut off. Add `--language <code>` to `watch` for a line that is not English. The summary also shows the length, the loudest moments and the quiet gaps: a voice with long gaps where the text has none, or one that is nearly silent, needs another take. A song transcript that shows only tags like `(music)` and no words is inconclusive, not a fail: say so to the user, and don't take it again on that alone. Tell the user what you checked.
 
 ## Finding past results
 
@@ -221,4 +221,4 @@ If `watch` can't run, don't skip the check without a word:
 - Expecting `--seconds` to give a song its exact length: it is the length the model aims for, and songs often run longer. Measure the file. For an instrumental, `--seconds` is a real cut.
 - `--replace` on a clip with someone talking: it removes the speech. Leave it off, and the music goes 12 dB under the clip's sound.
 - `music` ends with `ffmpeg_failed` after the job is done: the job is charged, and the message names the saved files. Don't run it again (it pays twice). Mix or cut the saved .mp3 with the ffmpeg commands in `references/music.md`.
-- A song from a prompt run without a quote: it costs $0.65, over three times a song from lyrics. `--dry-run` first.
+- A song from a prompt run without a quote: it costs $0.65, over three times a song from lyrics. `--dry-run` first, tell the user the price, then run it.

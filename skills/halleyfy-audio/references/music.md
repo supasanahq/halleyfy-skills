@@ -15,7 +15,7 @@ Four jobs, four prices. A price is per track and is the most a run can cost. The
 
 - **An instrumental** is for under a video. It comes back at its own length, a few minutes (217 s in one check). `--seconds <n>` cuts it to a short bed (see "A short bed").
 - **A song from lyrics** is for when the words matter. They are sung as you wrote them, and the prompt sets the style.
-- **A song from a prompt** is for a person who wants a song and has no words. The model writes the words. It costs more than three times a song from lyrics: run `--dry-run` first and tell the user the price.
+- **A song from a prompt** is for a person who wants a song and has no words. The model writes the words. It costs more than three times a song from lyrics: run `--dry-run`, tell the user the price, then run it.
 - **A score for a clip** is made for that clip: it runs as long as the clip and the CLI mixes it in.
 - **Vocals.** `--vocals female` or `male` need lyrics, and are refused without them. `--vocals any` is the only way to a song from a prompt alone: describe the voice in the prompt ("a warm female vocal").
 - **Song length.** A song is 120 to 300 seconds. `--seconds 120` to `300` is the length it aims for, and songs often run longer (asked for 120, one came back at 228). With lyrics and no `--seconds`, the lyrics decide. Measure the file, and don't plan a cut on the exact second.
@@ -115,14 +115,14 @@ The mix puts the music 12 dB under the clip's own sound. For another level, mix 
 ffmpeg -y -i clip.mp4 -i <job id>-0.mp3 -filter_complex "[1:a]volume=-18dB,afade=t=out:st=8:d=2[m];[0:a][m]amix=inputs=2:duration=first:normalize=0[a]" -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k out.mp4
 ```
 
-- `volume=-18dB` turns the music down by 18 dB. A bigger number is quieter: -12 is the CLI's mix, -18 keeps every word clear, -6 is louder.
-- On a mono clip (`ffprobe` shows `channels=1`) the stereo music is mixed down to mono, which adds about 3 dB. The music then lands 3 dB louder than the number: use `-21dB` for the level `-18dB` names.
+- `volume=-18dB` turns the music down by 18 dB. A bigger number is quieter: -12 is the CLI's mix, -18 is a good start under speech, -6 is louder. Check the result (see "Before handing it over"), and move the number if a word is buried.
+- On a mono clip the stereo music is mixed down to mono, which adds up to about 3 dB (it depends on how much of the music sits in the middle of the stereo image; one track measured 2.7 dB). The music then lands up to 3 dB louder than the number: use about `-21dB` for the level `-18dB` names. To tell a mono clip, `ffprobe -v error -select_streams a:0 -show_entries stream=channels -of csv=p=0 clip.mp4` prints `1`.
 - `normalize=0` keeps each sound at its own level; without it `amix` turns every input down by the number of inputs. `duration=first` ends the mix with the clip.
 - Give `out` the clip's own extension: `out.mov` for a `.mov` clip.
-- A clip with no sound track has no `[0:a]`. Take the music alone, and let the clip's length end it:
+- A clip with no sound track has no `[0:a]`. Take the music alone. `apad` pads the music with silence, so a clip longer than the music keeps its whole picture, and `-t` ends the file at the clip's length (`st` is that minus 2; get the length with the `ffprobe` command in "Before handing it over"). Here the clip is 10 seconds:
 
 ```bash
-ffmpeg -y -i silent.mp4 -i <job id>-0.mp3 -filter_complex "[1:a]volume=-6dB,afade=t=out:st=8:d=2[a]" -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -shortest out.mp4
+ffmpeg -y -i silent.mp4 -i <job id>-0.mp3 -filter_complex "[1:a]volume=-6dB,afade=t=out:st=8:d=2,apad[a]" -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -t 10 out.mp4
 ```
 
 ## Cutting a long track on a quiet moment
@@ -148,7 +148,7 @@ ffmpeg -y -i track.mp3 -t 62 -af "afade=t=out:st=60:d=2" -c:a libmp3lame -b:a 19
 You can't listen to it, so measure it and read it.
 
 1. **Length.** `ffprobe -v error -show_entries format=duration -of csv=p=0 <file>`. A trimmed instrumental is its `--seconds`. A soundtrack `.mp4`, or your own re-mix, is the clip's length give or take a frame. A song is whatever it came to: say how long.
-2. **A song's words.** Wrap the .mp3 in a black video and watch it, the way SKILL.md's "Check the result" says. Read `transcript.md` against the lyrics: the lines in order, the chorus coming back. A word or two off in singing isn't a fail. A missing or swapped verse is a fail: tell the user what another take would cost before you run one.
+2. **A song's words.** Wrap the .mp3 in a black video and watch it, the way SKILL.md's "Check the result" says. Read `transcript.md` against the lyrics: the lines in order, the chorus coming back. A word or two off in singing isn't a fail. A missing or swapped verse is a fail: tell the user what another take would cost before you run one. A transcript that shows only tags like `(music)` and no words is inconclusive, not a fail: say so to the user, and don't take it again on that alone.
 3. **A mixed clip.** `halleyfy watch <file>`. The speech from the clip should still be in the transcript, every word in order, with the music under it. A word that went missing or got buried means the music is too loud: mix again with a lower `volume` (see "Another level").
 4. **An instrumental has no words**, so there is no transcript to read. Check that it isn't silent, for free:
 
