@@ -142,7 +142,7 @@ Each command bills by what it works on. Most runs cost far less than $1.
 | Command | Billed | Roughly |
 |---|---|---|
 | `speak` | per character of text | $0.104 per 1,000 characters: a full 5,000-character part is about 52 cents |
-| `revoice` | per second of the sound, in whole started minutes (a 10-second clip costs a minute), up to 5 minutes | about 40 cents a minute |
+| `revoice` | per second of the sound, at least a minute (a 10-second clip costs a minute), up to 5 minutes | about 40 cents a minute |
 | `isolate` | per second of the sound, up to 60 minutes | about 13 cents a minute |
 
 `--dry-run` shows the exact price. For `revoice` and `isolate` it uploads the sound first (uploads are free) so the price can use its length.
