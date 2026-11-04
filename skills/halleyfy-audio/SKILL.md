@@ -1,6 +1,6 @@
 ---
 name: halleyfy-audio
-description: Use when the user needs a voiceover, narration, a line read aloud, a different voice on a recording or clip, or a clean voice out of a noisy recording, or mentions halleyfy speak, revoice or isolate.
+description: Use when the user needs a voiceover, narration, a line read aloud, a different voice on a recording or clip, or a clean voice out of a noisy recording, or needs a sound effect, an ambience loop, or a soundtrack for a silent or generated clip, or mentions halleyfy speak, revoice, isolate or sound.
 allowed-tools:
   - Bash(halleyfy *)
 ---
@@ -13,17 +13,19 @@ Three commands work with a voice:
 - `halleyfy revoice` says a recording's words again in another voice, with the same timing. From a video it also saves the video with the new voice.
 - `halleyfy isolate` pulls a clean voice out of noisy sound or a video.
 
+A fourth, `halleyfy sound`, makes sound effects and soundtracks (see "Sound effects").
+
 halleyfy picks the model. You write the line and choose the voice. The voice reads the words you give it, so the text is the whole brief: write it the way it is said, with the pauses and the delivery you want.
 
 ## Before the first run
 
 1. `command -v halleyfy`. Missing: if `npx` exists, use `npx -y halleyfy` wherever this skill says `halleyfy`. Otherwise tell the user to install it with `curl -fsSL https://halleyfy.com/install.sh | sh` and stop.
 2. `halleyfy whoami --json`. Not logged in: run `halleyfy login --no-wait --json`, give the user its `verification_url` and `user_code` (the same link signs a new user up), and after they approve run `halleyfy login --wait --json`. Never type a password or ask for a key.
-3. Read `halleyfy speak --help` once: every flag, the voices and the live price. Read `revoice --help` or `isolate --help` before the first run of either.
+3. Read `halleyfy speak --help` once: every flag, the voices and the live price. Read `revoice --help`, `isolate --help` or `sound --help` before the first run of any of them.
 
 Don't pass `--local` or `--live` unless the user asks.
 
-`revoice` and `isolate` take sound from a video with ffmpeg, and the checks and joins below use it too. If a command stops with `ffmpeg_missing`, tell the user ffmpeg is needed and ask which way they want to get it: `brew install ffmpeg` (macOS), `sudo apt install ffmpeg` (Debian, Ubuntu), or `halleyfy ffmpeg install` (a checked copy for halleyfy only, about 80 MB, in `~/.config/halleyfy/bin`; write `~/.config/halleyfy/bin/ffmpeg` and `~/.config/halleyfy/bin/ffprobe` in the commands below instead of `ffmpeg` and `ffprobe`). Run the one they pick only after a yes. `speak` alone needs no ffmpeg.
+`revoice` and `isolate` take sound from a video with ffmpeg, `sound --video` puts the soundtrack on the clip with it, and the checks and joins below use it too. If a command stops with `ffmpeg_missing`, tell the user ffmpeg is needed and ask which way they want to get it: `brew install ffmpeg` (macOS), `sudo apt install ffmpeg` (Debian, Ubuntu), or `halleyfy ffmpeg install` (a checked copy for halleyfy only, about 80 MB, in `~/.config/halleyfy/bin`; write `~/.config/halleyfy/bin/ffmpeg` and `~/.config/halleyfy/bin/ffprobe` in the commands below instead of `ffmpeg` and `ffprobe`). Run the one they pick only after a yes. `speak`, and `sound` with only a prompt, need no ffmpeg.
 
 ## Every run
 
@@ -36,7 +38,7 @@ halleyfy speak "<text>" --voice Rachel --json --out ./audio
 - `--language <code>`: a 2-letter code like `en`, `de` or `ja`. See "Write the line".
 - Files are saved in `--out` as `<job id>-<n>.mp3`. stdout is one absolute path per line; the cost goes to stderr. With `--json`, the paths are in `files` and the price is `cost_usd`. Use those paths in the next command.
 - `--dry-run` prints the price and runs nothing. Use it first on anything long.
-- Not available yet: sound effects, music, and a voice copied from a recording. If the user needs one of these, say so.
+- Not available yet: music, and a voice copied from a recording. If the user needs one of these, say so.
 
 ## Which command
 
@@ -45,6 +47,7 @@ halleyfy speak "<text>" --voice Rachel --json --out ./audio
 | Words to speech: a voiceover, narration, a line | `speak` |
 | The same words in a new voice, keeping the timing (so lips still match) | `revoice <source> --voice <name>` |
 | A clean voice out of noise, wind, music or a room | `isolate <source>` |
+| A sound effect, an ambience loop, or a soundtrack for a silent or generated clip | `sound` |
 
 `<source>` for `revoice` and `isolate` is a sound file (.mp3, .wav or .m4a), a video file (.mp4 or .mov), or a `file_…` id (the id of a sound; `isolate` also takes the id of a video). From a local video, only its sound is uploaded; the picture stays on this machine.
 
@@ -108,6 +111,17 @@ Each run is a new take, so a re-run of one part gives it a slightly different de
 
 A recording longer than 5 minutes for `revoice`: cut its sound into pieces (`ffmpeg -i long.mp3 -f segment -segment_time 290 -c copy part%02d.mp3`), revoice each with the same voice, and join them the same way.
 
+## Sound effects
+
+`halleyfy sound` makes sound that isn't a voice:
+
+- `halleyfy sound "<what it sounds like>" --seconds <0.5-30>` gives one sound to drop in at a moment: a door, rain, footsteps. `--loop` makes it repeat without a seam, for ambience under a scene.
+- `halleyfy sound --video <clip>` gives a whole soundtrack that matches the picture and keeps the speech. It saves the soundtrack (.mp3) and, for a local clip, the clip with it on (.mp4).
+
+Describe what a microphone would pick up: the source, the action, the material, the space and the distance. "A heavy oak door slams shut in a stone hallway, short echo, close" beats "an epic door sound". Put an effect in at its moment with ffmpeg; `references/sound-effects.md` has the prompts and the commands.
+
+After a voice swap with `revoice --clean`, run `sound --video` on the new clip. It rebuilds the room sound and effects around the new voice.
+
 ## Use-case guides
 
 Read the guide when the job matches.
@@ -115,12 +129,13 @@ Read the guide when the job matches.
 | Making | Read |
 |---|---|
 | A voiceover for a video, swapping the voice of a clip, one narration in several languages, cleaning a noisy recording | `references/voice.md` |
+| Sound effects, ambience loops, a soundtrack for a silent or generated clip | `references/sound-effects.md` |
 
 ## Check the result
 
 Check every result before handing it over, and read what it says.
 
-- A revoiced `.mp4`: `halleyfy watch <file>`.
+- A revoiced `.mp4`, or a clip with a soundtrack or effects: `halleyfy watch <file>` (for effects, `references/sound-effects.md` says how to check where they land).
 - An `.mp3`: `halleyfy watch` reads videos, so wrap the sound in a black video first, then watch that:
 
 ```bash
@@ -144,8 +159,10 @@ Each command bills by what it works on. Most runs cost far less than $1.
 | `speak` | per character of text | $0.104 per 1,000 characters: a full 5,000-character part is about 52 cents |
 | `revoice` | per second of the sound, at least a minute (a 10-second clip costs a minute), up to 5 minutes | about 40 cents a minute |
 | `isolate` | per second of the sound, up to 60 minutes | about 13 cents a minute |
+| `sound` (an effect) | per second of the effect, 0.5 to 30 | about $0.0026 a second: 5 seconds is $0.013 |
+| `sound --video` | per second of video, for each variation | about $0.013 a second: a 10-second clip is $0.13 |
 
-`--dry-run` shows the price: the most the run can cost. The charge is what the model really cost plus halleyfy's margin, never more than that. For `revoice` and `isolate` it uploads the sound first (uploads are free) so the price can use its length.
+`--dry-run` shows the price: the most the run can cost. The charge is what the model really cost plus halleyfy's margin, never more than that. For `revoice`, `isolate` and `sound --video` it uploads the sound or video first (uploads are free) so the price can use its length.
 
 | Situation | Do this |
 |---|---|
@@ -182,5 +199,6 @@ If `watch` can't run, don't skip the check without a word:
 - Numbers, dates and symbols written as digits and signs ("3.5%", "03/04"): the voice may read them in a way you didn't mean. Write them as they are said.
 - A hard name left as plain letters when it came out wrong: write it in IPA between slashes.
 - A short or mixed-language line with no `--language`: it may come out in the wrong language.
+- Five sounds in one `sound` prompt, or a mood word like "epic": the sounds blur together, since each gets a fraction of the clip and the mood names no sound. Describe one sound at a time, with its source, action, material, space and distance, and place each in with ffmpeg.
 - A voiceover longer than the clip it goes on: measure the .mp3 with `ffprobe` before mixing, and shorten the text, not the speed.
 - Handing over an .mp3 unheard: wrap it in a black video and read its transcript first.
