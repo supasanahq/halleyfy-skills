@@ -156,6 +156,7 @@ Read every guide that matches the job before you write the prompt (a vertical UG
 | Reels, TikToks, Shorts, vertical hooks | `references/social-vertical.md` |
 | Reference images and videos, motion transfer, editing a clip | `references/edits-and-references.md` |
 | Watching a video, finding a moment, checking a clip, cutting with ffmpeg | `references/watching-and-editing.md` |
+| Voices, sound effects and music | the `halleyfy-audio` skill |
 
 ## Check the clip
 
