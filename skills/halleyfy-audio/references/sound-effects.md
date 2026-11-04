@@ -113,7 +113,7 @@ ffprobe -v error -show_entries format=duration -of csv=p=0 door.mp3
 ffmpeg -i door.mp3 -af volumedetect -f null - 2>&1 | grep -E 'mean_volume|max_volume'
 ```
 
-The length should be the `--seconds` you asked for (2.000 for the door slam). A `mean_volume` and `max_volume` far above -91 dB mean there is sound in it; -91 dB is silence. A take that is silent or the wrong length: run it again.
+The length should be within about 0.05 s of the `--seconds` you asked for (2.0 for the door slam; a 2.5 s effect can come back 2.48 s). A `mean_volume` and `max_volume` far above -91 dB mean there is sound in it; -91 dB is silence. A take that is silent or farther off than that: run it again.
 
 **2. The mixed clip, around the effect's time** (here the door at 2.35 s):
 

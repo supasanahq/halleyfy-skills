@@ -188,7 +188,7 @@ Run the check above on every file you made, read what it says (the transcript, f
 
 If `watch` can't run, don't skip the check without a word:
 
-- Not enough balance (exit 4): measure the file for free (`ffprobe` for the length, `ffmpeg -i line.mp3 -af volumedetect -f null - 2>&1 | grep -E 'mean_volume|max_volume'` for the level), tell the user the words weren't checked and why, and offer a top-up as in the exit-code table.
+- Not enough balance (exit 4): measure the file for free (`ffprobe` for the length, `ffmpeg -i line.mp3 -af volumedetect -f null - 2>&1 | grep -E 'mean_volume|max_volume'` for the level), tell the user the sound wasn't checked and why, and offer a top-up as in the exit-code table.
 - `ffmpeg_missing`: ask how to get ffmpeg (see "Before the first run"). Until then, say the sound wasn't checked.
 
 ## Common mistakes
