@@ -1,6 +1,6 @@
 # Sound effects: one sound, an ambience loop, a soundtrack for a clip
 
-For the sounds a clip needs and nobody recorded: a door, rain, footsteps, a room's hum, or a whole soundtrack under a silent or generated clip. `halleyfy sound` makes one effect from a sentence, or a soundtrack from what a clip shows. ffmpeg then lays the result into the clip. Check every result with `halleyfy watch` before handing it over (see "Listen before handing it over").
+For the sounds a clip needs and nobody recorded: a door, rain, footsteps, a room's hum, or a whole soundtrack under a silent or generated clip. `halleyfy sound` makes one effect from a sentence, or a soundtrack from what a clip shows. ffmpeg then lays the result into the clip. Check every result before handing it over (see "Listen before handing it over").
 
 ## Describe a sound
 
@@ -20,7 +20,7 @@ halleyfy sound "a heavy oak door slams shut in a stone hallway, short echo, clos
 
 - `--seconds` is the length, 0.5 to 30 (default 5). Give a sound the time it takes in life: a door slam is about 2 seconds, a thunder roll 6 to 8.
 - The file is saved in `--out` as `<job id>-0.mp3`. stdout is its absolute path; the cost goes to stderr. With `--json`, the path is in `files` and the price is `cost_usd`.
-- A take you don't like: run it again. Each run is a new take and costs a fraction of a cent. When two takes miss in the same way, change the words.
+- A take you don't like: run it again. Each run is a new take and costs about a cent (about half a cent for a 2-second effect). When two takes miss in the same way, change the words.
 
 ## Prompts that land
 
@@ -34,7 +34,7 @@ Short, with a reason each one works:
 
 Why a word like "epic" or "cinematic" gives a muddy sound: it names a feeling, not a sound. Hundreds of different sounds fit it, and the result is the average of them, general and blurred. Say what makes the feeling (prompt 4) and the sound follows.
 
-Why a list of five sounds in one prompt is muddy for another reason: they are mixed into one sound, share the same seconds and mask each other, so none is clean. For five sounds, make five effects (each costs a fraction of a cent) and place each at its own time (see "Several effects at exact times"). Then you can also move one, or turn one down, without making the rest again.
+Why a list of five sounds in one prompt is muddy for another reason: they are mixed into one sound, share the same seconds and mask each other, so none is clean. For five sounds, make five effects (each costs about a cent) and place each at its own time (see "Several effects at exact times"). Then you can also move one, or turn one down, without making the rest again.
 
 ## Loops
 
@@ -93,7 +93,7 @@ halleyfy sound --video clip.mp4 --out ./sound --json
 
 **`--no-speech`** is for a clip whose old dialogue should go: a voice you will replace with a `speak` voiceover, or speech that is wrong. Without it the speech stays.
 
-**`--variations 2`** makes two soundtracks to pick from (up to 4), each billed. They are saved as `<job id>-0` and `<job id>-1`, an .mp3 and an .mp4 each. Look at each with `halleyfy watch <file> --at <span>` and pick one.
+**`--variations 2`** makes two soundtracks to pick from (up to 4), each billed. They are saved as `<job id>-0` and `<job id>-1`, an .mp3 and an .mp4 each (a `file_…` clip gets only the .mp3 files). Look at each with `halleyfy watch <file> --at <span>` and pick one.
 
 ## Costs
 
@@ -104,22 +104,39 @@ halleyfy sound --video clip.mp4 --out ./sound --json
 
 ## Listen before handing it over
 
-You can't play a clip, so measure it and read it:
+You can't play a clip, so measure it and read it. Three steps, the first two free.
+
+**1. An effect on its own, before you mix it in.** It has no words, so there is no transcript to read: check its length and that it isn't silent.
+
+```bash
+ffprobe -v error -show_entries format=duration -of csv=p=0 door.mp3
+ffmpeg -i door.mp3 -af volumedetect -f null - 2>&1 | grep -E 'mean_volume|max_volume'
+```
+
+The length should be the `--seconds` you asked for (2.000 for the door slam). A `mean_volume` and `max_volume` far above -91 dB mean there is sound in it; -91 dB is silence. A take that is silent or the wrong length: run it again.
+
+**2. The mixed clip, around the effect's time** (here the door at 2.35 s):
 
 ```bash
 ffprobe -v error -show_entries stream=codec_type,codec_name,duration -of compact out.mp4
-halleyfy watch out.mp4 --at 1-2.5
-ffmpeg -ss 1.4 -t 0.6 -i out.mp4 -vn -af volumedetect -f null - 2>&1 | grep -E 'mean_volume|max_volume'
-halleyfy watch out.mp4
+halleyfy watch out.mp4 --at 2-3
+ffmpeg -ss 2.3 -t 0.5 -i clip.mp4 -vn -af volumedetect -f null - 2>&1 | grep -E 'mean_volume|max_volume'
+ffmpeg -ss 2.3 -t 0.5 -i out.mp4 -vn -af volumedetect -f null - 2>&1 | grep -E 'mean_volume|max_volume'
 ```
 
 - **`ffprobe`**: one video stream and one aac stream, as long as the clip give or take a frame.
-- **`watch --at` (free)** around the effect's time. The loudness strip under each tile and the span's loudest seconds hold one value per second, so they show a sound that fills most of a second or lands in a quiet moment: a bed, a thunder roll, a door in a silent clip (its second is the loudest). A short hit under loud speech doesn't move them.
-- **`volumedetect` on a short window around the effect (free)**, run on the original clip and on the result. Over the effect's window, the result's `mean_volume` should be higher than the original's. Its `max_volume` should stay under 0 dB: at 0.0 the mix clips, so turn the effect, or the clip's own sound, down with `volume`.
-- **`watch` on the whole result** (paid, like any `watch`): `summary.md` lists the loudest moments, and `transcript.md` should still hold the speech, every word in order and clear. A word that went missing or got buried means the effect or the bed is too loud: mix again with a lower `volume`.
-- With soundtracks from `--variations`, check each one.
+- **`watch --at` (free).** The sheet's loudness strip is drawn in 0.1 second steps, but it is short, so a few dB on top of loud speech is about one pixel. The loudest seconds are whole seconds. Both show an effect that stands out from what is around it: a bed, a thunder roll, a door in a quiet moment or a silent clip (its second is the loudest). An effect under loud speech needs the `volumedetect` check.
+- **`volumedetect` on a short window around the effect (free)**, on the original clip and then on the result. Over that window the result's `mean_volume` should be higher than the original's (in the door example, from -22.2 to -19.6 dB). Its `max_volume` should stay under 0 dB: at 0.0 the mix clips, so turn the effect, or the clip's own sound, down with `volume`. A clip with no sound has no original to compare: the result's level should be well above -91 dB.
 
-If an effect lands early or late, change the `adelay` number and mix again. Tell the user what you checked.
+**3. The whole result, once** (paid, like any `watch`: about $0.01 per started minute of sound, at least one minute; `--dry-run` shows the price):
+
+```bash
+halleyfy watch out.mp4
+```
+
+`summary.md` lists the loudest moments, and `transcript.md` should still hold the speech, every word in order and clear. A word that went missing or got buried means the effect or the bed is too loud: mix again with a lower `volume`.
+
+With soundtracks from `--variations`, check each one. If an effect lands early or late, change the `adelay` number and mix again. Tell the user what you checked.
 
 ## ffmpeg
 

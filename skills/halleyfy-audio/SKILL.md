@@ -118,7 +118,7 @@ A recording longer than 5 minutes for `revoice`: cut its sound into pieces (`ffm
 - `halleyfy sound "<what it sounds like>" --seconds <0.5-30>` gives one sound to drop in at a moment: a door, rain, footsteps. `--loop` makes it repeat without a seam, for ambience under a scene.
 - `halleyfy sound --video <clip>` gives a whole soundtrack that matches the picture and keeps the speech. It saves the soundtrack (.mp3) and, for a local clip, the clip with it on (.mp4).
 
-Describe what a microphone would pick up: the source, the action, the material, the space and the distance. "A heavy oak door slams shut in a stone hallway, short echo, close" beats "an epic door sound". Put an effect in at its moment with ffmpeg; `references/sound-effects.md` has the prompts and the commands.
+Describe one sound by what a microphone would pick up: its source, action, material, space and distance. "A heavy oak door slams shut in a stone hallway, short echo, close" is a sound; "epic" is a feeling. For several sounds, make one effect each and place each in at its moment with ffmpeg. `references/sound-effects.md` has the prompts and the commands.
 
 After a voice swap with `revoice --clean`, run `sound --video` on the new clip. It rebuilds the room sound and effects around the new voice.
 
@@ -136,7 +136,8 @@ Read the guide when the job matches.
 Check every result before handing it over, and read what it says.
 
 - A revoiced `.mp4`, or a clip with a soundtrack or effects: `halleyfy watch <file>` (for effects, `references/sound-effects.md` says how to check where they land).
-- An `.mp3`: `halleyfy watch` reads videos, so wrap the sound in a black video first, then watch that:
+- A sound effect `.mp3` has no words, so there is no transcript to read: check its length with `ffprobe` and that it isn't silent with `volumedetect`, both free (the commands are in `references/sound-effects.md`).
+- A voice `.mp3` (`speak`, `isolate`, a revoiced sound): `halleyfy watch` reads videos, so wrap the sound in a black video first, then watch that:
 
 ```bash
 ffmpeg -f lavfi -i color=black:s=320x240:r=1 -i line.mp3 -t "$(ffprobe -v error -show_entries format=duration -of csv=p=0 line.mp3)" -c:v libx264 -tune stillimage -pix_fmt yuv420p -c:a aac check.mp4 && halleyfy watch check.mp4
@@ -183,7 +184,7 @@ Each command bills by what it works on. Most runs cost far less than $1.
 
 ## Before you hand it over
 
-Run the check above on every file you made, read the transcript, and fix what is wrong before showing it.
+Run the check above on every file you made, read what it says (the transcript, for a voice), and fix what is wrong before showing it.
 
 If `watch` can't run, don't skip the check without a word:
 
@@ -199,6 +200,5 @@ If `watch` can't run, don't skip the check without a word:
 - Numbers, dates and symbols written as digits and signs ("3.5%", "03/04"): the voice may read them in a way you didn't mean. Write them as they are said.
 - A hard name left as plain letters when it came out wrong: write it in IPA between slashes.
 - A short or mixed-language line with no `--language`: it may come out in the wrong language.
-- Five sounds in one `sound` prompt, or a mood word like "epic": the sounds blur together, since each gets a fraction of the clip and the mood names no sound. Describe one sound at a time, with its source, action, material, space and distance, and place each in with ffmpeg.
 - A voiceover longer than the clip it goes on: measure the .mp3 with `ffprobe` before mixing, and shorten the text, not the speed.
-- Handing over an .mp3 unheard: wrap it in a black video and read its transcript first.
+- Handing over a voice .mp3 unheard: wrap it in a black video and read its transcript first.

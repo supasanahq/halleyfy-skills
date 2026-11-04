@@ -1,6 +1,6 @@
 # halleyfy skills
 
-Agent skills for halleyfy, which makes images, videos and speech from the shell. One skill per kind of media. Each teaches a coding agent when to reach for it, how to write prompts that come out right the first time, how to keep spending inside your budget, and what to do with each exit code. Use-case guides (product, UGC ads, fashion, effects and more) sit inside each skill and are read only when the job needs them.
+Agent skills for halleyfy, which makes images, videos, speech and sound effects from the shell. One skill per kind of media. Each teaches a coding agent when to reach for it, how to write prompts that come out right the first time, how to keep spending inside your budget, and what to do with each exit code. Use-case guides (product, UGC ads, fashion, effects and more) sit inside each skill and are read only when the job needs them.
 
 ## Install
 
@@ -59,7 +59,7 @@ Claude Code users who installed the plugin don't need the `curl` line. If you ra
 Add this line to `AGENTS.md` or `CLAUDE.md`:
 
 ```
-To make images, videos or speech, use the halleyfy CLI (`halleyfy image`, `halleyfy video`, `halleyfy speak`); run `halleyfy <command> --help` first.
+To make images, videos, speech or sound effects, use the halleyfy CLI (`halleyfy image`, `halleyfy video`, `halleyfy speak`, `halleyfy sound`); run `halleyfy <command> --help` first.
 ```
 
 ## Needs
@@ -73,7 +73,7 @@ To make images, videos or speech, use the halleyfy CLI (`halleyfy image`, `halle
 | Skill | Use it for | Use-case guides |
 |---|---|---|
 | [`halleyfy-image`](skills/halleyfy-image/SKILL.md) | Images: text to image, editing with up to 16 reference images | product, UGC, fashion and beauty, ads and text, video start frames, consistency across a set |
-| [`halleyfy-audio`](skills/halleyfy-audio/SKILL.md) | Speech: text to an .mp3 in 21 voices, a new voice on a recording or clip, a clean voice out of noise | voiceovers, swapping a clip's voice, one narration in several languages, cleaning a noisy recording |
+| [`halleyfy-audio`](skills/halleyfy-audio/SKILL.md) | Speech and sound: text to an .mp3 in 21 voices, a new voice on a recording or clip, a clean voice out of noise, sound effects, ambience loops, a soundtrack for a silent or generated clip | voiceovers, swapping a clip's voice, one narration in several languages, cleaning a noisy recording, sound effects and soundtracks |
 | [`halleyfy-video`](skills/halleyfy-video/SKILL.md) | 3-10 s videos with sound, from a prompt, a start and end image, up to 10 reference images and 5 reference videos, or an edit of a 2-10 s video | product, UGC ads, fashion, effects and transitions, social vertical, references and edits |
 
 Install one with the Skills CLI: `npx skills add supasanahq/halleyfy-skills --skill halleyfy-video`.
