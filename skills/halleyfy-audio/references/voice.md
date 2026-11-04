@@ -15,16 +15,16 @@ halleyfy speak "Meet Lumen. Warm light for every room, in one soft glow." --voic
 ```
 
 4. Measure the .mp3 (`ffprobe` as above). Longer than the room you have: shorten the text and run again.
-5. Put it under the clip at 1.5 seconds. `adelay` takes milliseconds, so 1500 is 1.5 seconds. A clip with its own sound (every halleyfy video has one) keeps it, mixed with the voice:
+5. Put it under the clip at 1.5 seconds. `adelay` takes milliseconds, so 1500 is 1.5 seconds. A clip with its own sound (every halleyfy video has one) keeps it, mixed with the voice. `normalize=0` keeps each sound at its own level; without it `amix` turns every input down by the number of inputs:
 
 ```bash
-ffmpeg -i clip.mp4 -i vo.mp3 -filter_complex "[1:a]adelay=1500|1500[v];[0:a][v]amix=inputs=2:duration=first" -c:v copy out.mp4
+ffmpeg -i clip.mp4 -i vo.mp3 -filter_complex "[1:a]adelay=1500|1500[v];[0:a][v]amix=inputs=2:duration=first:normalize=0" -c:v copy out.mp4
 ```
 
 To make the clip's own sound quieter under the voice, turn it down first:
 
 ```bash
-ffmpeg -i clip.mp4 -i vo.mp3 -filter_complex "[0:a]volume=0.5[bg];[1:a]adelay=1500|1500[v];[bg][v]amix=inputs=2:duration=first" -c:v copy out.mp4
+ffmpeg -i clip.mp4 -i vo.mp3 -filter_complex "[0:a]volume=0.5[bg];[1:a]adelay=1500|1500[v];[bg][v]amix=inputs=2:duration=first:normalize=0" -c:v copy out.mp4
 ```
 
 A clip with no sound: take the voice alone, delayed, and let it pad with silence so the video keeps its length:
@@ -52,7 +52,7 @@ halleyfy revoice clip.mp4 --voice Brian --out ./revoiced
 - `--clean` first when the recording is noisy (wind, a room, a hum). Music and effects under the voice go with the noise. To bring music back, mix it under the revoiced clip:
 
 ```bash
-ffmpeg -i <job id>-0.mp4 -i music.mp3 -filter_complex "[1:a]volume=0.3[m];[0:a][m]amix=inputs=2:duration=first" -c:v copy final.mp4
+ffmpeg -i <job id>-0.mp4 -i music.mp3 -filter_complex "[1:a]volume=0.3[m];[0:a][m]amix=inputs=2:duration=first:normalize=0" -c:v copy final.mp4
 ```
 
 - Watch the result: `halleyfy watch <job id>-0.mp4`. The transcript should say the same words as the original's.

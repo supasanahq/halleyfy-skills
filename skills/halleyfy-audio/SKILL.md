@@ -31,7 +31,7 @@ Don't pass `--local` or `--live` unless the user asks.
 halleyfy speak "<text>" --voice Rachel --json --out ./audio
 ```
 
-- The text is the argument, or `--text-file <path>` for a script in a file. 1 to 5,000 characters.
+- The text is the argument, or `--text-file <path>` for a script in a file; text with a `"`, a `$`, a backtick or a leading `-` goes in a `--text-file`, where the shell can't change it. 1 to 5,000 characters.
 - `--voice <name>`: one of the 21 voices below, any case. The default is Rachel.
 - `--language <code>`: a 2-letter code like `en`, `de` or `ja`. See "Write the line".
 - Files are saved in `--out` as `<job id>-<n>.mp3`. stdout is one absolute path per line; the cost goes to stderr. With `--json`, the paths are in `files` and the price is `cost_usd`. Use those paths in the next command.
@@ -50,12 +50,12 @@ halleyfy speak "<text>" --voice Rachel --json --out ./audio
 
 - `revoice` saves `<job id>-0.mp3`. When the source is a local video it also saves `<job id>-0.mp4` (`.mov` for a .mov): the same picture, with the new voice at the video's length. Sound up to 5 minutes. `--clean` takes background noise out before the voice is changed; music and effects under the voice go with it.
 - `isolate` saves one `<job id>-0.mp3`, never a video: a clean voice usually goes into an edit. Sound up to 60 minutes.
-- The new sound replaces the clip's old sound track whole, so music and effects under the voice are not kept as they were. Mix them back in with ffmpeg (example 2 in `references/voice.md`).
+- The new sound replaces the clip's old sound track whole. When the music or effects are their own file, mix them back in with ffmpeg (example 2 in `references/voice.md`). `revoice` without `--clean` may or may not keep the sound under the voice as it was: that isn't measured, so check the result with `watch`, against the original's summary (its loudest moments and quiet gaps), and tell the user what you found.
 - `revoice` gives the whole recording the one voice you pick.
 
 ## Voices
 
-Every voice is generated. Match the voice to the use, and say which one you chose. With no preference from the user, narration and explainers suit Rachel, Brian, Bill, George or Lily; social and conversational reads suit Aria, Will, Jessica or Eric; news reads suit Sarah, Alice or Daniel.
+Every voice is a stock voice, not the user's own. Match the voice to the use, and say which one you chose. With no preference from the user, narration and explainers suit Rachel, Brian, Bill, George or Lily; social and conversational reads suit Aria, Will, Jessica or Eric; news reads suit Sarah, Alice or Daniel.
 
 | Voice | Sounds like |
 |---|---|
@@ -81,7 +81,7 @@ Every voice is generated. Match the voice to the use, and say which one you chos
 | Charlie | man, Australian, natural: conversational |
 | River | non-binary, American, calm |
 
-The voice is not the user's own and not a real person's. Say that when it matters (an ad, a testimonial). Keep the words the user gave you, and add no claims they didn't give (prices, results, guarantees).
+Say it is a stock voice, not the user's own, when it matters (an ad, a testimonial). Keep the words the user gave you, and add no claims they didn't give (prices, results, guarantees).
 
 ## Write the line
 
@@ -96,7 +96,7 @@ The voice says what you write, and writing for the ear is different from writing
 
 ## Long scripts
 
-One run takes up to 5,000 characters (count with `wc -m`). For a longer script, split it at paragraph breaks into parts of at most 5,000 characters, so every join falls on a pause. Run each part with the same voice and language, then join them in order:
+One run takes up to 5,000 characters (count them with `--dry-run`, which prints the characters it bills: `Cost: $0.0312 (300 characters)`). For a longer script, split it at paragraph breaks into parts of at most 5,000 characters, so every join falls on a pause. Run each part with the same voice and language, then join them in order:
 
 ```bash
 halleyfy speak --text-file part1.txt --voice Brian --json --out ./vo
@@ -141,7 +141,7 @@ Each command bills by what it works on. Most runs cost far less than $1.
 
 | Command | Billed | Roughly |
 |---|---|---|
-| `speak` | per character of text | 10 cents per 1,000 characters: a full 5,000-character part is about 50 cents |
+| `speak` | per character of text | $0.104 per 1,000 characters: a full 5,000-character part is about 52 cents |
 | `revoice` | per second of the sound, in whole started minutes (a 10-second clip costs a minute), up to 5 minutes | about 40 cents a minute |
 | `isolate` | per second of the sound, up to 60 minutes | about 13 cents a minute |
 
@@ -176,8 +176,8 @@ If `watch` can't run, don't skip the check without a word:
 ## Common mistakes
 
 - `revoice` of a video with `--no-wait`: refused, because the new voice is put on the video when the job is done. Leave `--no-wait` off.
-- `revoice` ends with a `video_failed` error that says the job is done and charged and names the saved .mp3: the new voice is in that .mp3. Put it on the clip with ffmpeg and don't run `revoice` again (it would pay twice): `ffmpeg -i clip.mp4 -i <job id>-0.mp3 -map 0:v -map 1:a -c:v copy -c:a aac -af apad -shortest out.mp4`.
-- Expecting music or effects to survive `--clean`: they go with the noise. Mix them back in afterward, or leave `--clean` off when the sound under the voice matters.
+- `revoice` ends with a `video_failed` error that says the job is done and charged and names the saved .mp3: the new voice is in that .mp3. Put it on the clip with ffmpeg and don't run `revoice` again (it would pay twice): `ffmpeg -i clip.mp4 -i <job id>-0.mp3 -map 0:v -map 1:a -c:v copy -c:a aac -af apad -shortest out.mp4`. Give `out` the clip's own extension: `out.mov` for a `.mov` clip, since not every `.mov` picture fits in an `.mp4`.
+- Expecting music or effects to survive `--clean`: they go with the noise. Mix them back in afterward from the music's own file, or leave `--clean` off when the sound under the voice matters and then check the result: whether it stays as it was isn't measured.
 - More than 5,000 characters in one `speak` run: split at a paragraph and join the parts.
 - Numbers, dates and symbols written as digits and signs ("3.5%", "03/04"): the voice may read them in a way you didn't mean. Write them as they are said.
 - A hard name left as plain letters when it came out wrong: write it in IPA between slashes.
