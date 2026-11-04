@@ -1,6 +1,6 @@
 ---
 name: halleyfy-audio
-description: Use when the user needs a voiceover, narration, a line read aloud, a different voice on a recording or clip, or a clean voice out of a noisy recording, or needs a sound effect, an ambience loop, or a soundtrack for a silent or generated clip, or mentions halleyfy speak, revoice, isolate or sound.
+description: Use when the user needs a voiceover, narration, a line read aloud, a different voice on a recording or clip, or a clean voice out of a noisy recording, or needs a sound effect, an ambience loop, or a soundtrack for a silent or generated clip, or needs music (an instrumental bed under a video, a song, or a score fitted to a clip), or mentions halleyfy speak, revoice, isolate, sound or music.
 allowed-tools:
   - Bash(halleyfy *)
 ---
@@ -13,7 +13,7 @@ Three commands work with a voice:
 - `halleyfy revoice` says a recording's words again in another voice, with the same timing. From a video it also saves the video with the new voice.
 - `halleyfy isolate` pulls a clean voice out of noisy sound or a video.
 
-A fourth, `halleyfy sound`, makes sound effects and soundtracks (see "Sound effects").
+A fourth, `halleyfy sound`, makes sound effects and soundtracks (see "Sound effects"). A fifth, `halleyfy music`, makes music (see "Music").
 
 halleyfy picks the model. You write the line and choose the voice. The voice reads the words you give it, so the text is the whole brief: write it the way it is said, with the pauses and the delivery you want.
 
@@ -21,11 +21,11 @@ halleyfy picks the model. You write the line and choose the voice. The voice rea
 
 1. `command -v halleyfy`. Missing: if `npx` exists, use `npx -y halleyfy` wherever this skill says `halleyfy`. Otherwise tell the user to install it with `curl -fsSL https://halleyfy.com/install.sh | sh` and stop.
 2. `halleyfy whoami --json`. Not logged in: run `halleyfy login --no-wait --json`, give the user its `verification_url` and `user_code` (the same link signs a new user up), and after they approve run `halleyfy login --wait --json`. Never type a password or ask for a key.
-3. Read `halleyfy speak --help` once: every flag, the voices and the live price. Read `revoice --help`, `isolate --help` or `sound --help` before the first run of any of them.
+3. Read `halleyfy speak --help` once: every flag, the voices and the live price. Read `revoice --help`, `isolate --help`, `sound --help` or `music --help` before the first run of any of them.
 
 Don't pass `--local` or `--live` unless the user asks.
 
-`revoice` and `isolate` take sound from a video with ffmpeg, `sound --video` puts the soundtrack on the clip with it, and the checks and joins below use it too. If a command stops with `ffmpeg_missing`, tell the user ffmpeg is needed and ask which way they want to get it: `brew install ffmpeg` (macOS), `sudo apt install ffmpeg` (Debian, Ubuntu), or `halleyfy ffmpeg install` (a checked copy for halleyfy only, about 80 MB, in `~/.config/halleyfy/bin`; write `~/.config/halleyfy/bin/ffmpeg` and `~/.config/halleyfy/bin/ffprobe` in the commands below instead of `ffmpeg` and `ffprobe`). Run the one they pick only after a yes. `speak`, and `sound` with only a prompt, need no ffmpeg.
+`revoice` and `isolate` take sound from a video with ffmpeg, `sound --video` puts the soundtrack on the clip with it, `music --video` mixes the music into the clip with it, an instrumental's `--seconds` cuts the track with it, and the checks and joins below use it too. If a command stops with `ffmpeg_missing`, tell the user ffmpeg is needed and ask which way they want to get it: `brew install ffmpeg` (macOS), `sudo apt install ffmpeg` (Debian, Ubuntu), or `halleyfy ffmpeg install` (a checked copy for halleyfy only, about 80 MB, in `~/.config/halleyfy/bin`; write `~/.config/halleyfy/bin/ffmpeg` and `~/.config/halleyfy/bin/ffprobe` in the commands below instead of `ffmpeg` and `ffprobe`). Run the one they pick only after a yes. `speak`, `sound` with only a prompt, and `music` with only a prompt or lyrics need no ffmpeg.
 
 ## Every run
 
@@ -38,7 +38,7 @@ halleyfy speak "<text>" --voice Rachel --json --out ./audio
 - `--language <code>`: a 2-letter code like `en`, `de` or `ja`. See "Write the line".
 - Files are saved in `--out` as `<job id>-<n>.mp3`. stdout is one absolute path per line; the cost goes to stderr. With `--json`, the paths are in `files` and the price is `cost_usd`. Use those paths in the next command.
 - `--dry-run` prints the price and runs nothing. Use it first on anything long.
-- Not available yet: music, and a voice copied from a recording. If the user needs one of these, say so.
+- Not available yet: a voice copied from a recording. If the user needs one, say so.
 
 ## Which command
 
@@ -48,6 +48,7 @@ halleyfy speak "<text>" --voice Rachel --json --out ./audio
 | The same words in a new voice, keeping the timing (so lips still match) | `revoice <source> --voice <name>` |
 | A clean voice out of noise, wind, music or a room | `isolate <source>` |
 | A sound effect, an ambience loop, or a soundtrack for a silent or generated clip | `sound` |
+| Music: a bed under a video, a song that sings given words, or a score fitted to a clip | `music` |
 
 `<source>` for `revoice` and `isolate` is a sound file (.mp3, .wav or .m4a), a video file (.mp4 or .mov), or a `file_…` id (the id of a sound; `isolate` also takes the id of a video). From a local video, only its sound is uploaded; the picture stays on this machine.
 
@@ -122,6 +123,17 @@ Describe one sound by what a microphone would pick up: its source, action, mater
 
 After a voice swap with `revoice --clean`, run `sound --video` on the new clip. It rebuilds the room sound and effects around the new voice.
 
+## Music
+
+`halleyfy music` makes music from a style you write:
+
+- **A bed under a video:** `halleyfy music "<style>"` is an instrumental. `--seconds <n>` cuts it to a short one.
+- **A song with words, for a reel:** `--lyrics-file song.txt` sings the user's words. The prompt sets the style, and `--vocals female` or `male` picks the voice.
+- **A song when the user has no words:** `--vocals any`. The model writes the words. It costs more than a song from lyrics, so quote it with `--dry-run` first and tell the user the price.
+- **A score fitted to a clip:** `halleyfy music --video clip.mp4 "<style>"`. It saves the music (.mp3) and the clip with the music mixed 12 dB under its own sound. `--replace` makes the music the clip's only sound: use it only when the clip has no speech worth keeping.
+
+Describe the music the way a producer would: genre, mood, tempo in bpm, instruments, era and how it builds. `sound --video` is the other way to a soundtrack: it makes room sound and effects that match the picture, and `music --video` makes music. `references/music.md` has the prompts, the lyrics format and the prices.
+
 ## Use-case guides
 
 Read the guide when the job matches.
@@ -130,24 +142,26 @@ Read the guide when the job matches.
 |---|---|
 | A voiceover for a video, swapping the voice of a clip, one narration in several languages, cleaning a noisy recording | `references/voice.md` |
 | Sound effects, ambience loops, a soundtrack for a silent or generated clip | `references/sound-effects.md` |
+| Music: a short bed, a song from lyrics or a prompt, a score fitted to a clip, a quieter or louder mix, cutting a track | `references/music.md` |
 
 ## Check the result
 
 Check every result before handing it over, and read what it says.
 
-- A revoiced `.mp4`, or a clip with a soundtrack or effects: `halleyfy watch <file>` (for effects, `references/sound-effects.md` says how to check where they land).
+- A revoiced `.mp4`, or a clip with a soundtrack, effects or music: `halleyfy watch <file>` (for effects, `references/sound-effects.md` says how to check where they land). With music mixed in, the clip's speech should still be in the transcript.
 - A sound effect `.mp3` has no words, so there is no transcript to read: check its length with `ffprobe` and that it isn't silent with `volumedetect`, both free (the commands are in `references/sound-effects.md`).
-- A voice `.mp3` (`speak`, `isolate`, a revoiced sound): `halleyfy watch` reads videos, so wrap the sound in a black video first, then watch that:
+- An instrumental `.mp3` has no words either: check its length with `ffprobe` and that it isn't silent with `volumedetect`, both free, and when the mood matters ask for it with `watch --ask` (paid; the commands are in `references/music.md`). A song has words: see the next bullet.
+- A voice `.mp3` (`speak`, `isolate`, a revoiced sound) or a song `.mp3` (`music` with lyrics or `--vocals any`): `halleyfy watch` reads videos, so wrap the sound in a black video first, then watch that:
 
 ```bash
 ffmpeg -f lavfi -i color=black:s=320x240:r=1 -i line.mp3 -t "$(ffprobe -v error -show_entries format=duration -of csv=p=0 line.mp3)" -c:v libx264 -tune stillimage -pix_fmt yuv420p -c:a aac check.mp4 && halleyfy watch check.mp4
 ```
 
-Ignore the black sheets. Read `transcript.md` against the script: every word there, in order; a name said the way you meant; a tag showing as a laugh or a sigh (a line like `(laughter)` or `([chuckles])`) and not as spoken text; the end not cut off. Add `--language <code>` to `watch` for a line that is not English. The summary also shows the length, the loudest moments and the quiet gaps: a voice with long gaps where the text has none, or one that is nearly silent, needs another take. Tell the user what you checked.
+Ignore the black sheets. Read `transcript.md` against the script (for a song, the lyrics): every word there, in order; a name said the way you meant; a tag showing as a laugh or a sigh (a line like `(laughter)` or `([chuckles])`) and not as spoken text; the end not cut off. Add `--language <code>` to `watch` for a line that is not English. The summary also shows the length, the loudest moments and the quiet gaps: a voice with long gaps where the text has none, or one that is nearly silent, needs another take. Tell the user what you checked.
 
 ## Finding past results
 
-- Find a job: `halleyfy jobs --recipe speak --since 7d` (or `--recipe revoice`, `--recipe isolate`), with `--search "<words>"` for words from the text.
+- Find a job: `halleyfy jobs --recipe speak --since 7d` (or `--recipe revoice`, `--recipe isolate`, `--recipe music`), with `--search "<words>"` for words from the text.
 - Download it again: `halleyfy job <id> -o <dir>`.
 - Results are kept 30 days, then deleted.
 
@@ -162,8 +176,9 @@ Each command bills by what it works on. Most runs cost far less than $1.
 | `isolate` | per second of the sound, up to 60 minutes | about 13 cents a minute |
 | `sound` (an effect) | per second of the effect, 0.5 to 30 | about $0.0026 a second: 5 seconds is $0.013 |
 | `sound --video` | per second of video, for each variation | about $0.013 a second: a 10-second clip is $0.13 |
+| `music` | per track | an instrumental or a song from lyrics $0.195, a song from a prompt $0.65, music for a video (`--video`) $0.143 |
 
-`--dry-run` shows the price: the most the run can cost. The charge is what the model really cost plus halleyfy's margin, never more than that. For `revoice`, `isolate` and `sound --video` it uploads the sound or video first (uploads are free) so the price can use its length.
+`--dry-run` shows the price: the most the run can cost. The charge is what the model really cost plus halleyfy's margin, never more than that. For `revoice`, `isolate` and `sound --video` it uploads the sound or video first (uploads are free) so the price can use its length. `music --video` uploads the clip first too.
 
 | Situation | Do this |
 |---|---|
@@ -202,3 +217,8 @@ If `watch` can't run, don't skip the check without a word:
 - A short or mixed-language line with no `--language`: it may come out in the wrong language.
 - A voiceover longer than the clip it goes on: measure the .mp3 with `ffprobe` before mixing, and shorten the text, not the speed.
 - Handing over a voice .mp3 unheard: wrap it in a black video and read its transcript first.
+- `--vocals female` or `male` with no lyrics: refused. Use `--vocals any` and describe the voice in the prompt, or write lyrics.
+- Expecting `--seconds` to give a song its exact length: it is the length the model aims for, and songs often run longer. Measure the file. For an instrumental, `--seconds` is a real cut.
+- `--replace` on a clip with someone talking: it removes the speech. Leave it off, and the music goes 12 dB under the clip's sound.
+- `music` ends with `ffmpeg_failed` after the job is done: the job is charged, and the message names the saved files. Don't run it again (it pays twice). Mix or cut the saved .mp3 with the ffmpeg commands in `references/music.md`.
+- A song from a prompt run without a quote: it costs $0.65, over three times a song from lyrics. `--dry-run` first.
