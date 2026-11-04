@@ -145,7 +145,7 @@ Each command bills by what it works on. Most runs cost far less than $1.
 | `revoice` | per second of the sound, at least a minute (a 10-second clip costs a minute), up to 5 minutes | about 40 cents a minute |
 | `isolate` | per second of the sound, up to 60 minutes | about 13 cents a minute |
 
-`--dry-run` shows the exact price. For `revoice` and `isolate` it uploads the sound first (uploads are free) so the price can use its length.
+`--dry-run` shows the price: the most the run can cost. The charge is what the model really cost plus halleyfy's margin, never more than that. For `revoice` and `isolate` it uploads the sound first (uploads are free) so the price can use its length.
 
 | Situation | Do this |
 |---|---|
