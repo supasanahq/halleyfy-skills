@@ -83,7 +83,7 @@ halleyfy sound --video clip.mp4 --dry-run
 halleyfy sound --video clip.mp4 --out ./sound --json
 ```
 
-- The clip is a local .mp4 or .mov, or a `file_…` id, from 1 second to 10 minutes. A URL is not taken. A local clip over 100 MB goes up as a 720p copy; the soundtrack still goes on your original.
+- The clip is a local .mp4 or .mov, or a `file_…` id, from 1 second to 10 minutes. A URL is not taken. The clip goes up as it is, at any size: a raw file of several GB goes up in parts, which takes a while on a slow line.
 - The soundtrack follows the picture: steps when someone walks, a door when it shuts, the room sound of the space. The speech already in the clip is kept.
 - It saves `<job id>-0.mp3` (the soundtrack) and, for a local clip, `<job id>-0.mp4`: the same clip with the soundtrack on it. A `file_…` clip gets only the .mp3. Leave `--no-wait` off for a local clip: the soundtrack is put on it when the job is done.
 - The prompt is optional. Leave it out and the soundtrack comes from the picture alone.
