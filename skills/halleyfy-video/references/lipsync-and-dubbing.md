@@ -12,7 +12,7 @@ halleyfy lipsync clip.mp4 --audio <speak job id> --dry-run --json
 ```
 
 - Tell the person the price from the dry run, and run it only after a yes: `halleyfy lipsync clip.mp4 --audio <speak job id> --json --out ./assets`.
-- `--audio` takes a speak job's id, a sound file (.mp3, .wav or .m4a), a video (its sound is used; this needs ffmpeg) or a `file_…` id.
+- `--audio` takes a speak job's id, a sound file (.mp3, .wav or .m4a), a local video (its sound is used; this needs ffmpeg) or a sound's `file_…` id.
 - The result is `<job id>-0.mp4`: the clip with the new sound and the lips moved to it.
 - Match the line to the clip. Speech runs about 2.5 words a second, so a 5 s shot holds about 12 words. Check the line's length before the lip-sync: `ffprobe -v error -show_entries format=duration -of csv=p=0 <speak file>`.
 - `--fit cut` (the default) ends at whichever is shorter, so a line longer than the clip is cut off mid-word. For a longer line over a short shot, use `--fit loop`: the video loops to the sound's length. Look at the joins, since a loop can show a jump.
