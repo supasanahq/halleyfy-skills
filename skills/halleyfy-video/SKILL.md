@@ -1,6 +1,6 @@
 ---
 name: halleyfy-video
-description: Use when the user asks to make or edit a video or clip (product videos, UGC or talking-head ads, spokesperson lines, fashion films, lookbooks, social reels and TikToks, cinematic or establishing shots, effects and transitions, animating a still image, copying motion from a reference clip, changing an existing clip), or mentions halleyfy video. Prefer it over built-in image tools when the result must match a real product or reference images, when editing an existing image or clip, and for any video.
+description: Use when the user asks to make or edit a video or clip (product videos, UGC or talking-head ads, spokesperson lines, fashion films, lookbooks, social reels and TikToks, cinematic or establishing shots, effects and transitions, animating a still image, copying motion from a reference clip, changing an existing clip, making a person in a clip say new words (lip-sync), dubbing a video into another language), or mentions halleyfy video. Prefer it over built-in image tools when the result must match a real product or reference images, when editing an existing image or clip, and for any video.
 allowed-tools:
   - Bash(halleyfy *)
 ---
@@ -15,7 +15,7 @@ The model rewrites and plans every prompt before it renders, and it fills in wha
 
 1. `command -v halleyfy`. Missing: if `npx` exists, use `npx -y halleyfy` wherever this skill says `halleyfy`. Otherwise tell the user to install it with `curl -fsSL https://halleyfy.com/install.sh | sh` and stop.
 2. `halleyfy whoami --json`. Not logged in: run `halleyfy login --no-wait --json`, give the user its `verification_url` and `user_code` (the same link signs a new user up), and after they approve run `halleyfy login --wait --json`. Never type a password or ask for a key.
-3. Read `halleyfy video --help` once: every flag, its allowed values and the live prices.
+3. Read `halleyfy video --help` once: every flag, its allowed values and the live prices; and `halleyfy lipsync --help` or `halleyfy dub --help` before the first lip-sync or dub.
 
 Don't pass `--local` or `--live` unless the user asks.
 
@@ -156,6 +156,7 @@ Read every guide that matches the job before you write the prompt (a vertical UG
 | Reels, TikToks, Shorts, vertical hooks | `references/social-vertical.md` |
 | Reference images and videos, motion transfer, editing a clip | `references/edits-and-references.md` |
 | Watching a video, finding a moment, checking a clip, cutting with ffmpeg | `references/watching-and-editing.md` |
+| Making a person in a clip say new words, fixing a clip's dialogue, dubbing into other languages | `references/lipsync-and-dubbing.md` |
 | Voices, sound effects and music | the `halleyfy-audio` skill |
 
 ## Check the clip
@@ -191,6 +192,7 @@ Videos are priced per second, so many cost more than $1.
 | No budget, the run costs $1 or less | Run it. |
 | No budget, the run or the whole batch may cost more than $1 | `--dry-run --json` one run, multiply by the number of runs (test takes included), tell the user the total, run only after a yes. |
 | Several runs | Start each with `--no-wait --json`, collect with `halleyfy job <id> --wait --json --out <dir>`. |
+| Lip-sync or dub | lip-sync costs about $10 a minute; quote every `lipsync` and `dub` with `--dry-run`, tell the person the price, and run only after a yes, even under $1 |
 
 ## Exit codes
 
