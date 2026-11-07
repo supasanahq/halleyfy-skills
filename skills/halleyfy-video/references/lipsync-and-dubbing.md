@@ -1,6 +1,6 @@
 # Lip-sync and dubbing
 
-For making a person in a clip say new words, fixing a clip's dialogue, and putting a video into another language with each speaker's own voice. `halleyfy lipsync` moves the lips in a video to a new sound. `halleyfy dub` translates the speech and, for a video, also lip-syncs the picture to the new words.
+For making a person in a clip say new words, fixing a clip's dialogue, and putting a video into another language with each speaker's own voice. `halleyfy lipsync` moves the lips in a video to a new sound. `halleyfy dub` translates the speech and, for a video, also moves the lips to the new words.
 
 ## New words: speak, then lipsync
 
@@ -37,17 +37,18 @@ Lip-sync bills every second of the result. When the line is in a long clip, cut 
 halleyfy dub talk.mp4 --to de --dry-run --json
 ```
 
-- A video gives two files: `<job id>-0.mp4` is the dubbed video (the original picture with the new sound), and `<job id>-1.mp4` is the video with the lips moved to the new words.
-- `--no-lipsync` gives only the dubbed video, at a fraction of the price. Use it when no mouth is on screen: a voice-over, a screen recording, a product shot with a narrator.
-- A sound file (.mp3, .wav, .m4a) gives the dubbed sound, `<job id>-0.mp3`.
-- `--from <code>` helps when detection might guess wrong, for example in a short clip or a mix of languages. `--speakers <n>` (1-50) does the same for the number of people speaking. Each speaker keeps their own voice in the new language.
-- `halleyfy dub --help` lists the 32 language codes.
+- A video gives one file, `<job id>-0.mp4`: the video dubbed, with the lips moved to the new words. It can be at most 10 minutes long; cut a longer one into parts and dub each.
+- `--no-lipsync` gives the dubbed video with its original picture instead, at a fraction of the price, with no length limit. Use it when no mouth is on screen: a voice-over, a screen recording, a product shot with a narrator. It takes fewer languages (the last list in `halleyfy dub --help`).
+- A sound file (.mp3, .wav, .m4a) gives the dubbed sound, `<job id>-0.mp3`, in the same fewer languages.
+- `--to` takes regional codes too, such as `es-MX`, `pt-BR` or `en-GB`, for a lip-synced video. `halleyfy dub --help` lists every code.
+- `--from <code>` helps when detection might guess wrong, for example in a short clip or a mix of languages. It takes a code without a region, such as `es`.
+- `--speakers <n>` (1-50) helps the same way, but only with `--no-lipsync` or a sound: a lip-synced dub always finds the speakers itself. Each speaker keeps their own voice in the new language.
 - For several languages, quote each and add the prices up for the person. After a yes, start each with `--no-wait --json` and collect each with `halleyfy job <id> --wait --json --out <dir>`.
-- Check each one: `halleyfy watch <dir>/<job id>-1.mp4 --language <code>` (or `-0.mp4` without lip-sync). Its transcript should be in the new language and say what the original said.
+- Check each one: `halleyfy watch <dir>/<job id>-0.mp4 --language <code>`. Its transcript should be in the new language and say what the original said.
 
 ## Time
 
-Lip-sync is slow: about half an hour per minute of video, and a minute or two even for a few seconds. Dubbing without lip-sync takes under a minute for a short clip. For anything longer than a few seconds, start with `--no-wait --json`, tell the person how long it will take, and collect it later with `halleyfy job <id> --wait --json --out <dir>`.
+Lip-sync is slow: about half an hour per minute of video, and a minute or two even for a few seconds. A lip-synced dub of a short clip takes a few minutes; dubbing without lip-sync takes under a minute. For anything longer than a few seconds, start with `--no-wait --json`, tell the person it may take a while, and collect it later with `halleyfy job <id> --wait --json --out <dir>`.
 
 ## Faces
 
@@ -61,6 +62,6 @@ Before you hand it over, look at the frames around the speech with `halleyfy wat
 ## Costs
 
 - Lip-sync is about $10.40 a minute ($0.17 a second) of the result, counted in started seconds.
-- Dubbing is $0.78 per started minute of the source, plus lip-sync on the video's seconds. A 30 s video is about $5.98 with lip-sync and $0.78 with `--no-lipsync`.
+- A lip-synced dub is about $14 a minute ($0.23 a second) of the video, counted in started seconds. Dubbing with `--no-lipsync`, or a sound, is $0.78 per started minute. A 30 s video is about $7.02 lip-synced and $0.78 with `--no-lipsync`.
 - Quote every `lipsync` and `dub` with `--dry-run`, even under $1. Tell the person the price, and run only after a yes.
-- A long lip-sync can be over the key's per-job limit (exit 2). Tell the person the price and the limit; they can raise it in the dashboard.
+- A long lip-sync or dub can be over the key's per-job limit (exit 2). Tell the person the price and the limit; they can raise it in the dashboard.

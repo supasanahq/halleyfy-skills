@@ -173,7 +173,7 @@ Videos are priced per second, so many cost more than $1.
 | No budget, the run costs $1 or less | Run it. |
 | No budget, the run or the whole batch may cost more than $1 | `--dry-run --json` one run, multiply by the number of runs (test takes included), tell the user the total, run only after a yes. |
 | Several runs | Start each with `--no-wait --json`, collect with `halleyfy job <id> --wait --json --out <dir>`. |
-| Lip-sync or dub | lip-sync costs about $10 a minute; quote every `lipsync` and `dub` with `--dry-run`, tell the person the price, and run only after a yes, even under $1 |
+| Lip-sync or dub | lip-sync costs about $10 a minute and a lip-synced dub about $14; quote every `lipsync` and `dub` with `--dry-run`, tell the person the price, and run only after a yes, even under $1 |
 
 ## Exit codes
 
