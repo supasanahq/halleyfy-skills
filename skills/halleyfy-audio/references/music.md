@@ -213,7 +213,7 @@ ffmpeg -i track.mp3 -af silencedetect=noise=-35dB:d=0.4 -f null - 2>&1 | grep si
 
 Each gap prints as `silence_start` and `silence_end`, in seconds. A number closer to 0 (`-30dB`, `-25dB`) counts softer sound as quiet too. Music rarely goes fully quiet: in one check a track with vinyl crackle showed only its own ending, even at `-25dB`. With no gap in the middle, use `--seconds`, which cuts on the second you pick with a 2 second fade.
 
-`halleyfy watch` also lists quiet gaps, but only the long ones. Its `summary.md` has a "Quiet gaps" list of gaps of 2 seconds or more, and `signals.json` holds the loudness of each second. It reads videos, so it suits a clip you have mixed; for a bare .mp3, `silencedetect` is free and finer.
+`halleyfy watch` also lists quiet gaps, but only the long ones. Its `summary.md` has a "Quiet gaps" list of gaps of 2 seconds or more, and `signals.json` holds the loudness of each second. It takes a bare .mp3 too (`halleyfy watch track.mp3`), but that run pays for a transcript; to find a gap in an instrumental, `silencedetect` is free and finer.
 
 Cut at the gap with a short fade. Here the cut is at 62 seconds and the fade covers the last 2 (`-t` is the cut, `st` is the cut minus 2):
 
@@ -226,7 +226,7 @@ ffmpeg -y -i track.mp3 -t 62 -af "afade=t=out:st=60:d=2" -c:a libmp3lame -b:a 19
 You can't listen to it, so measure it and read it.
 
 1. **Length.** `ffprobe -v error -show_entries format=duration -of csv=p=0 <file>`. A trimmed instrumental is its `--seconds`. A soundtrack `.mp4`, or your own re-mix, is the clip's length give or take a frame. A song is whatever it came to: say how long.
-2. **A song's words.** Wrap the .mp3 in a black video and watch it, the way SKILL.md's "Check the result" says. Read `transcript.md` against the lyrics: the lines in order, the chorus coming back. A word or two off in singing isn't a fail. A missing or swapped verse is a fail: tell the user what another take would cost before you run one. A transcript that shows only tags like `(music)` and no words is inconclusive, not a fail: say so to the user, and don't take it again on that alone.
+2. **A song's words.** `halleyfy watch song.mp3` (add `--language <code>` for a song not in English). Read `transcript.md` against the lyrics: the lines in order, the chorus coming back. A word or two off in singing isn't a fail. A missing or swapped verse is a fail: tell the user what another take would cost before you run one. A transcript that shows only tags like `(music)` and no words is inconclusive, not a fail: say so to the user, and don't take it again on that alone. To read one part again, `halleyfy watch song.mp3 --at 0:40-0:55` (free) gives that span's lines and its loudest seconds.
 3. **A mixed clip.** `halleyfy watch <file>`. The speech from the clip should still be in the transcript, every word in order, with the music under it. A word that went missing or got buried means the music is too loud: mix again with a lower `volume` (see "Another level").
 4. **An instrumental has no words**, so there is no transcript to read. Check that it isn't silent, for free:
 
@@ -236,7 +236,7 @@ ffmpeg -i bed.mp3 -af volumedetect -f null - 2>&1 | grep -E 'mean_volume|max_vol
 
 A `mean_volume` far above -91 dB means there is sound in it; -91 dB is silence.
 
-5. **What only an ear can tell**: which instrument leads, where the chorus or the words fall, clipping or distortion. Ask once with `--ask` (paid, 2 to 3 cents for a track: `--dry-run` shows the price):
+5. **What only an ear can tell**: which instrument leads, where the chorus or the words fall, clipping or distortion. Ask once with `--ask` (paid, about $0.004 a minute of sound and at least $0.008, so 1 to 2 cents for a 2 to 4 minute track: `--dry-run` shows the price):
 
 ```bash
 halleyfy watch song.mp3 --ask "Which instruments carry the melody? Is there any clipping or distortion? Give times."

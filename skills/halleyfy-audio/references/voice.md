@@ -1,6 +1,6 @@
 # Voices: voiceovers, new voices, languages, clean recordings
 
-Four jobs, each with its commands. Check every result the way SKILL.md's "Check the result" says: wrap an .mp3 in a black video and `watch` it; `watch` a revoiced .mp4 directly.
+Four jobs, each with its commands. Check every result the way SKILL.md's "Check the result" says: `halleyfy watch` the .mp3 or the revoiced .mp4 itself.
 
 ## 1. A voiceover for a product video
 
@@ -70,7 +70,7 @@ halleyfy speak "Das ist Lumen. Warmes Licht für jeden Raum." --voice Rachel --l
 - Use the user's translations when they gave them. When you translate, say so, and let them check the brand and product names.
 - The same voice name keeps it one narrator across the three.
 - Other languages run longer or shorter than English. Measure each .mp3 with `ffprobe`, and fit each to the clip (shorten that translation, not the speed).
-- Check each file with `watch` and its language: `halleyfy watch check-fr.mp4 --language fr`. A name said wrong in one language: write it in IPA there.
+- Check each file with `watch` and its language: `halleyfy watch ./vo/<job id>-0.mp3 --language fr`. A name said wrong in one language: write it in IPA there.
 - Put each one on a copy of the clip with the ffmpeg line from example 1.
 
 ## 4. Clean a noisy recording
@@ -83,7 +83,7 @@ halleyfy isolate interview.mp4 --out ./clean --json
 ```
 
 - Only the sound of the video is uploaded. The result is one `<job id>-0.mp3` with the voice and none of the room, the wind or the music.
-- Watch it the way SKILL.md says (wrap it in a black video), and read the transcript against the original's: `halleyfy watch interview.mp4`. The words should be the same, with the gaps between them quiet.
+- Watch the clean .mp3 (`halleyfy watch ./clean/<job id>-0.mp3`) and read its transcript against the original's (`halleyfy watch interview.mp4`). The words should be the same, with the gaps between them quiet.
 - Put the clean voice back on the picture, at the video's length:
 
 ```bash

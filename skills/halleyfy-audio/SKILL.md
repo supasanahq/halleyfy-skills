@@ -152,13 +152,25 @@ Check every result before handing it over, and read what it says.
 - A revoiced `.mp4`, or a clip with a soundtrack, effects or music: `halleyfy watch <file>` (for effects, `references/sound-effects.md` says how to check where they land). With music mixed in, the clip's speech should still be in the transcript.
 - A sound effect `.mp3` has no words, so there is no transcript to read: check its length with `ffprobe` and that it isn't silent with `volumedetect`, both free (the commands are in `references/sound-effects.md`).
 - An instrumental `.mp3` has no words either: check its length with `ffprobe` and that it isn't silent with `volumedetect`, both free, and when it matters ask what only an ear can tell (which instrument leads, clipping, with times) with `watch --ask` (paid; the commands are in `references/music.md`). A song has words: see the next bullet.
-- A voice `.mp3` (`speak`, `isolate`, a revoiced sound) or a song `.mp3` (`music` with lyrics or `--vocals any`): `halleyfy watch` reads videos, so wrap the sound in a black video first, then watch that:
+- A voice `.mp3` (`speak`, `isolate`, a revoiced sound) or a song `.mp3` (`music` with lyrics or `--vocals any`): watch the file itself. `watch` takes an `.mp3`, `.wav` or `.m4a`, or the id of a `speak`, `music` or `sound` job:
 
 ```bash
-ffmpeg -f lavfi -i color=black:s=320x240:r=1 -i line.mp3 -t "$(ffprobe -v error -show_entries format=duration -of csv=p=0 line.mp3)" -c:v libx264 -tune stillimage -pix_fmt yuv420p -c:a aac check.mp4 && halleyfy watch check.mp4
+halleyfy watch line.mp3
 ```
 
-Ignore the black sheets. Read `transcript.md` against the script (for a song, the lyrics): every word there, in order; a name said the way you meant; a tag showing as a laugh or a sigh (a line like `(laughter)` or `([chuckles])`) and not as spoken text; the end not cut off. Add `--language <code>` to `watch` for a line that is not English. The summary also shows the length, the loudest moments and the quiet gaps: a voice with long gaps where the text has none, or one that is nearly silent, needs another take. A song transcript that shows only tags like `(music)` and no words is inconclusive, not a fail: say so to the user, and don't take it again on that alone. Tell the user what you checked.
+A sound file gets `transcript.md`, its loudness and `summary.md`, with no sheets or shots. Read `transcript.md` against the script (for a song, the lyrics): every word there, in order; a name said the way you meant; a tag showing as a laugh or a sigh (a line like `(laughter)` or `([chuckles])`) and not as spoken text; the end not cut off. Add `--language <code>` to `watch` for a line that is not English. The summary also shows the length, the loudest moments and the quiet gaps: a voice with long gaps where the text has none, or one that is nearly silent, needs another take. A song transcript that shows only tags like `(music)` and no words is inconclusive, not a fail: say so to the user, and don't take it again on that alone.
+
+To look closer at a sound file:
+
+```bash
+halleyfy watch song.mp3 --at 0:40-0:55
+halleyfy watch song.mp3 --ask "Where does the chorus start, and does it clip anywhere?"
+```
+
+- `--at` takes a span, for free: that span's transcript lines (from the overview, so run `halleyfy watch song.mp3` first) and its loudest seconds. Give it a span: one time like `--at 0:40` saves a video frame, so it is refused for a sound.
+- `--ask` has a listening model answer about the whole file, with times: where the chorus starts, when a word is said, which instrument leads, whether it clips. Ask about concrete things like these, not a score. It is paid: about $0.004 a minute of sound, at least $0.008, and `--dry-run` shows the price.
+
+Tell the user what you checked.
 
 ## Finding past results
 
@@ -178,6 +190,7 @@ Each command bills by what it works on. Most runs cost far less than $1.
 | `sound` (an effect) | per second of the effect, 0.5 to 30 | about $0.0026 a second: 5 seconds is $0.013 |
 | `sound --video` | per second of video, for each variation | about $0.013 a second: a 10-second clip is $0.13 |
 | `music` | per track | an instrumental or a song from lyrics $0.195, a song from a prompt $0.65, music for a video (`--video`) $0.143 |
+| `watch` a sound file | the transcript per started minute of sound; each `--ask` per second of sound, at least 2 minutes; `--at` is free | the transcript about $0.01 a minute; an `--ask` about $0.004 a minute, at least $0.008 |
 
 `--dry-run` shows the price: the most the run can cost. The charge is what the model really cost plus halleyfy's margin, never more than that. For `revoice`, `isolate` and `sound --video` it uploads the sound or video first (uploads are free) so the price can use its length. `music --video` uploads the clip first too.
 
@@ -217,7 +230,8 @@ If `watch` can't run, don't skip the check without a word:
 - A hard name left as plain letters when it came out wrong: write it in IPA between slashes.
 - A short or mixed-language line with no `--language`: it may come out in the wrong language.
 - A voiceover longer than the clip it goes on: measure the .mp3 with `ffprobe` before mixing, and shorten the text, not the speed.
-- Handing over a voice .mp3 unheard: wrap it in a black video and read its transcript first.
+- Handing over a voice .mp3 unheard: run `halleyfy watch` on it and read its transcript first.
+- `--at 0:40` on a sound file: refused, since one time saves a video frame. Give a span: `--at 0:40-0:55`.
 - `--vocals female` or `male` with no lyrics: refused. Use `--vocals any` and describe the voice in the prompt, or write lyrics.
 - Expecting `--seconds` to give a song its exact length: it is the length the model aims for, and songs often run longer. Measure the file. For an instrumental, `--seconds` is a real cut.
 - `--replace` on a clip with someone talking: it removes the speech. Leave it off, and the music goes 12 dB under the clip's sound.
