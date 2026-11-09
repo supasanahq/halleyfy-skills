@@ -1,6 +1,6 @@
 ---
 name: halleyfy-audio
-description: Use when the user needs a voiceover, narration, a line read aloud, a different voice on a recording or clip, or a clean voice out of a noisy recording, or needs a sound effect, an ambience loop, or a soundtrack for a silent or generated clip, or needs music (an instrumental bed under a video, a song, or a score fitted to a clip), or mentions halleyfy speak, revoice, isolate, sound or music.
+description: Use when the user needs a voiceover, narration, a line read aloud, a different voice on a recording or clip, or a clean voice out of a noisy recording, or needs a sound effect, an ambience loop, or a soundtrack for a silent or generated clip, or needs music (an instrumental bed under a video, a short intro, sting or jingle, a song, or a score fitted to a clip), or mentions halleyfy speak, revoice, isolate, sound or music.
 allowed-tools:
   - Bash(halleyfy *)
 ---
@@ -127,12 +127,13 @@ After a voice swap with `revoice --clean`, run `sound --video` on the new clip. 
 
 `halleyfy music` makes music from a style you write:
 
-- **A bed under a video:** `halleyfy music "<style>"` is an instrumental. `--seconds <n>` cuts it to a short one.
+- **A bed under a video:** `halleyfy music "<style>"` is an instrumental. `--seconds <n>` keeps its first n seconds.
+- **A short intro, sting or ad bed:** a track comes back 2 to 4 minutes long, and a song is at least 120 seconds. Tell the user that up front, make a full track, find its best bars by listening with `watch` (they are rarely the first seconds, and you know where they are only after the run), and cut them with ffmpeg.
 - **A song with words, for a reel:** `--lyrics-file song.txt` sings the user's words. The prompt sets the style, and `--vocals female` or `male` picks the voice.
 - **A song when the user has no words:** `--vocals any`. The model writes the words. It costs more than a song from lyrics: run `--dry-run`, tell the user the price, then run it. It needs a yes only when the run or the batch is over $1 (see "Spending").
 - **A score fitted to a clip:** `halleyfy music --video clip.mp4 "<style>"`. It saves the music (.mp3) and the clip with the music mixed 12 dB under its own sound. `--replace` makes the music the clip's only sound: use it only when the clip has no speech worth keeping.
 
-Describe the music the way a producer would: genre, mood, tempo in bpm, instruments, era and how it builds. `sound --video` is the other way to a soundtrack: it makes room sound and effects that match the picture, and `music --video` makes music. `references/music.md` has the prompts, the lyrics format and the prices.
+Describe the music the way a producer would: genre, mood, tempo in bpm, instruments, era and how it builds. For an older style, name the era, the band and the instruments that lead ("classic 1950s big band, a loud saxophone section and blaring trumpets"). For a sung genre, write the lyrics in its language (K-pop: Korean, with an English hook). The bpm is a hint: measure the track when the tempo matters. To start on the chorus, put `[Chorus]` first in the lyrics. `sound --video` is the other way to a soundtrack: it makes room sound and effects that match the picture, and `music --video` makes music. `references/music.md` has the prompts, the lyrics format and the prices.
 
 ## Use-case guides
 
@@ -142,7 +143,7 @@ Read the guide when the job matches.
 |---|---|
 | A voiceover for a video, swapping the voice of a clip, one narration in several languages, cleaning a noisy recording | `references/voice.md` |
 | Sound effects, ambience loops, a soundtrack for a silent or generated clip | `references/sound-effects.md` |
-| Music: a short bed, a song from lyrics or a prompt, a score fitted to a clip, a quieter or louder mix, cutting a track | `references/music.md` |
+| Music: a short bed, intro or sting, a song from lyrics or a prompt, a style that needs its band or its language, a score fitted to a clip, a quieter or louder mix, cutting a track | `references/music.md` |
 
 ## Check the result
 
@@ -150,7 +151,7 @@ Check every result before handing it over, and read what it says.
 
 - A revoiced `.mp4`, or a clip with a soundtrack, effects or music: `halleyfy watch <file>` (for effects, `references/sound-effects.md` says how to check where they land). With music mixed in, the clip's speech should still be in the transcript.
 - A sound effect `.mp3` has no words, so there is no transcript to read: check its length with `ffprobe` and that it isn't silent with `volumedetect`, both free (the commands are in `references/sound-effects.md`).
-- An instrumental `.mp3` has no words either: check its length with `ffprobe` and that it isn't silent with `volumedetect`, both free, and when the mood matters ask for it with `watch --ask` (paid; the commands are in `references/music.md`). A song has words: see the next bullet.
+- An instrumental `.mp3` has no words either: check its length with `ffprobe` and that it isn't silent with `volumedetect`, both free, and when it matters ask what only an ear can tell (which instrument leads, clipping, with times) with `watch --ask` (paid; the commands are in `references/music.md`). A song has words: see the next bullet.
 - A voice `.mp3` (`speak`, `isolate`, a revoiced sound) or a song `.mp3` (`music` with lyrics or `--vocals any`): `halleyfy watch` reads videos, so wrap the sound in a black video first, then watch that:
 
 ```bash

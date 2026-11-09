@@ -1,6 +1,6 @@
-# Music: a bed under a video, a song with words, a score fitted to a clip
+# Music: a bed under a video, a short intro, a song with words, a score fitted to a clip
 
-For the music a project needs and nobody wrote: a track under a product demo, a song that sings the user's words, or a score that follows a clip's pacing. `halleyfy music` makes one track per run. ffmpeg then cuts a bed to length or mixes a score into a clip. Check every result before handing it over (see "Before handing it over").
+For the music a project needs and nobody wrote: a track under a product demo, a 15 second intro, a song that sings the user's words, or a score that follows a clip's pacing. `halleyfy music` makes one track per run. ffmpeg then cuts a bed or an intro to length or mixes a score into a clip. Check every result before handing it over (see "Before handing it over").
 
 ## Which mode
 
@@ -28,13 +28,44 @@ The prompt is the style. Name what a producer would ask for:
 
 - **Genre**: lo-fi hip hop, cinematic ambient, acoustic folk, synth-pop.
 - **Mood**: relaxed, tense, hopeful, playful.
-- **Tempo**, in bpm: `80 bpm`. A number says more than "slow".
-- **Instruments**: soft Rhodes, brushed drums, a low pulse, fingerpicked guitar.
+- **Tempo**, in bpm: `80 bpm`. A number says more than "slow". It sets the feel, not the exact speed (see "When the tempo matters").
+- **Instruments**: soft Rhodes, brushed drums, a low pulse, fingerpicked guitar. Say which one leads.
 - **Era and production**: "dusty 90s boom-bap, vinyl crackle, warm tape saturation".
 - **Structure**: how it moves, and when. "Starts sparse with keys, drums at 0:15, builds to a full chorus at 0:40, ends on a held chord."
 - **The use**: "for a product demo". A bed under speech wants a steady, sparse arrangement.
 
 Each one you leave out is left to chance, so give the ones that matter. Say what the music has and when it has it. Treat the times as a hint, not a promise. A prompt takes up to 1,024 characters, and up to 2,000 for a song from a prompt.
+
+### Name the band for an older style
+
+A style with a long history has more than one sound, and a genre word alone lets the model pick any of them. `upbeat swing jazz` came back as gypsy jazz led by a violin. Naming the line-up and what leads it got a real big band:
+
+`classic 1950s big band swing jazz, 150 bpm, a loud saxophone section and blaring trumpets playing a punchy riff from the first bar, walking upright bass, swinging ride cymbal, piano comping, brass-led, no violin, no guitar, instrumental`
+
+- **The era and the size of the band**: "classic 1950s big band", not "jazz".
+- **The lead instruments, loud**: "a loud saxophone section and blaring trumpets". Say which ones carry the tune, and say it again at the end ("brass-led").
+- **The rhythm section**, the way that era played it: "walking upright bass, swinging ride cymbal, piano comping".
+- **The cousin it could drift to**, named by its instruments: big band and gypsy jazz are both swing, so "no violin, no guitar" pointed the take at the big band.
+
+The same goes for blues, rock and roll, disco, soul, funk or any style with a few classic sounds: say which decade, which band, and which instrument leads.
+
+### Sing in the genre's language
+
+Part of a genre's sound is its words. A K-pop song with English-only lyrics came back as generic pop. The same style with Korean lyrics and an English hook ("Turn it up, 오늘 밤") sounded like K-pop. Write the lyrics in the language the genre is sung in, mixed the way the genre mixes it (K-pop: Korean lines, English hook words), and say it in the prompt too: `glossy bright female vocals singing in Korean with English hooks`. If the user's own words are in another language, offer a version in the genre's language that keeps their hook, and use it once they agree.
+
+### When the tempo matters
+
+The bpm in the prompt is a hint. The track picks its own tempo, sometimes close and sometimes far:
+
+| Asked for | Came back |
+|---|---|
+| lo-fi hip hop, 80 bpm | 86 bpm |
+| 80s synthwave, 100 bpm | 136 bpm |
+| orchestral trailer, 90 bpm | 136 bpm |
+| big room EDM, 128 bpm | 129 bpm |
+
+- Tell the user the feel ("a fast swing, around 150 bpm"), not an exact number.
+- When the tempo has to match something (cuts on the beat, a voiceover's rhythm, another track), measure the file. A beat tracker gives the real tempo and the time of each beat: `aubio tempo track.mp3`, or `librosa.beat.beat_track` in Python. If none is installed, ask the user before installing one. Plan the cut on what you measured.
 
 ## Prompts that land
 
@@ -44,6 +75,7 @@ Short, with the reason each one works:
 2. `cinematic ambient, slow strings and a low pulse, building tension, no drums until 1:00`. **A shape in time.** Cinematic is a feeling, so the prompt says what makes it: slow strings, a low pulse, and when the drums come in. Run it with `--seconds 90`, so the bed is long enough to hold the build.
 3. `acoustic folk, 92 bpm, fingerpicked guitar, warm and hopeful`, with `--lyrics-file song.txt --vocals female`. **A song from lyrics.** The words come from the file, so the prompt is only the style: genre, tempo, instrument, mood.
 4. `an upbeat pop song about a summer road trip, bright female vocal, handclaps, 118 bpm, big singalong chorus`, with `--vocals any --seconds 150`. **A song from a prompt.** The model writes the words, so give it the subject and describe the voice here.
+5. `bright K-pop girl group dance pop, 120 bpm, punchy synths, snappy trap-pop drums, glossy bright female vocals singing in Korean with English hooks`, with `--lyrics-file song.txt` (the lyrics in "Start on the chorus"). **A sung genre in its own language.** The lyrics are Korean with an English hook, and the prompt says so.
 
 ## Lyrics
 
@@ -78,9 +110,55 @@ halleyfy music "acoustic folk, 92 bpm, fingerpicked guitar, warm and hopeful" --
 - Up to 5,000 characters. Put them in a `--lyrics-file`, where the shell can't change a quote, a `$` or a leading `-`. `--lyrics "<text>"` takes them inline.
 - Keep the words the user gave you, and add no claims they didn't give (prices, results, guarantees).
 
-## A short bed
+### Start on the chorus
 
-An instrumental comes back at its own length, so ask for the length the clip needs:
+The model follows the order of the sections in the lyrics more than a line in the prompt: "the chorus comes in right away" in the prompt doesn't reliably bring it forward. To hear the hook early, put `[Chorus]` first, before the first `[Verse]`:
+
+```
+[Chorus]
+Turn it up, 오늘 밤
+반짝이는 모든 빛
+Turn it up, 같이 날아
+네온 하늘 위로
+
+[Verse]
+불이 켜지면 심장이 뛰어
+멈출 수 없어 나 너에게로
+
+[Chorus]
+Turn it up, 오늘 밤
+반짝이는 모든 빛
+Turn it up, 같이 날아
+네온 하늘 위로
+```
+
+The track may still open on a few bars of music before the first word. Find where the chorus really lands by listening: `halleyfy watch song.mp3`, then read the times in `transcript.md` (each sung line starts with its time, like `[0:10.7]`). For a song that isn't in English, give `watch` its language (`--language ko`).
+
+## A short piece: an intro, a sting, an ad bed
+
+A track comes back as a whole piece, 2 to 4 minutes long, for the same price per track. A song is at least 120 seconds (its `--seconds` starts at 120). So a 15 second intro is cut from a full track. Its first seconds are rarely the best ones: a track builds in, and a song plays some bars before the first word. In an eight-genre reel, every cut came from between 0:32 and 2:17 into its track.
+
+Tell the user before the run, in your own words: "Music comes back as a full track of a few minutes. I'll make one, find its best 15 seconds and cut those. You get the full track too."
+
+Three steps, and the second one picks the cut:
+
+```bash
+# 1. The full track. Leave --seconds off an instrumental.
+halleyfy music "<style>" --out ./music --json
+# 2. Listen, and pick <start>: the second the best bars begin.
+halleyfy watch ./music/<job id>-0.mp3
+# 3. Cut 15 seconds from <start>, with a 2 second fade at the end.
+ffmpeg -y -ss <start> -i ./music/<job id>-0.mp3 -t 15 -af "afade=t=in:d=0.05,afade=t=out:st=13:d=2" -c:a libmp3lame -b:a 192k intro.mp3
+```
+
+- **`<start>` comes from listening**, so you know it only once the track is made. In a plan you show before the run, keep it as the listening step. A cut from 0 gives the track's build-in, or the bars before the first word.
+- **Where to listen for it.** `summary.md` lists the loudest moments and `signals.json` the loudness of each second: the full band is usually where the track gets loud. For a song, `transcript.md` gives each line's time, so the hook starts where its first line lands. For what only an ear can tell, ask with times (see "Before handing it over"): "When does the full horn section first play the riff?"
+- **A sting with vocals:** put the chorus first in the lyrics (see "Start on the chorus"), so the hook comes early, then cut from its first line.
+- `-t` is the length and `st` is the length minus 2. In one reel the swing cut started at 36.3 seconds.
+- The 0.05 second fade in keeps the cut from clicking.
+- With a measured tempo (see "When the tempo matters"), start on a beat time from the beat tracker, and pick a length in whole bars when the end has to land: a bar of 4 beats is `240 / bpm` seconds, 1.6 at 150 bpm.
+
+**A bed where the opening will do.** Under a product demo, any stretch of an even track works. There `--seconds` on an instrumental is the short way: it keeps the first n seconds with a 2 second fade. Ask for an opening that is already the piece ("full band from the first bar"). The same up-front word applies: it is a cut from a full track.
 
 ```bash
 halleyfy music "warm lo-fi hip hop, 80 bpm, soft Rhodes, brushed drums, vinyl crackle, relaxed, for a product demo" --seconds 30 --out ./music --json
@@ -158,7 +236,13 @@ ffmpeg -i bed.mp3 -af volumedetect -f null - 2>&1 | grep -E 'mean_volume|max_vol
 
 A `mean_volume` far above -91 dB means there is sound in it; -91 dB is silence.
 
-5. **The mood**, once, when the user cares about it (paid: `--dry-run` shows the price): `halleyfy watch <video> --ask "What is the mood of the music?"`. `<video>` is the mixed .mp4, or a bare .mp3 wrapped in a black video. Read the answer against the prompt.
+5. **What only an ear can tell**: which instrument leads, where the chorus or the words fall, clipping or distortion. Ask once with `--ask` (paid, 2 to 3 cents for a track: `--dry-run` shows the price):
+
+```bash
+halleyfy watch song.mp3 --ask "Which instruments carry the melody? Is there any clipping or distortion? Give times."
+```
+
+Ask about concrete things, with times, and read the answer against the prompt: "a violin carries the melody" on a big band prompt means another take with the lead named louder (see "Name the band for an older style"). A score out of 10 tells you little: the same cut got 8.5 on one ask and 6.5 on the next. Judge the take on the concrete answers.
 
 Tell the user what you checked.
 
