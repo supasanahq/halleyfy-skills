@@ -84,7 +84,7 @@ Read every guide that matches the job before you write the brief.
 | User gave a budget | Pass `--max-cost <budget>` and run. It caps each run, so for a batch pass the budget divided by the number of runs. |
 | No budget, the run costs $1 or less | Run it. |
 | No budget, the run or the whole batch may cost more than $1 (`--count`, 4K, several images) | `--dry-run --json` one run, multiply by the number of runs, tell the user the total, run only after a yes. |
-| Several runs | Start each with `--no-wait --json`, collect with `halleyfy job <id> --wait --json --out <dir>`. Pass a reference used by every run as the `file_…` id its first upload printed (a result's `outputs[].id` works too), so it uploads once. A key can have 10 jobs queued or running; one more exits 1 with `rate_limited`: wait `retry_after` seconds and start it again. |
+| Several runs | Start each with `--no-wait --json`, collect with `halleyfy job <id> --wait --json --out <dir>`. Pass a reference used by every run as the `file_…` id its first upload printed (a result's `outputs[].id` works too), so it uploads once. |
 
 ## Exit codes
 
