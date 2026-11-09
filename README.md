@@ -25,6 +25,18 @@ curl -fsSL https://halleyfy.com/install.sh | sh
 
 You get the CLI in `~/.local/bin` and the skills in `~/.claude/skills` and `~/.agents/skills`.
 
+### npm or Bun
+
+```bash
+npm install -g halleyfy
+```
+
+Or `bun add -g halleyfy`. Either needs Node on your PATH, since the `halleyfy` command starts with a small Node launcher. The first real `halleyfy` command adds the skills to `~/.claude/skills` and `~/.agents/skills`; start a new agent session after that so they load.
+
+### Coming from Claude or ChatGPT chat?
+
+A chat can't run commands, so it can't use halleyfy. On a computer, open the Claude desktop app's Code tab (paid Claude plans) or Codex in the ChatGPT desktop app (any plan), and paste the setup prompt from halleyfy.com there.
+
 ### Node and Windows
 
 ```bash

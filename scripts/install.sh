@@ -120,9 +120,11 @@ fi
 mv -f "$staged" "$dir/halleyfy"
 staged=
 
-# 5. Skills
+# 5. Skills. With --no-skills (the Claude Code plugin brings its own), record that, so a first run doesn't add them.
 if [ "$skills" = 1 ]; then
   HALLEYFY_NO_UPDATE_CHECK=1 "$dir/halleyfy" skills install
+else
+  HALLEYFY_NO_UPDATE_CHECK=1 "$dir/halleyfy" skills off
 fi
 
 # 6. Finish
