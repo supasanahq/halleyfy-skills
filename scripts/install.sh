@@ -83,9 +83,14 @@ download() { # url, output file
   fi
 }
 
-# 2. Lookup
-download "$registry/@halleyfy%2fcli-$target/$version" "$tmp/meta.json" 2>/dev/null ||
+# 2. Lookup. A 404 means the registry answered but has no such build or version; anything else is a reach problem.
+lookup=$registry/@halleyfy%2fcli-$target/$version
+if ! download "$lookup" "$tmp/meta.json" 2>/dev/null; then
+  if command -v curl >/dev/null 2>&1 && [ "$(curl -s -o /dev/null -w '%{http_code}' "$lookup" 2>/dev/null || true)" = 404 ]; then
+    fail "$registry has no halleyfy build for $target (version $version)."
+  fi
   fail "Couldn't reach $registry."
+fi
 meta=$(tr -d '\n' <"$tmp/meta.json")
 tarball=$(printf %s "$meta" | sed -n 's/.*"tarball"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
 integrity=$(printf %s "$meta" | sed -n 's/.*"integrity"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
