@@ -133,10 +133,11 @@ skills_repo=supasanahq/halleyfy-skills
 skills_note=
 skills_cli() {
   [ "${HALLEYFY_SKILLS_CLI:-1}" != 0 ] || return 1
-  # Already there, because 'npx skills add' ran first: nothing to fetch again.
+  # Already there, because 'npx skills add' ran first: nothing to fetch again. An install from before the overview
+  # skill (halleyfy) existed doesn't have it, so that one is fetched again and gets it.
   lock=${XDG_STATE_HOME:+$XDG_STATE_HOME/skills/.skill-lock.json}
   lock=${lock:-$HOME/.agents/.skill-lock.json}
-  if grep -q "\"$skills_repo\"" "$lock" 2>/dev/null && [ -f "$HOME/.agents/skills/halleyfy-image/SKILL.md" ]; then
+  if grep -q "\"$skills_repo\"" "$lock" 2>/dev/null && [ -f "$HOME/.agents/skills/halleyfy/SKILL.md" ]; then
     skills_note="The halleyfy skills are already installed (Skills CLI); 'npx skills update -g' refreshes them."
     return 0
   fi

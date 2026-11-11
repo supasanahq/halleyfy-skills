@@ -1,7 +1,7 @@
 {
   "name": "halleyfy",
   "displayName": "halleyfy",
-  "description": "Make images, videos, voice, sound effects and music from your agent: product shots, ads, UGC, fashion, social clips, voiceovers, soundtracks, songs. halleyfy picks the model; your agent writes the brief.",
+  "description": "Make images, videos, voice, sound effects and music from your agent, and let it watch a video or transcribe a recording: product shots, ads, UGC, fashion, social clips, voiceovers, soundtracks, songs, meeting transcripts. halleyfy picks the model; your agent writes the brief.",
   "author": { "name": "halleyfy" },
   "license": "MIT",
   "repository": "https://github.com/supasanahq/halleyfy-skills"

@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/supasanahq/halleyfy-skills)](https://skills.sh/supasanahq/halleyfy-skills)
 
-Agent skills for halleyfy, which makes images, videos, speech, sound effects and music from the shell. One skill per kind of media. Each teaches a coding agent when to reach for it, how to write prompts that come out right the first time, how to keep spending inside your budget, and what to do with each exit code. Use-case guides (product, UGC ads, fashion, effects and more) sit inside each skill and are read only when the job needs them.
+Agent skills for halleyfy, which makes images, videos, speech, sound effects and music from the shell, and watches a video or listens to a recording for an agent that can't play one. `halleyfy` is the overview an agent reads first: what halleyfy is, what it does, which skill covers which job, and how to watch or transcribe a file. Then there is one skill per kind of media. Each teaches a coding agent when to reach for it, how to write prompts that come out right the first time, how to keep spending inside your budget, and what to do with each exit code. Use-case guides (product, UGC ads, fashion, effects and more) sit inside each skill and are read only when the job needs them.
 
 ## Install
 
@@ -44,7 +44,7 @@ claude plugin marketplace add supasanahq/halleyfy-skills
 claude plugin install halleyfy@halleyfy
 ```
 
-You get the three skills and a `halleyfy` launcher. The launcher installs the CLI the first time it runs.
+You get the four skills and a `halleyfy` launcher. The launcher installs the CLI the first time it runs.
 
 ### Codex plugin
 
@@ -60,14 +60,14 @@ A chat can't run commands, so it can't use halleyfy. On a computer, open the Cla
 
 ### Installed twice?
 
-Claude Code users who installed the plugin don't need the Skills CLI line. If you ran both, run `npx skills remove -g halleyfy-image halleyfy-video halleyfy-audio` so each skill shows up once.
+Claude Code users who installed the plugin don't need the Skills CLI line. If you ran both, run `npx skills remove -g halleyfy halleyfy-image halleyfy-video halleyfy-audio` so each skill shows up once.
 
 ### Tell your agent
 
 Add this line to `AGENTS.md` or `CLAUDE.md`:
 
 ```
-To make images, videos, speech, sound effects or music, use the halleyfy CLI (`halleyfy image`, `halleyfy video`, `halleyfy speak`, `halleyfy sound`, `halleyfy music`); run `halleyfy <command> --help` first.
+To make images, videos, speech, sound effects or music, and to watch a video or transcribe a recording, use the halleyfy CLI (`halleyfy image`, `halleyfy video`, `halleyfy speak`, `halleyfy sound`, `halleyfy music`, `halleyfy watch`); read the halleyfy skill first, or run `halleyfy <command> --help`.
 ```
 
 ## Needs
@@ -80,15 +80,16 @@ To make images, videos, speech, sound effects or music, use the halleyfy CLI (`h
 
 | Skill | Use it for | Use-case guides |
 |---|---|---|
+| [`halleyfy`](skills/halleyfy/SKILL.md) | The overview, read first: what halleyfy is, which command and skill covers which job, and watching: a transcript with speakers and times of a meeting, call, podcast or video of any length, contact sheets of a video's frames, a closer look at a moment, a question about the whole file | points to the other three |
 | [`halleyfy-image`](skills/halleyfy-image/SKILL.md) | Images: text to image, editing with up to 16 reference images | product, UGC, fashion and beauty, ads and text, video start frames, consistency across a set |
 | [`halleyfy-audio`](skills/halleyfy-audio/SKILL.md) | Speech, sound and music: text to an .mp3 in 21 voices, a new voice on a recording or clip, a clean voice out of noise, sound effects, ambience loops, a soundtrack for a silent or generated clip, an instrumental bed, a song, a score fitted to a clip | voiceovers, swapping a clip's voice, one narration in several languages, cleaning a noisy recording, sound effects and soundtracks, music |
 | [`halleyfy-video`](skills/halleyfy-video/SKILL.md) | 3-15 s videos with sound, from a prompt, a start and end image, up to 10 reference images and 3 reference videos, or an edit of a video of up to 15 s | product, UGC ads, fashion, effects and transitions, social vertical, references and edits |
 
-Install one with the Skills CLI: `npx skills add supasanahq/halleyfy-skills --skill halleyfy-video`.
+Install one with the Skills CLI: `npx skills add supasanahq/halleyfy-skills --skill halleyfy-video`. Run it once more with `--skill halleyfy` for the overview.
 
-### Coming from the `halleyfy` skill
+### Only have the `halleyfy` skill?
 
-The single `halleyfy` skill is now `halleyfy-image` and `halleyfy-video`. `npx skills update` offers to remove the old one but doesn't add the new ones: run `npx skills add supasanahq/halleyfy-skills` again.
+`halleyfy` is the overview. The how-to for each kind of media is in `halleyfy-image`, `halleyfy-video` and `halleyfy-audio`. `npx skills update` refreshes the skills you have but doesn't add new ones: run `npx skills add supasanahq/halleyfy-skills` again.
 
 ## License
 

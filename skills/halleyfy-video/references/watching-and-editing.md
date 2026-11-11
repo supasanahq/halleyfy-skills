@@ -8,7 +8,7 @@ For seeing and hearing a video you can't play: what happens when, who says what,
 halleyfy watch ./talk.mp4
 ```
 
-It takes a local video file or a video job id (`job_…`), up to 2 hours, and writes `./watch/<name>/` (or `--out <dir>`). stdout is the path of `summary.md`. A sound file (`.mp3`, `.wav`, `.m4a`) works too, with a transcript and loudness but no sheets: the halleyfy-audio skill says how to check one.
+It takes a local video file or a video job id (`job_…`), of any length, and writes `./watch/<name>/` (or `--out <dir>`). stdout is the path of `summary.md`. A sound file (`.mp3`, `.wav`, `.m4a`) works too, with a transcript and loudness but no sheets: the halleyfy-audio skill says how to check one.
 
 Read in this order:
 
