@@ -125,11 +125,52 @@ fi
 mv -f "$staged" "$dir/halleyfy"
 staged=
 
-# 5. Skills. With --no-skills (the Claude Code plugin brings its own), record that, so a first run doesn't add them.
-if [ "$skills" = 1 ]; then
-  HALLEYFY_NO_UPDATE_CHECK=1 "$dir/halleyfy" skills install
-else
+# 5. Skills. The Skills CLI (skills.sh) installs them where this machine has npx and git: the same as running
+#    `npx skills add supasanahq/halleyfy-skills -g` by hand, and `npx skills update -g` refreshes them. Where it can't
+#    (no Node, no way to GitHub, HALLEYFY_SKILLS_CLI=0) the CLI writes its own built-in copy. With --no-skills (the
+#    Claude Code plugin brings its own) neither runs, and that is recorded, so a first run doesn't add them.
+skills_repo=supasanahq/halleyfy-skills
+skills_note=
+skills_cli() {
+  [ "${HALLEYFY_SKILLS_CLI:-1}" != 0 ] || return 1
+  # Already there, because 'npx skills add' ran first: nothing to fetch again.
+  lock=${XDG_STATE_HOME:+$XDG_STATE_HOME/skills/.skill-lock.json}
+  lock=${lock:-$HOME/.agents/.skill-lock.json}
+  if grep -q "\"$skills_repo\"" "$lock" 2>/dev/null && [ -f "$HOME/.agents/skills/halleyfy-image/SKILL.md" ]; then
+    skills_note="The halleyfy skills are already installed (Skills CLI); 'npx skills update -g' refreshes them."
+    return 0
+  fi
+  command -v npx >/dev/null 2>&1 && command -v git >/dev/null 2>&1 || return 1
+  # On a machine with no agent's folder yet, the Skills CLI writes into the folder of every agent it knows (50 and
+  # more). With Claude Code's folder there it writes ~/.agents/skills, a link in ~/.claude/skills, and the agents it finds.
+  claude=${CLAUDE_CONFIG_DIR:-$HOME/.claude}
+  mkdir -p "$claude" 2>/dev/null || return 1
+  (cd "$HOME" && exec npx -y skills@1 add "$skills_repo" -g -y) </dev/null >"$tmp/skills.log" 2>&1 &
+  job=$!
+  # A registry or GitHub that never answers must not hang the install: give up after two minutes.
+  (
+    i=0
+    while [ "$i" -lt 120 ]; do
+      sleep 1
+      i=$((i + 1))
+    done
+    kill "$job"
+  ) </dev/null >/dev/null 2>&1 &
+  dog=$!
+  rc=0
+  wait "$job" || rc=$?
+  kill "$dog" 2>/dev/null || true
+  [ "$rc" = 0 ] && [ -f "$HOME/.agents/skills/halleyfy-image/SKILL.md" ] && [ -f "$claude/skills/halleyfy-image/SKILL.md" ] || return 1
+  skills_note="Installed the halleyfy skills with the Skills CLI (npx skills add $skills_repo -g)."
+}
+if [ "$skills" != 1 ]; then
   HALLEYFY_NO_UPDATE_CHECK=1 "$dir/halleyfy" skills off
+elif skills_cli; then
+  # The Skills CLI owns these copies now: a first run must not add the CLI's own next to them.
+  HALLEYFY_NO_UPDATE_CHECK=1 "$dir/halleyfy" skills off
+  printf '%s\n' "$skills_note"
+else
+  HALLEYFY_NO_UPDATE_CHECK=1 "$dir/halleyfy" skills install
 fi
 
 # 6. Finish
