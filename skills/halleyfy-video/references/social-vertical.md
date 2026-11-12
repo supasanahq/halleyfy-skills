@@ -12,19 +12,28 @@
 The scroll decides in the first second, and AI clips often waste it on a slow start.
 
 - Frame one is already mid-action or already striking: the product big in frame, a face close to the lens, something in motion.
-- Make the first event the hook, with a sound hit: "Right at the start the can slams onto the counter."
+- Make the first step the hook, with a sound hit: "Right at the start the can slams onto the counter."
 - One idea per clip; keep it 4-8 seconds and cut the clips together for longer posts.
 
 ## Captions and text
 
-Leave captions out of the clip (end the prompt with "No subtitles.") and add them in the editor or the app. Generated captions come out misspelled and at the wrong time. A short hook in the picture works when you give the exact words in quotes: `one word on screen at a time: "fresh", "fast", "yours"`.
+Leave text out of the clip ("No subtitles, no on-screen text" in the constraints) and add captions in the editor or the app. Generated captions come out misspelled and at the wrong time.
 
 ## Example: product hook (5 s, from a 9:16 frame)
 
 ```text
-One continuous vertical shot, handheld, close and low. Animate the image as a vertical hook: the soda can slams onto the counter, then the camera closes in. Right at the start the frosted can slams down onto the wet marble counter right in front of the lens, droplets jumping off it and the camera jolting with the impact. Then the camera slowly pushes in as condensation slides down the can.
-Sound: a hard metallic thud on the first frame, a fizzing hiss, quiet kitchen room tone. No music. No dialogue.
-No text on screen.
+[Core Task]
+Animate the image as a vertical hook: the soda can slams onto the counter, then the camera closes in.
+
+[Plot Summary]
+1. Right at the start the frosted can slams down onto the wet marble counter right in front of the lens, droplets jumping off it and the camera jolting with the impact.
+2. The camera slowly pushes in as condensation slides down the can.
+
+[Audio Style]
+A hard metallic thud on the first frame, a fizzing hiss, quiet kitchen room tone. No music.
+
+[Camera & Core Constraints]
+One continuous vertical shot, handheld, close and low. No on-screen text.
 ```
 
 ## Series

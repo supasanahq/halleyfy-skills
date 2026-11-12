@@ -4,7 +4,7 @@
 
 ## Rules
 
-- **Same aspect as the video.** Make it 16:9 or 9:16 (the only video shapes). Any other shape gets cropped.
+- **Same aspect as the video.** Make it one of the video shapes: 16:9, 9:16, 4:3, 1:1 or 3:4. Any other shape gets cropped.
 - **Plan the motion first, then frame for it.** Write down the one move the video will make (a push-in, a walk to the left, a turn of the head) and leave room for it.
 - **Room to move:** put the subject on a third, facing into the open space. Keep full body and feet in frame for walking, headroom above the head for push-ins, space around the hands for gestures.
 - **Nothing important on the edges.** The camera may drift; edge details get cut or warped.
