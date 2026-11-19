@@ -23,9 +23,11 @@ Don't pass `--local` or `--live` unless the user asks.
 halleyfy image "<brief>" --aspect 4:5 --resolution 2K --json --out ./assets
 ```
 
-- Defaults when you pass nothing: `--aspect 1:1`, `--resolution 1K`, one image. Pick both from the use instead, and say what you picked.
+- Defaults when you pass nothing: `--aspect 1:1`, `--resolution 1K`, one image, the best-quality model (no `--fast`). Pick the aspect and resolution from the use instead, and say what you picked.
 - `--aspect`: the shape of the place it will be used. 1:1 or 4:5 for feeds, 9:16 for stories, reels and vertical video frames, 16:9 for web heroes, thumbnails and video frames, 21:9 for banners. Make it at the final shape; cropping later loses the composition.
 - `--resolution`: **draft at 1K, finish at 2K.** Make every test image at 1K, the cheapest; once the user is happy with it, run the same brief at 2K for the real thing. 4K only when the user asks (print, big screens). The model draws every size at that size (1K is about 1 megapixel, 2K about 4, 4K about 8), nothing is upscaled, so a 2K final is a new picture, not the 1K draft enlarged.
+- **The default model gives the best quality.** Use it whenever the result has to be right: finished images, anything production-facing (ads, product pages, social posts, websites, thumbnails, client work), video start frames, and images whose text, product label or face must hold.
+- `--fast`: a quicker model, about two to three times faster, with less detail and less exact text, faces and labels. Use it when the result doesn't need full quality: drafts, quick iterations, proofs of concept, rough ideas, mood boards, casual images. Not for production-facing content. Once a fast draft is approved, make the final without `--fast`.
 - `--image <path|file id|url>`, repeatable up to 16: reference images. With at least one, the run edits instead of drawing from scratch. Each extra reference adds to the price (2-4 cost more per image than one, 5-16 more again), so pass only the ones that matter.
 - `--count 2-4` gives small variations of one brief. For real alternatives, change the brief and run again.
 - `--transparent`: a PNG with no background, for logos, icons, stickers, cutouts and anything laid over other content. It costs the same. The brief decides whether the cutout is clean. A brief that sets a scene (studio light, a product render, a still life, a surface) gets that scene drawn and then cut out badly, which leaves a cloudy haze that shows on any page that isn't white. So:
@@ -104,3 +106,4 @@ Read every guide that matches the job before you write the brief.
 - Putting text into an image that will be animated: text warps in video.
 - Trusting the spelling of a headline without reading it in the result.
 - Chaining edit after edit on the last output instead of the original references.
+- Using `--fast` for a final or production-facing image: it draws less detail.
