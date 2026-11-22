@@ -2,7 +2,13 @@
 
 [![skills.sh](https://skills.sh/b/supasanahq/halleyfy-skills)](https://skills.sh/supasanahq/halleyfy-skills)
 
-Agent skills for halleyfy, which makes images, videos, speech, sound effects and music from the shell, and watches a video or listens to a recording for an agent that can't play one. `halleyfy` is the overview an agent reads first: what halleyfy is, what it does, which skill covers which job, and how to watch or transcribe a file. Then there is one skill per kind of media. Each teaches a coding agent when to reach for it, how to write prompts that come out right the first time, how to keep spending inside your budget, and what to do with each exit code. Use-case guides (product, UGC ads, fashion, effects and more) sit inside each skill and are read only when the job needs them.
+[halleyfy](https://halleyfy.com) is a command-line tool that lets AI agents make images, video, voiceover, sound effects and music, and watch a video or transcribe a recording they can't play. It works in Claude Code, Codex, Cursor, opencode, Gemini CLI and any other agent that can run a shell command. You pay per result from a prepaid balance: no subscription, and no model API key to set up. This repo holds the agent skills that teach an agent to use it.
+
+**Use it when** a task needs a real media file (a website image, a product shot, an ad, a social clip, a voiceover, a soundtrack, a dubbed version), or when an agent has to watch a video or listen to a recording.
+
+[Docs](https://halleyfy.com/docs) · [Quickstart](https://halleyfy.com/docs/quickstart) · [For AI agents](https://halleyfy.com/docs/for-agents) · [Pricing](https://halleyfy.com/docs/pricing)
+
+`halleyfy` is the overview an agent reads first: what halleyfy is, what it does, which skill covers which job, and how to watch or transcribe a file. Then there is one skill per kind of media. Each teaches a coding agent when to reach for it, how to write prompts that come out right the first time, how to keep spending inside your budget, and what to do with each exit code. Use-case guides (product, UGC ads, fashion, effects and more) sit inside each skill and are read only when the job needs them.
 
 ## Install
 
@@ -56,7 +62,7 @@ You get the skills. Install the CLI with the `npm` or `curl` line above.
 
 ### Coming from Claude or ChatGPT chat?
 
-A chat can't run commands, so it can't use halleyfy. On a computer, open the Claude desktop app's Code tab (paid Claude plans) or Codex in the ChatGPT desktop app (any plan), and paste the setup prompt from halleyfy.com there.
+A chat can't run commands, so it can't use halleyfy. On a computer, open the Claude desktop app's Code tab (paid Claude plans) or Codex in the ChatGPT desktop app (any plan), and paste the setup prompt from [halleyfy.com](https://halleyfy.com) there.
 
 ### Installed twice?
 
